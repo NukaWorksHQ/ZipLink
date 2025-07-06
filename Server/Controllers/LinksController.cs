@@ -12,10 +12,12 @@ namespace Server.Controllers
     public class LinksController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly UsersController _usersController;
 
-        public LinksController(AppDbContext context)
+        public LinksController(AppDbContext context, UsersController usersController)
         {
             _context = context;
+            _usersController = usersController;
         }
 
         [
