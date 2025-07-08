@@ -7,5 +7,7 @@ namespace Server.Entities
         public required string UserId { get; set; }
         
         public required string Target { get; set; }
+
+        public User User { get; set; }
     }
 }

@@ -1,19 +1,16 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.Contexts;
-using Server.Entities;
 
 namespace Server.Common
 {
     public class GenericService<CTX, ENTITY, C, U> : IGenericService<ENTITY, C, U>
         where CTX : DbContext
-        where ENTITY: BaseEntity
+        where ENTITY : BaseEntity
         where C : class
         where U : class
     {
-        private readonly CTX _context;
-        private readonly IMapper _mapper;
+        protected readonly CTX _context;
+        protected readonly IMapper _mapper;
 
         public GenericService(CTX context, IMapper mapper)
         {
@@ -21,31 +18,51 @@ namespace Server.Common
             _mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
         }
 
-        public Task<IActionResult> Create(C dto)
+        public async Task<ENTITY> Create(C dto)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<ENTITY>(dto);
+
+            try
+            {
+                _context.Add(entity);
+
+                await _context.SaveChangesAsync();
+                return entity;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (EntityExists(entity.Id))
+                {
+                    throw new DbUpdateConcurrencyException("A link with the same ID already exists.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<bool> Delete(string id)
         {
             var entity = await _context.Set<ENTITY>().FindAsync(id);
 
             if (entity != null)
             {
                 _context.Set<ENTITY>().Remove(entity);
-                
+
                 await _context.SaveChangesAsync();
-                return new OkObjectResult(entity);
-            } else
+                return true;
+            }
+            else
             {
                 throw new KeyNotFoundException($"Entity with ID {id} not found.");
             }
         }
 
-        public async Task<IActionResult> Edit(string id, U dto)
+        public async Task<ENTITY> Edit(string id, U dto)
         {
             var entity = await _context.Set<ENTITY>().FindAsync(id);
-            
+
             if (entity == null || id != entity.Id)
             {
                 throw new KeyNotFoundException($"Entity with ID {id} not found.");
@@ -62,7 +79,7 @@ namespace Server.Common
                 _context.Update(entity);
 
                 await _context.SaveChangesAsync();
-                return new OkObjectResult(entity);
+                return entity;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -82,7 +99,7 @@ namespace Server.Common
             return _context.Set<ENTITY>().Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> Get(string id)
+        public async Task<ENTITY> Get(string id)
         {
             var entity = await _context.Set<ENTITY>()
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -92,7 +109,7 @@ namespace Server.Common
                 throw new KeyNotFoundException($"Entity with ID {id} not found.");
             }
 
-            return new OkObjectResult(entity);
+            return entity;
         }
 
         public async Task<IEnumerable<ENTITY>> GetAll()

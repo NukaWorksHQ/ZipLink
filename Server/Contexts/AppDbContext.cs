@@ -22,6 +22,13 @@ namespace Server.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
+            // Defining my relations
+            modelBuilder.Entity<User>()
+                .HasMany(m => m.Links)
+                .WithOne(o => o.User)
+                .HasForeignKey(f => f.UserId)
+                .HasPrincipalKey(p => p.Id);
+
             // Apply configuration for all entities
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

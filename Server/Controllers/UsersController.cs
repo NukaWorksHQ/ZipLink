@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.Contexts;
 using Server.DTOs;
 using Server.Entities;
+using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Server.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly UserService _userService;
 
-        public UsersController(AppDbContext context)
+        public UsersController(UserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
         [
@@ -27,7 +29,8 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _context.Users.ToListAsync());
+            // TODO: admin route
+            return Ok(await _userService.GetAll());
         }
 
         [
@@ -40,15 +43,15 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (user == null)
+            try
+            {
+                var user = await _userService.Get(id);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            return Ok(user);
         }
 
         [
@@ -62,28 +65,19 @@ namespace Server.Controllers
         [HttpPut]
         public async Task<IActionResult> Create([FromBody] UserCreateDto dto)
         {
-            var user = new User
-            {
-                Username = dto.Username,
-                HashedPassword = dto.HashedPassword,
-            };
-            
             try
             {
-                _context.Add(user);
-
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
-            } catch (DbUpdateConcurrencyException)
+                User user = await _userService.Create(dto);
+                HttpContext.Response.Cookies.Append("UserId", user.Id);
+                return Ok(user);
+            }
+            catch (DbUpdateConcurrencyException)
             {
-                if (UserExists(user.Id))
-                {
-                    return Conflict("A user with the same ID already exists.");
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict("A user with the same ID already exists.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -98,38 +92,23 @@ namespace Server.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> Edit(string id, [FromBody] UserUpdateDto dto)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null || id != user.Id)
+            try
+            {
+                var user = await _userService.Edit(id, dto);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-            
-            user.Username = dto.Username;
-            user.HashedPassword = dto.HashedPassword;
-
-            // Resync timestamps
-            user.UpdatedAt = DateTime.UtcNow;
-
-            try
-            {
-                _context.Users.Add(user);
-                _context.Update(user);
-
-                await _context.SaveChangesAsync();
-            }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(user.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, "An error occurred while updating the user.");
             }
-
-            return RedirectToAction(nameof(Get), new { id = user.Id });
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [
@@ -142,23 +121,19 @@ namespace Server.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-         
-            if (user != null)
+            try
             {
-                _context.Users.Remove(user);
-            } else
+                var user = await _userService.Delete(id);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserExists(string id)
-        {
-            return _context.Users.Any(e => e.Id == id);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

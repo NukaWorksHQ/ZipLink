@@ -1,6 +1,4 @@
-﻿using Server.Common;
-
-namespace Server.Entities
+﻿namespace Server.Common
 {
     public abstract class BaseEntity
     {

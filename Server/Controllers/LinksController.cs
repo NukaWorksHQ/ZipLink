@@ -1,23 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.Contexts;
 using Server.DTOs;
-using Server.Entities;
+using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class LinksController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly UsersController _usersController;
-
-        public LinksController(AppDbContext context, UsersController usersController)
+        private readonly UserService _userService;
+        private readonly LinkService _linkService;
+        public LinksController(UserService userService, LinkService linkService)
         {
-            _context = context;
-            _usersController = usersController;
+            _userService = userService;
+            _linkService = linkService;
         }
 
         [
@@ -29,7 +29,7 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _context.Links.ToListAsync());
+            return Ok(await _linkService.GetAll());
         }
 
         [
@@ -42,15 +42,15 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var link = await _context.Links
-                .FirstOrDefaultAsync(m => m.Id == id);
+            try
+            {
+                var user = await _linkService.Get(id);
+                return Ok(user);
 
-            if (link == null)
+            } catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            return Ok(link);
         }
 
         [
@@ -64,28 +64,18 @@ namespace Server.Controllers
         [HttpPut]
         public async Task<IActionResult> Create([FromBody] LinkCreateDto dto)
         {
-            var link = new Link
-            {
-                UserId = dto.UserId, // TODO: Validate UserId exists
-                Target = dto.Target
-            };
-            
             try
             {
-                _context.Add(link);
-
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Get), new { id = link.Id }, link);
-            } catch (DbUpdateConcurrencyException)
+                var user = await _linkService.Create(dto);
+                return Ok(user);
+            }
+            catch (DbUpdateConcurrencyException)
             {
-                if (LinkExists(link.Id))
-                {
-                    return Conflict("A link with the same ID already exists.");
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict("A link with the same ID already exists.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -100,37 +90,15 @@ namespace Server.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> Edit(string id, [FromBody] LinkUpdateDto dto)
         {
-            var link = await _context.Links.FindAsync(id);
-            if (link == null || id != link.Id)
+            try
+            {
+                var user = await _linkService.Get(id);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-            
-            link.Target = dto.Target;
-
-            // Resync timestamps
-            link.UpdatedAt = DateTime.UtcNow;
-
-            try
-            {
-                _context.Links.Add(link);
-                _context.Update(link);
-
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LinkExists(link.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToAction(nameof(Get), new { id = link.Id });
         }
 
         [
@@ -143,23 +111,14 @@ namespace Server.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            var link = await _context.Links.FindAsync(id);
-         
-            if (link != null)
+            try
             {
-                _context.Links.Remove(link);
-            } else
+                var user = await _linkService.Delete(id);
+                return Ok(user);
+            } catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool LinkExists(string id)
-        {
-            return _context.Links.Any(e => e.Id == id);
         }
     }
 }
