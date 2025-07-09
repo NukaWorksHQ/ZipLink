@@ -10,6 +10,8 @@ namespace Server.Entities
     {
         public required string Username { get; set; }
 
+        public required UserRole Role { get; set; }
+
         [JsonIgnore]
         public string HashedPassword { get; set; }
 

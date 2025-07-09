@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Server.Common;
 using Server.Contexts;
 using Server.DTOs;
 using Server.Entities;
@@ -41,11 +42,12 @@ namespace Server.Services
             _dbContext = dbContext;
         }
 
-        public string GenerateToken(string id)
+        public string GenerateToken(string id, UserRole role = UserRole.Standard)
         {
             var claims = new[]
             {
-                new Claim("UserId", id)
+                new Claim("UserId", id),
+                new Claim(ClaimTypes.Role, role.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -55,7 +57,7 @@ namespace Server.Services
                 issuer: _issuer,
                 audience: _audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(24),
+                expires: DateTime.UtcNow.AddDays(7), // TODO: Implement refresh tokens
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -111,14 +113,11 @@ namespace Server.Services
             var userDto = new UserCreateDto
             {
                 Username = dto.Username,
-                HashedPassword = hashedPassword
+                HashedPassword = hashedPassword,
+                Role = UserRole.Standard // Enforcing standard role, to get admin, simply update it on the database
             };
 
             return await _userService.Create(userDto);
-        }
-        public async Task<string> Refresh(string token)
-        {
-            return "";
         }
     }
 }

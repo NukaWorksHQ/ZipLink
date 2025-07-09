@@ -41,38 +41,15 @@ namespace Server.Controllers
         [HttpPut(nameof(Create))]
         public async Task<IActionResult> Create([FromBody] AuthDto dto)
         {
-            // TODO: admin route
             try
             {
                 var user = await _authService.Create(dto);
-                var token = _authService.GenerateToken(user.Id);
+                var token = _authService.GenerateToken(user.Id, user.Role);
                 return Ok(token);
             }
             catch (DbUpdateConcurrencyException)
             {
                 return BadRequest("User already exits");
-            }
-        }
-
-        [
-            SwaggerOperation(
-            Summary = "Refresh an accessToken",
-            Description = "Ask to JwtService to refresh an accessToken")
-        ]
-        [SwaggerResponse(200, "Return the object found")]
-        [SwaggerResponse(404, "User not found")]
-        [Authorize]
-        [HttpGet(nameof(Refresh) + "/{id}")]
-        public async Task<IActionResult> Refresh(string id)
-        {
-            try
-            {
-                var user = await _authService.Refresh(id);
-                return Ok(user);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
             }
         }
     }

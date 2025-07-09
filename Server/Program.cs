@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Server.Contexts;
 using Server.Services;
 using System.Reflection;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +60,26 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
             System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = async context =>
+        {
+            var userId = context.Principal.Claims
+                .FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var dbContext = context.HttpContext.RequestServices
+                .GetRequiredService<AppDbContext>();
+
+            var userExists = await dbContext.Users
+                .AnyAsync(u => u.Id == userId);
+
+            if (!userExists)
+            {
+                context.Fail("Unauthorized: User no longer exists.");
+            }
+        }
     };
 });
 
