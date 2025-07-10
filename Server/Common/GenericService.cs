@@ -18,7 +18,7 @@ namespace Server.Common
             _mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
         }
 
-        public async Task<ENTITY> Create(C dto)
+        public virtual async Task<ENTITY> Create(C dto)
         {
             var entity = _mapper.Map<ENTITY>(dto);
 
@@ -32,21 +32,17 @@ namespace Server.Common
             catch (DbUpdateConcurrencyException)
             {
                 if (EntityExists(entity.Id))
-                {
                     throw new DbUpdateConcurrencyException("A link with the same ID already exists.");
-                }
                 else
-                {
                     throw;
-                }
             }
         }
 
-        public async Task<bool> Delete(string id)
+        public virtual async Task<bool> Delete(string id)
         {
             var entity = await _context.Set<ENTITY>().FindAsync(id);
 
-            if (entity != null)
+            if (entity is not null)
             {
                 _context.Set<ENTITY>().Remove(entity);
 
@@ -54,19 +50,15 @@ namespace Server.Common
                 return true;
             }
             else
-            {
                 throw new KeyNotFoundException($"Entity with ID {id} not found.");
-            }
         }
 
-        public async Task<ENTITY> Edit(string id, U dto)
+        public virtual async Task<ENTITY> Edit(string id, U dto)
         {
             var entity = await _context.Set<ENTITY>().FindAsync(id);
 
-            if (entity == null || id != entity.Id)
-            {
+            if (entity is null || id != entity.Id)
                 throw new KeyNotFoundException($"Entity with ID {id} not found.");
-            }
 
             _mapper.Map(dto, entity);
 
@@ -84,13 +76,9 @@ namespace Server.Common
             catch (DbUpdateConcurrencyException)
             {
                 if (!EntityExists(entity.Id))
-                {
                     throw new KeyNotFoundException($"Entity with ID {id} not found.");
-                }
                 else
-                {
                     throw;
-                }
             }
         }
 
@@ -99,20 +87,18 @@ namespace Server.Common
             return _context.Set<ENTITY>().Any(e => e.Id == id);
         }
 
-        public async Task<ENTITY> Get(string id)
+        public virtual async Task<ENTITY> Get(string id)
         {
             var entity = await _context.Set<ENTITY>()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (entity == null)
-            {
+            if (entity is null)
                 throw new KeyNotFoundException($"Entity with ID {id} not found.");
-            }
 
             return entity;
         }
 
-        public async Task<IEnumerable<ENTITY>> GetAll()
+        public virtual async Task<IEnumerable<ENTITY>> GetAll()
         {
             return await _context.Set<ENTITY>().ToListAsync();
         }

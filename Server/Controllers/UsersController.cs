@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Common;
 using Server.DTOs;
-using Server.Entities;
 using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
@@ -15,10 +14,11 @@ namespace Server.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserService _userService;
-
-        public UsersController(UserService userService)
+        private readonly UserAccessValidator _userAccessValidator;
+        public UsersController(UserService userService, UserAccessValidator userAccessValidator)
         {
             _userService = userService;
+            _userAccessValidator = userAccessValidator;
         }
 
         [
@@ -41,36 +41,19 @@ namespace Server.Controllers
         ]
         [SwaggerResponse(200, "Return the object found")]
         [SwaggerResponse(404, "User not found")]
-        [Authorize(Roles = "Standard,Admin")]
+        [Authorize(Roles = "Standard, Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
             try
             {
-                var authenticatedUserId = User.FindFirst("UserId")?.Value;
-                if (authenticatedUserId == null)
-                {
-                    return StatusCode(500, "User is invalid");
-                }
+                var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+                _userAccessValidator.ValidateUser(User, id, needsAdminPrivileges: false);
 
-                var roleValue = User.FindFirst(ClaimTypes.Role)?.Value;
-                if (roleValue == null)
-                {
-                    return StatusCode(500, "User claim Role is missing");
-                }
-
-                if (!Enum.TryParse<UserRole>(roleValue, out var userRole))
-                {
-                    return StatusCode(403, "Invalid role");
-                }
-
-                if (authenticatedUserId != id && userRole != UserRole.Admin)
-                {
-                    return StatusCode(403, "Access denied");
-                }
-
-                var user = await _userService.Get(id);
-                return Ok(user);
+                if (userClaim.Role is UserRole.Admin || id == userClaim.UserId)
+                    return Ok(await _userService.Get(id));
+                else
+                    return StatusCode(403, "Permission denied");
             }
             catch (KeyNotFoundException)
             {
@@ -92,6 +75,8 @@ namespace Server.Controllers
         {
             try
             {
+                _userAccessValidator.ValidateUser(User, id, needsAdminPrivileges: true);
+
                 var user = await _userService.Edit(id, dto);
                 return Ok(user);
             }

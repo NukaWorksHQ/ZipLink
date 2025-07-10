@@ -98,7 +98,7 @@ namespace Server.Services
 
             if (CheckPassword(dto.Password, user.HashedPassword))
             {
-                return GenerateToken(user.Id);
+                return GenerateToken(user.Id, user.Role);
             }
             else
             {

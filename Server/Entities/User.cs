@@ -14,7 +14,7 @@ namespace Server.Entities
 
         [JsonIgnore]
         public string HashedPassword { get; set; }
-
+        [JsonIgnore]
         public ICollection<Link> Links { get; }
     }
 }

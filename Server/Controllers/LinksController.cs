@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Server.Common;
 using Server.DTOs;
 using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
@@ -12,12 +13,13 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class LinksController : ControllerBase
     {
-        private readonly UserService _userService;
         private readonly LinkService _linkService;
-        public LinksController(UserService userService, LinkService linkService)
+        private readonly UserAccessValidator _userAccessValidator;
+
+        public LinksController(LinkService linkService, UserAccessValidator userAccessValidator)
         {
-            _userService = userService;
             _linkService = linkService;
+            _userAccessValidator = userAccessValidator;
         }
 
         [
@@ -29,6 +31,13 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+            _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+
+            if (userClaim.Role is not UserRole.Admin)
+            {
+                return Ok(await _linkService.GetAll(userClaim.UserId));
+            }
             return Ok(await _linkService.GetAll());
         }
 
@@ -44,9 +53,13 @@ namespace Server.Controllers
         {
             try
             {
-                var user = await _linkService.Get(id);
-                return Ok(user);
+                var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+                _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
 
+                if (userClaim.Role is UserRole.Admin)
+                    return Ok(await _linkService.Get(id));
+                  else
+                    return Ok(await _linkService.Get(id, userClaim.UserId));
             } catch (KeyNotFoundException)
             {
                 return NotFound();
@@ -92,8 +105,21 @@ namespace Server.Controllers
         {
             try
             {
-                var user = await _linkService.Get(id);
-                return Ok(user);
+                var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+                _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+
+                if (userClaim.Role == UserRole.Admin)
+                    await _linkService.Edit(id, dto);
+                else
+                {
+                    var link = await _linkService.Get(id, userClaim.UserId);
+                    if (link is null)
+                        return BadRequest("Failed to edit the Link, Permission Denied");
+
+                    await _linkService.Edit(id, dto);
+                }
+
+                return RedirectToAction(nameof(Get), id);
             }
             catch (KeyNotFoundException)
             {
@@ -113,8 +139,13 @@ namespace Server.Controllers
         {
             try
             {
-                var user = await _linkService.Delete(id);
-                return Ok(user);
+                var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+                _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+
+                if (userClaim.Role == UserRole.Admin)
+                    return Ok(await _linkService.Delete(id));
+                else
+                    return Ok(await _linkService.Delete(id, userClaim.UserId));
             } catch (KeyNotFoundException)
             {
                 return NotFound();
