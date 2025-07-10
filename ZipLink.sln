@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{8EFE07EB-A5D5-4DC1-9EFD-82EE03CBC411}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{10B36F5B-C373-4A37-8C63-68C85E68BDA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "Server.Tests\Server.Tests.csproj", "{F7013ECA-B84C-426A-B1E9-7232858CDFD3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{10B36F5B-C373-4A37-8C63-68C85E68BDA5} = {10B36F5B-C373-4A37-8C63-68C85E68BDA5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{10B36F5B-C373-4A37-8C63-68C85E68BDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B36F5B-C373-4A37-8C63-68C85E68BDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B36F5B-C373-4A37-8C63-68C85E68BDA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
