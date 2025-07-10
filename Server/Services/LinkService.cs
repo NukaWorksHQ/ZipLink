@@ -41,7 +41,7 @@ namespace Server.Services
         {
             return await _context.Links
                 .Include(e => e.User)
-                .Where(l => l.UserId == userId)
+                .Where(l => l.User.Id == userId)
                 .ToListAsync();
         }
 
