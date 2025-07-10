@@ -1,6 +1,92 @@
 @Server_HostAddress = http://localhost:5246
 
-GET {{Server_HostAddress}}/weatherforecast/
-Accept: application/json
+### AuthController
+
+# Connexion utilisateur
+PUT {{Server_HostAddress}}/Auth/Login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "your_password"
+}
+
+###
+
+# Création d'un nouvel utilisateur (inscription)
+PUT {{Server_HostAddress}}/Auth/Create
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "your_password"
+}
+
+###
+
+### UsersController
+
+# Récupérer tous les utilisateurs (admin uniquement)
+GET {{Server_HostAddress}}/Users
+Authorization: Bearer {{jwt_token}}
+
+###
+
+# Récupérer un utilisateur par ID (Standard ou Admin)
+GET {{Server_HostAddress}}/Users/{id}
+Authorization: Bearer {{jwt_token}}
+
+###
+
+# Modifier un utilisateur (Standard ou Admin)
+POST {{Server_HostAddress}}/Users/{id}
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "username": "nouveau_nom"
+}
+
+###
+
+### LinksController
+
+# Récupérer tous les liens (utilisateur connecté)
+GET {{Server_HostAddress}}/Links
+Authorization: Bearer {{jwt_token}}
+
+###
+
+# Récupérer un lien par ID
+GET {{Server_HostAddress}}/Links/{id}
+Authorization: Bearer {{jwt_token}}
+
+###
+
+# Créer un nouveau lien
+PUT {{Server_HostAddress}}/Links
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "target": "https://example.com"
+}
+
+###
+
+# Modifier un lien existant
+POST {{Server_HostAddress}}/Links/{id}
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "target": "https://nouvelle-url.com"
+}
+
+###
+
+# Supprimer un lien
+DELETE {{Server_HostAddress}}/Links?id={id}
+Authorization: Bearer {{jwt_token}}
 
 ###
