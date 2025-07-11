@@ -8,6 +8,20 @@ html, body {
     font-family: "Inter", sans-serif;
 }
 
+section {
+    color: white;
+    width: 80%;
+    max-width: 56rem;
+}
+
+    section h1 {
+        padding-bottom: 1em;
+    }
+
+    section ul li {
+        padding-block: 0.5em;
+    }
+
 h1:focus {
     outline: none;
 }
@@ -84,6 +98,7 @@ code {
     background-size: cover;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -127,6 +142,7 @@ code {
         .island form input {
             padding-inline: 0.5rem;
             font-size: 14pt;
+            width: 100%;
         }
 
         .island form ::placeholder {
@@ -170,4 +186,42 @@ code {
 .headline__slug {
     font-weight: 400;
     font-size: 1.2rem;
+}
+
+.appfooter {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.appfooter__items {
+    display: inline-flex;
+    list-style: none;
+    justify-content: center;
+    width: 100%;
+    gap: 1em;
+    margin-bottom: 1.5em;
+}
+
+    .appfooter__items a {
+        color: #f8fafc80;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 12pt;
+    }
+
+        .appfooter__items a:hover {
+            text-decoration: underline;
+        }
+
+.appfooter__credits {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    color: white;
+    background-color: #1e293b33;
+    font-size: 9pt;
+    font-weight: 300;
 }
