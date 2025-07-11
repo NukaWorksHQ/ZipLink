@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph ZoomLevel="1.25" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Admin" Category="Actor" Bounds="174.300174808621,7.01361291853315,98.4933333333333,25.96" Label="Administrateur" />
+    <Node Id="AdminDeleteAnyLink" Bounds="227.440497861004,270.827004288134,178.31,25.96" Label="Supprimer n'importe quel lien" />
+    <Node Id="AdminEditUser" Bounds="12.3553882493864,158.918848570523,137.13,25.96" Label="Modifier un utilisateur" />
+    <Node Id="AdminViewAllLinks" Bounds="361.350021914338,158.921330048134,111.89,25.96" Label="Voir tous les liens" />
+    <Node Id="AdminViewAllUsers" Bounds="12.3614001100631,214.938341673551,145.093333333333,25.9600000000001" Label="Voir tous les utilisateurs" />
+    <Node Id="AdminViewUser" Bounds="12.3554278711307,103.003567259266,113.036666666667,25.96" Label="Voir un utilisateur" />
+    <Node Id="Authentification" Category="Group" Bounds="568.688189038984,55.9598839109325,128.426666666667,141.92024985565" Group="Expanded" Label="Authentification" />
+    <Node Id="CreateLink" Bounds="227.440497861004,102.968492928133,87.3633333333333,25.96" Label="Créer un lien" />
+    <Node Id="DeleteLink" Bounds="227.440497861004,214.874167168134,114.17,25.96" Label="Supprimer un lien" />
+    <Node Id="EditLink" Bounds="227.440497861004,158.921330048134,103.926666666667,25.96" Label="Modifier un lien" />
+    <Node Id="GestionDesLiens" Category="Group" Bounds="207.443057861004,62.9736129281335,285.796642773334,253.81070848" Group="Expanded" Label="Gestion des liens" UseManualLocation="True" />
+    <Node Id="GestionDesUtilisateurs" Category="Group" Bounds="-7.65638350230456,62.9736129313332,185.099341376109,197.939793103027" Group="Expanded" Label="Gestion des utilisateurs" UseManualLocation="True" />
+    <Node Id="Guest" Category="Actor" Bounds="554.199999041589,-0.00011724426739157,157.453333333333,25.96" Label="Utilisateur non authentifié" />
+    <Node Id="Login" Bounds="588.607866759189,151.920033909364,88.4266666666667,25.96" Label="Se connecter" />
+    <Node Id="Signup" Bounds="588.607866759189,95.9599346313632,66.9966666666667,25.96" Label="S'inscrire" />
+    <Node Id="User" Category="Actor" Bounds="310.190576793316,7.01330341416081,73.5366666666666,25.96" Label="Utilisateur" />
+    <Node Id="ViewLinks" Bounds="344.788808687671,102.968492928133,87.8099999999999,25.96" Label="Voir ses liens" />
+  </Nodes>
+  <Links>
+    <Link Source="Admin" Target="AdminDeleteAnyLink" />
+    <Link Source="Admin" Target="AdminEditUser" />
+    <Link Source="Admin" Target="AdminViewAllLinks" />
+    <Link Source="Admin" Target="AdminViewAllUsers" />
+    <Link Source="Admin" Target="AdminViewUser" />
+    <Link Source="Authentification" Target="Login" Category="Contains" />
+    <Link Source="Authentification" Target="Signup" Category="Contains" />
+    <Link Source="GestionDesLiens" Target="AdminDeleteAnyLink" Category="Contains" />
+    <Link Source="GestionDesLiens" Target="AdminViewAllLinks" Category="Contains" />
+    <Link Source="GestionDesLiens" Target="CreateLink" Category="Contains" />
+    <Link Source="GestionDesLiens" Target="DeleteLink" Category="Contains" />
+    <Link Source="GestionDesLiens" Target="EditLink" Category="Contains" />
+    <Link Source="GestionDesLiens" Target="ViewLinks" Category="Contains" />
+    <Link Source="GestionDesUtilisateurs" Target="AdminEditUser" Category="Contains" />
+    <Link Source="GestionDesUtilisateurs" Target="AdminViewAllUsers" Category="Contains" />
+    <Link Source="GestionDesUtilisateurs" Target="AdminViewUser" Category="Contains" />
+    <Link Source="Guest" Target="Login" Bounds="610.181666666666,25.9598333333334,2.27373675443232E-13,116.9603" />
+    <Link Source="Guest" Target="Signup" Bounds="601.914765783469,25.9598333333334,6.81754271178897,61.0557874131393" />
+    <Link Source="User" Target="CreateLink" />
+    <Link Source="User" Target="DeleteLink" />
+    <Link Source="User" Target="EditLink" />
+    <Link Source="User" Target="ViewLinks" />
+  </Links>
+  <Categories>
+    <Category Id="Actor" Label="Acteur" />
+    <Category Id="Contains" Label="Contient" Description="Si la source de la liaison contient ou non l'objet cible" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contenu par" IsContainment="True" OutgoingActionLabel="Contient" />
+    <Category Id="Group" Label="Groupe" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" IsProviderRoot="False" NavigationActionLabel="Groupes" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="Group" Label="Groupe" Description="Affiche le nœud en tant que groupe" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Étiquette" Description="Étiquette affichable d'un objet pouvant être annoté" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+</DirectedGraph>

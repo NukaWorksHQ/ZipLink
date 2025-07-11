@@ -1,0 +1,25 @@
+﻿<div class="island">
+	<EditForm class="island__form" Model="formModel" OnSubmit="HandleSubmit">
+		<InputText @bind-Value="formModel.Link" placeholder="Enter a long URL here..." />
+		<button type="submit">Shorten</button>
+	</EditForm>
+</div>
+
+@code {
+	private readonly FormModel formModel = new();
+
+	public class FormModel
+	{
+		public string Link { get; set; }
+	}
+
+	private void HandleSubmit(EditContext context)
+	{
+		bool isValid = context.Validate();
+		if (isValid)
+		{
+			Console.WriteLine(formModel.Link);
+		}
+	}
+
+}

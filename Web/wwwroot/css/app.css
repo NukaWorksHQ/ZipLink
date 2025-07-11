@@ -1,39 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
 }
 
 h1:focus {
     outline: none;
-}
-
-a, .btn-link {
-    color: #0071c1;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-.content {
-    padding-top: 1.1rem;
-}
-
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
-}
-
-.invalid {
-    outline: 1px solid red;
-}
-
-.validation-message {
-    color: red;
 }
 
 #blazor-error-ui {
@@ -100,4 +76,98 @@ a, .btn-link {
 
 code {
     color: #c02d76;
+}
+
+.page {
+    background-color: rgb(30 41 59 / 1);
+    background-image: radial-gradient( at 85% 92%,rgb(67,56,202) 0,transparent 34%), radial-gradient(at 7% 27%,rgb(29,78,216) 0,transparent 97%), radial-gradient(at 20% 70%,rgb(45,212,191) 0,transparent 35%), radial-gradient(at 60% 53%,rgb(0,115,255) 0,transparent 72%);
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls {
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / .04)) drop-shadow(0 4px 3px rgb(0 0 0 / .1));
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 60%;
+    max-width: 56rem;
+    min-height: 100%;
+}
+
+.island {
+    background-color: #F8FAFC;
+    padding: 0.4rem;
+    font-family: 'Inter', sans-serif;
+    border-radius: 6px;
+    width: 100%;
+    transition: all 0.1s ease-in-out;
+}
+
+    .island:hover {
+        transform: scale(1.02);
+        filter: drop-shadow(0 10px 8px rgb(0 0 0 / .04)) drop-shadow(0 4px 3px rgb(0 0 0 / .1));
+    }
+
+    .island form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .island form * {
+            outline: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .island form input {
+            padding-inline: 0.5rem;
+            font-size: 14pt;
+        }
+
+        .island form ::placeholder {
+            color: #1E293B;
+        }
+
+        .island form button {
+            background-color: #4F46E5;
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 11pt;
+            font-weight: 600;
+            color: #F8FAFC;
+        }
+
+            .island form button:hover {
+                background-color: #362dd4;
+            }
+
+            .island form button:active {
+                background-color: #271dd3;
+            }
+
+.headline {
+    line-height: 1.4;
+    color: #F8FAFC;
+}
+
+.headline__brand {
+    font-family: "Work Sans", sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+.headline__desc {
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.headline__slug {
+    font-weight: 400;
+    font-size: 1.2rem;
 }
