@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Server.Common;
 using Server.Contexts;
-using Server.DTOs;
-using Server.Entities;
+using Shared.DTOs;
+using Shared.Entities;
 
 namespace Server.Services
 {

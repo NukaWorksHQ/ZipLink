@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.DTOs;
-using Server.Entities;
+using Shared.DTOs;
 using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
 

@@ -1,7 +1,7 @@
-﻿using Server.Common;
+﻿using Shared.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace Server.DTOs
+namespace Shared.DTOs
 {
     public class UserUpdateDto
     {

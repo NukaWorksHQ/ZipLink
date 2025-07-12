@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.Common;
-using Server.DTOs;
+using Shared.Common;
+using Shared.DTOs;
 using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
@@ -87,6 +87,39 @@ namespace Server.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 return StatusCode(500, "An error occurred while updating the user.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [
+            SwaggerOperation(
+            Summary = "Delete an existing User",
+            Description = "Delete an user by providing the UserId and delete it on the database.")
+        ]
+        [SwaggerResponse(200, "Return success if deleted")]
+        [SwaggerResponse(404, "User not found")]
+        [SwaggerResponse(500, "DbUpdateConcurrencyException or a server error is thrown")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                _userAccessValidator.ValidateUser(User, id, needsAdminPrivileges: true);
+
+                var user = await _userService.Delete(id);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, "An error occurred while deleting the user.");
             }
             catch (Exception ex)
             {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Server.DTOs
+namespace Shared.DTOs
 {
     public class LinkCreateDto
     {

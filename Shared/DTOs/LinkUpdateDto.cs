@@ -1,4 +1,4 @@
-﻿namespace Server.DTOs
+﻿namespace Shared.DTOs
 {
     public class LinkUpdateDto : LinkCreateDto
     {

@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Server.Common;
+﻿using Shared.Common;
 using System.Text.Json.Serialization;
 
-namespace Server.Entities
+namespace Shared.Entities
 {
-    [Index(nameof(Username), IsUnique = true)]
     public class User : BaseEntity
     {
         public required string Username { get; set; }

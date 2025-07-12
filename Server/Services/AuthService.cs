@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Server.Common;
+using Shared.Common;
 using Server.Contexts;
-using Server.DTOs;
-using Server.Entities;
+using Shared.DTOs;
+using Shared.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Server.Common;
+using Shared.Common;
 using System.Security.Claims;
 
 namespace Server.Services

@@ -1,25 +1,55 @@
-﻿<div class="island">
-	<EditForm class="island__form" Model="formModel" OnSubmit="HandleSubmit">
-		<InputText @bind-Value="formModel.Link" placeholder="Enter a long URL here..." />
+﻿@using System.Text.Json
+
+@inject IAuthValidator authValidator;
+@inject IAccountService accountService;
+@inject ILinkService linkService;
+
+<div class="island">
+	<EditForm class="island__form" Model="dto" OnSubmit="HandleSubmit">
+		<InputText @bind-Value="dto.Target" placeholder="Enter a long URL here..." />
 		<button type="submit">Shorten</button>
 	</EditForm>
 </div>
 
 @code {
-	private readonly FormModel formModel = new();
+    private readonly LinkCreateDto dto = new() {Target = ""};
 
-	public class FormModel
-	{
-		public string Link { get; set; }
-	}
+    private async Task CreateAccount()
+    {
+        var userClaim = await accountService.GenerateTempAccount();
+        var user = await accountService.GetUser(userClaim.UserId);
 
-	private void HandleSubmit(EditContext context)
-	{
-		bool isValid = context.Validate();
+        Console.WriteLine(JsonSerializer.Serialize(user));
+
+        var link = await linkService.Create(dto);
+        Console.WriteLine(JsonSerializer.Serialize(link));		
+    }
+
+    private async Task HandleSubmit(EditContext context)
+    {
+
+        bool isValid = context.Validate();
+        if (isValid && !authValidator.IsAuthenticated())
+        {
+            try
+            {
+                await authValidator.PrepareAndValidate();
+                if (authValidator.IsAuthenticated())
+                    return;
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Account Missing, Continuing by making a new account...");
+			}
+
+			await CreateAccount();
+		}
+		
 		if (isValid)
 		{
-			Console.WriteLine(formModel.Link);
+			var link = await linkService.Create(dto);
+			Console.WriteLine(JsonSerializer.Serialize(link));
 		}
 	}
-
 }

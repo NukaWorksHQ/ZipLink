@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{8EFE07EB-A5D5-4DC1-9EFD-82EE03CBC411}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E85A7C4-B885-4893-9D16-D9D382AC720C} = {8E85A7C4-B885-4893-9D16-D9D382AC720C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{10B36F5B-C373-4A37-8C63-68C85E68BDA5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E85A7C4-B885-4893-9D16-D9D382AC720C} = {8E85A7C4-B885-4893-9D16-D9D382AC720C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "Server.Tests\Server.Tests.csproj", "{F7013ECA-B84C-426A-B1E9-7232858CDFD3}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "Server.Test
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{8E85A7C4-B885-4893-9D16-D9D382AC720C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +40,10 @@ Global
 		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7013ECA-B84C-426A-B1E9-7232858CDFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E85A7C4-B885-4893-9D16-D9D382AC720C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E85A7C4-B885-4893-9D16-D9D382AC720C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E85A7C4-B885-4893-9D16-D9D382AC720C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E85A7C4-B885-4893-9D16-D9D382AC720C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

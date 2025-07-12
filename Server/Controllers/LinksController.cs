@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.Common;
-using Server.DTOs;
+using Shared.Common;
+using Shared.DTOs;
 using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -134,7 +134,7 @@ namespace Server.Controllers
         ]
         [SwaggerResponse(200, "Return 200 code if success")]
         [SwaggerResponse(404, "Link not found")]
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             try

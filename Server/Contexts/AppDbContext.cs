@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Server.Common;
-using Server.Entities;
+using Shared.Common;
+using Shared.Entities;
 
 namespace Server.Contexts
 {
@@ -22,6 +22,10 @@ namespace Server.Contexts
                 .HasMany(m => m.Links)
                 .WithOne(o => o.User)
                 .HasPrincipalKey(p => p.Id);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
 
             // Apply configuration for all entities
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

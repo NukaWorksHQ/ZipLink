@@ -1,17 +1,15 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using Server.Common;
+using Shared.Common;
 using Server.Contexts;
 using Server.Controllers;
-using Server.DTOs;
+using Shared.DTOs;
 using Server.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Xunit;
 
 public class AuthControllerTests
 {
@@ -26,7 +24,7 @@ public class AuthControllerTests
     public void HashPassword_And_CheckPassword_ShouldWork()
     {
         // Arrange
-        var mockConfig = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
+        var mockConfig = new Mock<IConfiguration>();
         mockConfig.Setup(c => c["Jwt:Key"]).Returns("test_secret_key_12345678901234567890");
         mockConfig.Setup(c => c["Jwt:Issuer"]).Returns("test_issuer");
         mockConfig.Setup(c => c["Jwt:Audience"]).Returns("test_audience");

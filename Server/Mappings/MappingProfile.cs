@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Server.DTOs;
-using Server.Entities;
+using Shared.DTOs;
+using Shared.Entities;
 
 namespace Server.Mappings
 {

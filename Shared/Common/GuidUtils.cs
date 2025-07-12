@@ -1,4 +1,4 @@
-﻿namespace Server.Common
+﻿namespace Shared.Common
 {
     public class GuidUtils
     {

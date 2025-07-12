@@ -1,6 +1,6 @@
-﻿using Server.Common;
+﻿using Shared.Common;
 
-namespace Server.Entities
+namespace Shared.Entities
 {
     public class Link() : BaseEntity
     {

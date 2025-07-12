@@ -95,6 +95,18 @@ builder.Services.AddControllers()
         opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorClient",
+        policy =>
+        {
+            policy.WithOrigins(builder.Configuration["Jwt:Audience"]!)
+                  .AllowAnyMethod()
+                  .AllowCredentials()
+                  .AllowAnyHeader();
+        });
+});
+
 // Services registration
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<LinkService>();
@@ -110,6 +122,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowBlazorClient");
 
 app.UseHttpsRedirection();
 
