@@ -79,8 +79,8 @@ namespace Server.Controllers
         {
             try
             {
-                var user = await _linkService.Create(dto);
-                return Ok(user);
+                var link = await _linkService.Create(dto);
+                return await Get(link.Id);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -119,7 +119,7 @@ namespace Server.Controllers
                     await _linkService.Edit(id, dto);
                 }
 
-                return RedirectToAction(nameof(Get), id);
+                return await Get(id);
             }
             catch (KeyNotFoundException)
             {

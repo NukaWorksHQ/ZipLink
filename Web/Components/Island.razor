@@ -12,17 +12,13 @@
 </div>
 
 @code {
-    private readonly LinkCreateDto dto = new() {Target = ""};
+    private readonly LinkCreateDto dto = new() {UserId = "", Target = ""};
 
     private async Task CreateAccount()
     {
         var userClaim = await accountService.GenerateTempAccount();
         var user = await accountService.GetUser(userClaim.UserId);
-
-        Console.WriteLine(JsonSerializer.Serialize(user));
-
-        var link = await linkService.Create(dto);
-        Console.WriteLine(JsonSerializer.Serialize(link));		
+        Console.WriteLine(JsonSerializer.Serialize(user));	
     }
 
     private async Task HandleSubmit(EditContext context)
@@ -41,13 +37,20 @@
             catch (Exception)
             {
                 Console.WriteLine("Account Missing, Continuing by making a new account...");
-			}
+            }
 
-			await CreateAccount();
-		}
-		
-		if (isValid)
-		{
+            await CreateAccount();
+        }
+
+        if (isValid)
+        {
+            var userClaim = await authValidator.GetUserClaim();
+
+            // Update dto UserId
+            if (userClaim is null)
+                throw new InvalidOperationException("userClaim cannot be null");
+
+            dto.UserId = userClaim.UserId;
 			var link = await linkService.Create(dto);
 			Console.WriteLine(JsonSerializer.Serialize(link));
 		}

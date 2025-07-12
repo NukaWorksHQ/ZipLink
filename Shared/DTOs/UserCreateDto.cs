@@ -5,7 +5,7 @@ namespace Shared.DTOs
 {
     public class UserCreateDto
     {
-        [Required(ErrorMessage = "UserId cannot be null.")]
+        [Required(ErrorMessage = "Username cannot be null.")]
         [StringLength(32, MinimumLength = 4, ErrorMessage = "Username should be between 4 and 32 characters.")]
         public required string Username { get; set; }
 
