@@ -166,6 +166,45 @@ code {
                 background-color: #271dd3;
             }
 
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    outline: 1px solid white;
+}
+
+.accountisland {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    gap: 0.5em;
+    color: #F8FAFC;
+    background-color: #94949430;
+    backdrop-filter: blur(15px);
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+    .accountisland:hover {
+        background-color: #94949450;
+    }
+
+    .accountisland, .accountisland * {
+        cursor: pointer;
+        user-select: none;
+    }
+
+.accountisland__username {
+    text-shadow: 0 1px 0 black;
+    font-size: 11pt;
+    font-weight: 400;
+}
+
 .headline {
     line-height: 1.4;
     color: #F8FAFC;

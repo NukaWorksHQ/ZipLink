@@ -1,4 +1,40 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Text.Json
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject AccountState accountState
+@inject IAccountService accountService
+@inject IAuthValidator authValidator
+
 <div class="page">
     @Body
-</div>
+</div>  
+
+@code {
+    // Autologin
+    protected override void OnInitialized()
+    {
+        if (!authValidator.IsAuthenticated())
+        {
+            authValidator.EnsureIsAuthenticated()
+                .ContinueWith(async t =>
+                    {
+                        var userClaim = await authValidator.GetUserClaim();
+                        var user = await accountService.GetUser(userClaim.UserId);
+                        
+                        accountState.Property = user;
+                        Console.WriteLine(JsonSerializer.Serialize(user));
+                    })
+                .ContinueWith(t =>
+                    {
+                        Console.WriteLine($"Auth failed: {t.Exception}");
+                    }, TaskContinuationOptions.OnlyOnFaulted);
+
+            accountState.OnChange += StateHasChanged;
+        }
+    }
+
+    public void Dispose()
+    {
+        accountState.OnChange -= StateHasChanged;
+    }
+}

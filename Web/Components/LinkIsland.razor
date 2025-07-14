@@ -1,8 +1,10 @@
 ﻿@using System.Text.Json
 
-@inject IAuthValidator authValidator;
-@inject IAccountService accountService;
-@inject ILinkService linkService;
+@implements IDisposable
+@inject AccountState accountState
+@inject IAuthValidator authValidator
+@inject IAccountService accountService
+@inject ILinkService linkService
 
 <div class="island">
 	<EditForm class="island__form" Model="dto" OnSubmit="HandleSubmit">
@@ -14,16 +16,27 @@
 @code {
     private readonly LinkCreateDto dto = new() {UserId = "", Target = ""};
 
+    protected override void OnInitialized()
+    {
+        accountState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        accountState.OnChange -= StateHasChanged;
+    }
+
     private async Task CreateAccount()
     {
         var userClaim = await accountService.GenerateTempAccount();
         var user = await accountService.GetUser(userClaim.UserId);
-        Console.WriteLine(JsonSerializer.Serialize(user));	
+        accountState.Property = user;
+
+        Console.WriteLine(JsonSerializer.Serialize(user));
     }
 
     private async Task HandleSubmit(EditContext context)
     {
-
         bool isValid = context.Validate();
         if (isValid && !authValidator.IsAuthenticated())
         {

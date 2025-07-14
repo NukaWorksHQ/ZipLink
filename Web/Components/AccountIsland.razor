@@ -1,10 +1,30 @@
-﻿<div class="accountisland">
-	<Avatar Initials="SK"/>
+﻿@implements IDisposable
+@inject AccountState accountState
+
+<div class="accountisland">
+	<Avatar Initials="@GetInitials(accountState.Property?.Username ?? "")" />
 	<label class="accountisland__username">
-		@Username
+		@accountState.Property?.Username
 	</label>
 </div>
 
 @code {
-	public required string Username { get; set; }
+	protected override void OnInitialized()
+	{
+		accountState.OnChange += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		accountState.OnChange -= StateHasChanged;
+	}
+
+	public static string GetInitials(string username)
+	{
+		if (string.IsNullOrWhiteSpace(username))
+			return string.Empty;
+
+		var parts = username.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+		return string.Concat(parts.Select(p => char.ToUpper(p[0])));
+	}
 }

@@ -1,10 +1,32 @@
-﻿@page "/"
+﻿@implements IDisposable
+@inject AccountState accountState
+
+@page "/"
 
 <PageTitle>ZipLink - Quick link shortener</PageTitle>
 
+@if (accountState.Property?.Id != null)
+{
+	<AccountIsland />
+}
+
 <div class="controls">
+
+
 	<Headline />
-	<Island />
+	<LinkIsland />
 </div>
 
 <AppFooter />
+
+@code {
+	protected override void OnInitialized()
+	{
+		accountState.OnChange += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		accountState.OnChange -= StateHasChanged;
+	}
+}
