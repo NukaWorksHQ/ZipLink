@@ -1,7 +1,7 @@
 ﻿@implements IDisposable
 @inject AccountState accountState
 
-<div class="accountisland">
+<div aria-role="button" aria-label="Open account details" class="accountisland">
 	<Avatar Initials="@GetInitials(accountState.Property?.Username ?? "")" />
 	<label class="accountisland__username">
 		@accountState.Property?.Username
