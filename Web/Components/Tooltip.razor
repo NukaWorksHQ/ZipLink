@@ -1,0 +1,46 @@
+﻿@inject IJSRuntime JS
+
+@if (IsOpened)
+{
+    <div class="tooltip__backdrop" @onclick="Toggle"></div>
+
+    <div class="tooltip" style="@PositionStyle">
+        <label class="tooltip__title">@Title</label>
+        <div class="tooltip__body">@ChildContent</div>
+    </div>
+}
+
+@code {
+    [Parameter] public required string Title { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ElementReference? AnchorRef { get; set; }
+
+    private bool IsOpened = false;
+    private string PositionStyle = "";
+
+    [JSInvokable]
+    public async Task UpdateTooltipPosition()
+    {
+        var rect = await JS.InvokeAsync<BoundingRect>("getBoundingClientRect", AnchorRef);
+        PositionStyle = $"position: absolute; top: {rect.Bottom + 8}px; left: {rect.Left}px;";
+        StateHasChanged();
+    }
+
+    public void Toggle()
+    {
+        IsOpened = !IsOpened;
+
+        if (IsOpened)
+        {
+            JS.InvokeVoidAsync("registerResizeHandler", DotNetObjectReference.Create(this));
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpened && AnchorRef != null && string.IsNullOrEmpty(PositionStyle))
+        {
+            await UpdateTooltipPosition();
+        }
+    }
+}

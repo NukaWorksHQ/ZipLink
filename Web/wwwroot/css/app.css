@@ -206,6 +206,36 @@ code {
     font-weight: 400;
 }
 
+.tooltip {
+    border: 2px solid white;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+    .tooltip::before {
+        position: absolute;
+        z-index: -1;
+        top: -10px;
+        right: 5px;
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 2px;
+        transform: rotate(45deg);
+    }
+
+.tooltip__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+}
+
 .headline {
     line-height: 1.4;
     color: #F8FAFC;

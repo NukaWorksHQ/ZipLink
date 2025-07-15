@@ -1,14 +1,26 @@
 ﻿@implements IDisposable
 @inject AccountState accountState
 
-<div aria-role="button" aria-label="Open account details" class="accountisland">
+<div @ref="accountIslandRef" aria-role="button" aria-label="Open account details" class="accountisland" @onclick="HandleToggleClick">
 	<Avatar Initials="@GetInitials(accountState.Property?.Username ?? "")" />
 	<label class="accountisland__username">
 		@accountState.Property?.Username
 	</label>
 </div>
 
+<Tooltip 
+	Title="Skibididdddddddddddd" 
+	@ref="accountMgmtTooltip"
+	AnchorRef="accountIslandRef"
+>
+	<label>Account</label>
+	<button>OK</button>
+</Tooltip>
+
 @code {
+	private Tooltip? accountMgmtTooltip;
+	private ElementReference accountIslandRef;
+
 	protected override void OnInitialized()
 	{
 		accountState.OnChange += StateHasChanged;
@@ -18,6 +30,12 @@
 	{
 		accountState.OnChange -= StateHasChanged;
 	}
+
+	private void HandleToggleClick()
+	{
+		accountMgmtTooltip?.Toggle();
+	}
+
 
 	public static string GetInitials(string username)
 	{
