@@ -11,5 +11,6 @@ namespace Web.Common
         public Task EnsureIsAuthenticated();
 
         public Task<UserClaimResponse> GetUserClaim();
+        public void ClearToken();
     }
 }

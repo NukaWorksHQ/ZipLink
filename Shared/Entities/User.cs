@@ -11,7 +11,7 @@ namespace Shared.Entities
 
         [JsonIgnore]
         public string HashedPassword { get; set; }
-        [JsonIgnore]
-        public ICollection<Link> Links { get; }
+
+        public ICollection<Link> Links { get; set; }
     }
 }

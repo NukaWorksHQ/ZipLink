@@ -2,10 +2,16 @@
 
 @if (IsOpened)
 {
-    <div class="tooltip__backdrop" @onclick="Toggle"></div>
+    @if (IsBackdropEnabled)
+    {
+        <div class="tooltip__backdrop" @onclick="Toggle"></div>
+    }
 
     <div class="tooltip" style="@PositionStyle">
-        <label class="tooltip__title">@Title</label>
+        @if (!string.IsNullOrEmpty(Title)) 
+        {
+            <p class="tooltip__title">@Title</p>
+        }
         <div class="tooltip__body">@ChildContent</div>
     </div>
 }
@@ -14,15 +20,41 @@
     [Parameter] public required string Title { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public ElementReference? AnchorRef { get; set; }
+    [Parameter] public bool IsBackdropEnabled { get; set; } = true;
+    [Parameter] public bool IsOpened { get; set; } = false;
 
-    private bool IsOpened = false;
     private string PositionStyle = "";
 
     [JSInvokable]
     public async Task UpdateTooltipPosition()
     {
-        var rect = await JS.InvokeAsync<BoundingRect>("getBoundingClientRect", AnchorRef);
-        PositionStyle = $"position: absolute; top: {rect.Bottom + 8}px; left: {rect.Left}px;";
+        var anchorRect = await JS.InvokeAsync<BoundingRect>("getBoundingClientRect", AnchorRef);
+        var tooltipSize = await JS.InvokeAsync<BoundingRect>("getTooltipSize");
+        var viewportSize = await JS.InvokeAsync<BoundingRect>("getViewportSize");
+
+        // Start with default position below anchor
+        var top = anchorRect.Bottom + 8;
+        var left = anchorRect.Left;
+
+        // Flip above if it overflows bottom
+        if (top + tooltipSize.Height > viewportSize.Height)
+        {
+            top = anchorRect.Top - tooltipSize.Height - 8;
+        }
+
+        // Shift left if overflowing right edge
+        if (left + tooltipSize.Width > viewportSize.Width)
+        {
+            left = viewportSize.Width - tooltipSize.Width - 8;
+        }
+
+        // Prevent overflow on the left edge
+        if (left < 8)
+        {
+            left = 8;
+        }
+
+        PositionStyle = $"position: absolute; top: {top}px; left: {left}px;";
         StateHasChanged();
     }
 
@@ -30,16 +62,22 @@
     {
         IsOpened = !IsOpened;
 
-        if (IsOpened)
-        {
-            JS.InvokeVoidAsync("registerResizeHandler", DotNetObjectReference.Create(this));
-        }
+        // if (IsOpened)
+        // {
+        //     JS.InvokeVoidAsync("registerResizeHandler", DotNetObjectReference.Create(this));
+        // }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (IsOpened)
+        {
+            await JS.InvokeVoidAsync("registerResizeHandler", DotNetObjectReference.Create(this));
+        }
+
         if (IsOpened && AnchorRef != null && string.IsNullOrEmpty(PositionStyle))
         {
+
             await UpdateTooltipPosition();
         }
     }

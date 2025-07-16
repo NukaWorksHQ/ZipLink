@@ -1,0 +1,71 @@
+﻿@inject AccountState accountState
+@inject IAuthValidator authValidator
+@inject IAccountService accountService
+
+<div class="miniview accountmgmt">
+	<div class="miniview__body">
+		@if (CurrentView == AccountView.ACCOUNT_STAT)
+		{
+			<p class="tooltip__title">Account stats</p>
+
+			<p>
+				Account created at: @(accountState.Property?.CreatedAt != null
+							? accountState.Property.CreatedAt.ToShortDateString()
+							: "N/A")
+			</p>
+
+			<p>UserType: @(UserClaim?.Role.ToString() ?? "Unknown")</p>
+			<p>Number of Links created: @(accountState.Property?.Links?.Count ?? 0)</p>
+			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_RESET_PASSWORD)">Change your password</p>
+			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_CREATION_FORM)">Login/Create a new account</p>
+			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_EDIT_LINKS)">Edit links</p>
+
+			<div class="miniview__actions">
+				<button class="button__danger" @onclick="HandleLogout">Logout</button>
+			</div>
+		}
+		
+		else if (CurrentView == AccountView.ACCOUNT_CREATION_FORM)
+		{
+			<AccountCreationForm OnGoBack="() => HandleChangeView(AccountView.ACCOUNT_STAT)" OnSubmit="() => HandleChangeView(AccountView.ACCOUNT_STAT)" />
+		} 
+		
+		else if (CurrentView == AccountView.ACCOUNT_RESET_PASSWORD)
+		{
+			<ResetPasswordForm OnGoBack="() => HandleChangeView(AccountView.ACCOUNT_STAT)" OnSubmit="() => HandleChangeView(AccountView.ACCOUNT_STAT)" />
+		}
+		
+		else if (CurrentView == AccountView.ACCOUNT_EDIT_LINKS)
+		{
+			<EditLinksForm OnGoBack="() => HandleChangeView(AccountView.ACCOUNT_STAT)" />
+		}
+	</div>
+</div>
+
+@code {
+	public required UserClaimResponse UserClaim { get; set; }
+	protected AccountView CurrentView = AccountView.ACCOUNT_STAT;
+
+	protected enum AccountView
+	{
+		ACCOUNT_STAT,
+		ACCOUNT_CREATION_FORM,
+		ACCOUNT_RESET_PASSWORD,
+		ACCOUNT_EDIT_LINKS
+	}
+
+	protected void HandleChangeView(AccountView accountView)
+	{
+		CurrentView = accountView;
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		UserClaim = await authValidator.GetUserClaim();
+	}
+
+	protected async Task HandleLogout()
+	{
+		await accountService.Logout();
+	}
+}

@@ -119,5 +119,16 @@ namespace Server.Services
 
             return await _userService.Create(userDto);
         }
+
+        public async Task<string> ResetPassword(string id, PasswordDto dto)
+        {
+            if (dto == null || dto.Password == null)
+                throw new InvalidOperationException("Password cannot be null");
+
+            var hashedPassword = HashPassword(dto.Password);
+            var user = await _userService.EditPassword(id, hashedPassword);
+
+            return GenerateToken(id, user.Role);
+        }
     }
 }

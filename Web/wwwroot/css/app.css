@@ -8,6 +8,38 @@ html, body {
     font-family: "Inter", sans-serif;
 }
 
+button {
+    background-color: #0c0c0c;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #F8FAFC;
+    border: none;
+    outline: none;
+}
+
+    button:hover {
+        background-color: #2f2f2f;
+    }
+
+    button:active {
+        background-color: #0c0c0c;
+    }
+
+.button__danger {
+    background-color: #d03c3c;
+    color: #ffffff;
+}
+
+    .button__danger:hover {
+        background-color: #d17575;
+    }
+
+    .button__danger:active {
+        background-color: #d03c3c;
+    }
+
 section {
     color: white;
     width: 80%;
@@ -129,42 +161,85 @@ code {
 
     .island form {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         align-items: center;
     }
 
-        .island form * {
-            outline: none;
-            border: none;
-            font-family: 'Inter', sans-serif;
+.island__form--controls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.island__form--display {
+    width: 100%;
+}
+
+    .island__form--display .validation-message {
+        padding-block: 1em;
+    }
+
+.island__form--display__lnk {
+    display: flex;
+    align-items: start;
+    padding: 1em 0.4rem;
+    width: 100%;
+    gap: 0.5em;
+}
+
+    .island__form--display__lnk a {
+        color: #4F46E5;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .island__form--display__lnk a:hover {
+            text-decoration: underline solid;
+            cursor: pointer;
         }
 
-        .island form input {
-            padding-inline: 0.5rem;
-            font-size: 14pt;
-            width: 100%;
-        }
+.cpy_btn {
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
 
-        .island form ::placeholder {
-            color: #1E293B;
-        }
+    .cpy_btn:hover {
+        font-weight: 800;
+        text-decoration: underline solid;
+    }
 
-        .island form button {
-            background-color: #4F46E5;
-            padding: 10px 14px;
-            border-radius: 4px;
-            font-size: 11pt;
-            font-weight: 600;
-            color: #F8FAFC;
-        }
+.island form * {
+    outline: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+}
 
-            .island form button:hover {
-                background-color: #362dd4;
-            }
+.island form input {
+    padding-inline: 0.5rem;
+    font-size: 14pt;
+    width: 100%;
+    background-color: transparent;
+}
 
-            .island form button:active {
-                background-color: #271dd3;
-            }
+.island form ::placeholder {
+    color: #1E293B;
+}
+
+.island form button {
+    background-color: #4F46E5;
+    font-size: 11pt;
+}
+
+    .island form button:hover {
+        background-color: #362dd4;
+    }
+
+    .island form button:active {
+        background-color: #271dd3;
+    }
 
 .avatar {
     display: grid;
@@ -214,6 +289,10 @@ code {
     color: black;
     border-radius: 5px;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 0.5rem;
 }
 
     .tooltip::before {
@@ -234,6 +313,57 @@ code {
     position: fixed;
     inset: 0;
     z-index: 999;
+}
+
+.tooltip__title {
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+.miniview {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-size: 10pt;
+}
+
+.miniview__form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .miniview__form input {
+        border-radius: 2px;
+        border: 1px gray solid;
+        padding: 5px;
+    }
+
+        .miniview__form input:focus-within {
+            outline: 3px #0c0c0c black;
+        }
+
+.miniview__actions {
+    display: flex;
+    gap: 0.3em;
+}
+
+    .miniview__actions button {
+        flex: 1;
+    }
+
+.miniview__link {
+    font-weight: 700;
+    cursor: pointer;
+}
+
+    .miniview__link:hover {
+        text-decoration: underline solid;
+        font-weight: 800;
+    }
+
+.accountmgmt {
+    line-height: 1.5;
 }
 
 .headline {
@@ -294,4 +424,27 @@ code {
     background-color: #1e293b33;
     font-size: 9pt;
     font-weight: 300;
+}
+
+.editlinks, 
+.editlinks__list--item, 
+.editlinks__list {
+    display: flex;
+    flex-direction: column;
+}
+
+.editlinks__list {
+    gap: 5px;
+    list-style: none;
+}
+
+.editlinks__list--item .source {
+    font-weight: 800;
+    font-size: 11pt;
+    color: #4F46E5;
+}
+
+.editlinks__list--item .target {
+    font-weight: 500;
+    font-size: 10pt;
 }

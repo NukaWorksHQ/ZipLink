@@ -22,7 +22,6 @@
                         var user = await accountService.GetUser(userClaim.UserId);
                         
                         accountState.Property = user;
-                        Console.WriteLine(JsonSerializer.Serialize(user));
                     })
                 .ContinueWith(t =>
                     {

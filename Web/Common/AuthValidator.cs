@@ -37,7 +37,7 @@ namespace Web.Common
 
         public bool IsAuthenticated()
         {
-            return Token is not null;
+            return !string.IsNullOrEmpty(Token);
         }
 
         public async Task<UserClaimResponse> GetUserClaim()
@@ -64,6 +64,11 @@ namespace Web.Common
             
             if (!IsAuthenticated())
                 throw new InvalidOperationException("Token is null, please authentificate first");
+        }
+
+        public void ClearToken()
+        {
+            Token = "";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Shared.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shared.DTOs
 {
@@ -6,6 +7,8 @@ namespace Shared.DTOs
     {
         [Required(ErrorMessage = "Target cannot be null.")]
         [StringLength(2048, MinimumLength = 1, ErrorMessage = "Target must be between 1 and 2048 characters.")]
+        
+        [Url(ErrorMessage = "Target must be a valid URL.")]
         public required string Target { get; set; }
     }
 }

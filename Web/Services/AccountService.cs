@@ -11,11 +11,15 @@ namespace Web.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IAuthValidator _authValidator;
+        private readonly ILocalStorageService _localStorage;
+        private readonly AccountState _accountState;
 
-        public AccountService(HttpClient httpClient, IAuthValidator authValidator)
+        public AccountService(HttpClient httpClient, IAuthValidator authValidator, ILocalStorageService localStorage, AccountState accountState)
         {
             _httpClient = httpClient;
             _authValidator = authValidator;
+            _localStorage = localStorage;
+            _accountState = accountState;
         }
 
         public async Task<string> Create(AuthDto dto)
@@ -61,12 +65,32 @@ namespace Web.Services
             return token;
         }
 
+        // TODO: Remove duplicates
+        public async Task<string> ResetPassword(PasswordDto dto)
+        {
+            var res = await _httpClient.PutAsJsonAsync("/Auth/ResetPassword", dto);
+            res.EnsureSuccessStatusCode();
+
+            var token = await res.Content.ReadAsStringAsync();
+            // We store the newly generated token in localStorage for future use
+            await _authValidator.PrepareAndValidate(token);
+            return token;
+        }
+
         public async Task<User> GetUser(string id)
         {
             await _authValidator.EnsureIsAuthenticated();
 
             var res = await _httpClient.GetFromJsonAsync<User>($"/Users/{id}");
             return res is null ? throw new HttpRequestException("Failed to fetch current User: UserId: {id}") : res;
+        }
+
+        public async Task Logout()
+        {
+            await _authValidator.EnsureIsAuthenticated();
+            await _localStorage.RemoveItemAsync("token");
+            _authValidator.ClearToken();
+            _accountState.Property = null;
         }
 
         public async Task<UserClaimResponse> GenerateTempAccount()

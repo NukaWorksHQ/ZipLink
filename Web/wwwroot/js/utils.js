@@ -16,6 +16,27 @@
     };
 };
 
+window.getTooltipSize = () => {
+    const tooltip = document.querySelector('.tooltip');
+    if (!tooltip) {
+        console.warn('Tooltip not found');
+        return { height: 0, width: 0 };
+    }
+
+    const rect = tooltip.getBoundingClientRect();
+    return {
+        height: Math.round(rect.height),
+        width: Math.round(rect.width)
+    };
+};
+
+window.getViewportSize = () => {
+    return {
+        height: window.innerHeight,
+        width: window.innerWidth
+    };
+};
+
 (function () {
     let resizeHandler = null;
 

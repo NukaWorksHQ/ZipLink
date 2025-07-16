@@ -9,6 +9,7 @@ namespace Web.Common
         public Task<string> Create(AuthDto dto);
 
         public Task<string> Login(AuthDto dto);
+        public Task<string> ResetPassword(PasswordDto dto);
 
         public Task<User> Edit(string id, UserUpdateDto dto);
 
@@ -17,5 +18,7 @@ namespace Web.Common
         public Task<bool> Delete(string id);
 
         public Task<UserClaimResponse> GenerateTempAccount();
+
+        public Task Logout();
     }
 }

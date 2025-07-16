@@ -1,0 +1,66 @@
+﻿@inject IAccountService accountService
+@inject IAuthValidator authValidator
+@inject AccountState accountState
+
+<p class="tooltip__title">Login/Signup</p>
+
+<EditForm class="miniview__form" Model="dto" OnValidSubmit="HandleSubmit">
+	<DataAnnotationsValidator />
+
+	<InputText name="username" autocomplete="username" placeholder="Username" @bind-Value="dto.Username"/>
+	<ValidationMessage For="() => dto.Username" />
+	
+	<InputText name="password" autocomplete="current-password" type="password" placeholder="Password" @bind-Value="dto.Password" />
+	<ValidationMessage For="() => dto.Password" />
+
+	<div class="miniview__actions">
+		<button type="button" @onclick="GoBack">Back</button>
+		<button type="submit">Submit</button>
+	</div>
+</EditForm>
+
+@code {
+	private readonly AuthDto dto = new() { Username = "", Password = "" };
+
+	[Parameter] public EventCallback OnGoBack { get; set; }
+	[Parameter] public EventCallback OnSubmit { get; set; }
+
+	private async Task GoBack()
+	{
+		if (OnGoBack.HasDelegate)
+			await OnGoBack.InvokeAsync();
+	}
+
+	private async Task HandleSubmit()
+	{
+		try
+		{
+			var token = await accountService.Login(dto);
+			await authValidator.PrepareAndValidate(token);
+			var userClaim = await authValidator.GetUserClaim();
+
+			var user = await accountService.GetUser(userClaim.UserId);
+			accountState.Property = user;
+		} catch (Exception)
+		{
+			Console.WriteLine("Failed to login, creating a new account instead");
+		}
+
+		try
+		{
+			var token = await accountService.Create(dto);
+			await authValidator.PrepareAndValidate(token);
+			var userClaim = await authValidator.GetUserClaim();
+
+			var user = await accountService.GetUser(userClaim.UserId);
+			accountState.Property = user;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("Failed to create a new account: " + e.Message);
+		}
+
+		if (OnSubmit.HasDelegate)
+			await OnSubmit.InvokeAsync();
+	}
+}

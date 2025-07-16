@@ -1,0 +1,79 @@
+﻿@inject ILinkService linkService
+@inject IConfiguration config
+
+<p class="tooltip__title">Edit links</p>
+
+<div class="editlinks">
+	<ul class="editlinks__list">
+		@if (links.Count > 0)
+		{
+			@foreach (var link in links)
+			{
+				<li class="editlinks__list--item">
+					<div>
+						<a href="@(Utils.GetFinalLink(link, config))" class="source" target="_blank">
+							@(Utils.GetFinalLink(link, config))
+						</a>
+						<p class="target">@link.Target</p>
+					</div>
+					<p class="cpy_btn" @onclick="() => HandleDeleteLink(link.Id)">Delete</p>
+				</li>
+			}
+		}
+		else
+		{
+			<p class="editlinks__placeholder">No links created yet.</p>
+		}
+	</ul>
+
+	<div class="miniview__actions">
+		<button type="button" @onclick="GoBack">Back</button>
+	</div>
+</div>
+
+@code {
+	[Parameter] public EventCallback OnGoBack { get; set; }
+	[Parameter] public EventCallback OnSubmit { get; set; }
+
+	private ICollection<Link> links { get; set; } = [];
+
+	protected async override Task OnInitializedAsync()
+	{
+		await FetchLinks();
+	}
+
+	private async Task FetchLinks()
+	{
+		try
+		{
+			var _links = await linkService.GetAll();
+			links = _links.ToList();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("Failed to fetch links: " + e.Message);
+		}
+	}
+
+	private async Task GoBack()
+	{
+		if (OnGoBack.HasDelegate)
+			await OnGoBack.InvokeAsync();
+	}
+
+	private async Task HandleDeleteLink(string id)
+	{
+		try
+		{
+			var toRemove = links.Where(e => e.Id == id).ToList();
+			foreach (var item in toRemove)
+			{
+				links.Remove(item);
+			}
+			await linkService.Delete(id);
+		} catch (Exception e)
+		{
+			Console.WriteLine("Failed to delete the link: " + e.Message);
+		}
+	}
+}

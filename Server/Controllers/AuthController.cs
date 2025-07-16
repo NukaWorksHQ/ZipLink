@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Shared.DTOs;
 using Server.Services;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers
 {
@@ -11,10 +12,12 @@ namespace Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
+        private readonly UserAccessValidator _userAccessValidator;
 
-        public AuthController(AuthService authService)
+        public AuthController(AuthService authService, UserAccessValidator accessValidator)
         {
             _authService = authService;
+            _userAccessValidator = accessValidator;
         }
 
         [
@@ -26,8 +29,23 @@ namespace Server.Controllers
         [HttpPut(nameof(Login))]
         public async Task<IActionResult> Login([FromBody] AuthDto dto)
         {
-            // TODO: admin route
             return Ok(await _authService.Login(dto));
+        }
+
+        [
+            SwaggerOperation(
+            Summary = "Reset password user",
+            Description = "Reset the password of an user")
+        ]
+        [SwaggerResponse(200, "Return a Bearer JWT (string)")]
+        [Authorize]
+        [HttpPut(nameof(ResetPassword))]
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordDto dto)
+        {
+            var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+            _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+            
+            return Ok(await _authService.ResetPassword(userClaim.UserId, dto));
         }
 
         [
