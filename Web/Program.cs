@@ -10,6 +10,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredLocalStorage();
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 var apiBaseUrl = builder.Configuration.GetValue<string>("AppSettings:ApiHost");
 if (apiBaseUrl is null)
