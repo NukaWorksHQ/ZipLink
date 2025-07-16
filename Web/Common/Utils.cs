@@ -9,7 +9,7 @@ namespace Web.Common
             if (link is null)
                 throw new ArgumentNullException(nameof(link));
 
-            var endpoint = config["AppSettings:ApiHost"] + $"/{link.Id}";
+            var endpoint = config["ApiHost"] + $"/{link.Id}";
             return endpoint;
         }
     }

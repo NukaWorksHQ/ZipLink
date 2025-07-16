@@ -17,8 +17,6 @@ var environment = builder.HostEnvironment.Environment;
 var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
 var config = await httpClient.GetFromJsonAsync<AppSettings>($"appsettings.{environment}.json");
 
-Console.WriteLine(config.ApiHost);
-
 if (config.ApiHost is null)
     throw new InvalidOperationException("apiBaseUrl (AppSettings:ApiHost) cannot be null, please update your appSettings.json configuration.");
 
