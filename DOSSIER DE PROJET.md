@@ -1,3 +1,64 @@
+---
+title: "Dossier de Projet CDA - ZipLink"
+subtitle: "Raccourcisseur de liens sécurisé"
+documentclass: article
+geometry: margin=1in
+fontsize: 12pt
+---
+
+\newpage
+
+\begin{center}
+
+\vspace*{2cm}
+
+{\Huge \textbf{DOSSIER DE PROJET}}
+
+\vspace{1cm}
+
+{\LARGE \textbf{Titre Professionnel}}
+
+{\Large Concepteur Développeur d'Applications}
+
+{\large (CDA) - Niveau 6}
+
+\vspace{2cm}
+
+{\huge \textbf{ZipLink}}
+
+{\Large Raccourcisseur de liens sécurisé}
+
+\vspace{1.5cm}
+
+{\large Développement d'une application web moderne}
+
+{\large avec authentification sécurisée}
+
+\vspace{3cm}
+
+\begin{tabular}{ll}
+\textbf{Candidat :} & [Votre nom] \\
+\textbf{Projet :} & ZipLink - Raccourcisseur de liens sécurisé \\
+\textbf{Technologies :} & .NET 8, Blazor WebAssembly, ASP.NET Core \\
+\textbf{Période :} & 01 juin 2025 - 18 juillet 2025 \\
+\textbf{Durée :} & 1 mois \\
+\textbf{Type :} & Projet personnel - Portfolio développeur \\
+\end{tabular}
+
+\vspace{2cm}
+
+{\large Session [Mois] [Année]}
+
+\vspace{1cm}
+
+\textit{Ce dossier présente la conception et le développement d'une application web complète}
+
+\textit{démontrant la maîtrise des compétences du référentiel CDA niveau 6}
+
+\end{center}
+
+\newpage
+
 # DOSSIER DE PROJET
 ## Titre Professionnel : Concepteur Développeur d'Applications (CDA) - Niveau 6
 
@@ -7,9 +68,8 @@
 
 ### Projet : ZipLink - Raccourcisseur de liens sécurisé
 
-**Entreprise** : INFOBAM LE LAB DIGITAL  
-**Période de réalisation** : [Dates du projet]  
-**Durée** : [Durée estimée]  
+**Période de réalisation** : 01/06/2025 - 18/07/2025  
+**Durée** : 1 mois  
 **Contexte** : Développement d'une application web moderne de raccourcissement d'URLs avec authentification sécurisée
 
 ZipLink est une application web développée en .NET 8 utilisant une architecture moderne basée sur **ASP.NET Core** pour l'API backend et **Blazor WebAssembly** pour l'interface utilisateur frontend. Le projet utilise **Entity Framework Core** avec Microsoft SQL Server et suit une architecture multicouche avec des patterns de conception modernes.
