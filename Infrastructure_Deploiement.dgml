@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph ZoomLevel="1.0" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="AppInsights" Category="Monitoring" Bounds="283.493333333333,228.1375,115.69,24.6300000000001" Label="Application Insights" />
+    <Node Id="Azure" Category="Cloud" Bounds="201.285,318.0125,80.1066666666667,41.9200000000001" Label="Azure&#xD;&#xA;(Optionnel)" />
+    <Node Id="AzureAppService" Category="Cloud" Bounds="200.123333333333,404.92,82.43,25.96" Label="App Service" />
+    <Node Id="AzureDevOps" Category="DevOps" Bounds="180.813333333333,149.21,89.05,24.63" Label="Azure DevOps" />
+    <Node Id="AzureSQL" Category="Cloud" Bounds="312.956666666666,404.92,74.7633333333333,25.96" Label="Azure SQL" />
+    <Node Id="CloudflareCDN" Category="CDN" Bounds="856.441666666666,140.565,102.55,41.92" Label="Cloudflare CDN&#xD;&#xA;(Global)" />
+    <Node Id="CloudflareCache" Category="CDN" Bounds="860.421666666666,219.4925,94.4133333333333,41.92" Label="Static Content&#xD;&#xA;Cache" />
+    <Node Id="CloudflareDNS" Category="CDN" Bounds="734.84,219.4925,90.5933333333333,41.92" Label="DNS&#xD;&#xA;Management" />
+    <Node Id="CloudflareSSL" Category="CDN" Bounds="1353.84,396.94,90.5933333333333,41.92" Label="Auto SSL&#xD;&#xA;Management" />
+    <Node Id="CloudflareSSLSec" Category="Security" Bounds="1308.38833333333,319.3425,93.8999999999999,39.26" Label="Cloudflare SSL&#xD;&#xA;Auto-Managed" />
+    <Node Id="CloudflareWAF" Category="CDN" Bounds="590.333333333333,219.4925,107.46,41.92" Label="Web Application&#xD;&#xA;Firewall" />
+    <Node Id="Development" Category="Environment" Bounds="317.5,56.3175,132.666666666667,52.56" Label="Développement&#xD;&#xA;(Local)" />
+    <Node Id="DockerCompose" Category="Container" Bounds="299.87,148.545,110.936666666667,25.96" Label="Docker Compose" />
+    <Node Id="DockerDesktop" Category="Container" Bounds="558.046666666666,148.545,104.583333333333,25.96" Label="Docker Desktop" />
+    <Node Id="DockerImages" Category="Container" Bounds="460.958333333333,227.4725,98.76,25.96" Label="Docker Images" />
+    <Node Id="DotNetLogging" Category="Monitoring" Bounds="1317.89,220.8225,84.8966666666665,39.26" Label=".NET Logging&#xD;&#xA;(Built-in)" />
+    <Node Id="GitHubActions" Category="DevOps" Bounds="340.658333333333,0,93.3600000000001,24.63" Label="GitHub Actions" />
+    <Node Id="HealthChecks" Category="Monitoring" Bounds="1198.94166666667,228.1375,88.7933333333331,24.6300000000001" Label="Health Checks" />
+    <Node Id="IISAppPool" Category="WebServer" Bounds="1224.02166666667,470.5475,106.633333333333,25.96" Label="Application Pool" />
+    <Node Id="IISProd" Category="WebServer" Bounds="1234.66,396.94,85.3566666666666,41.9200000000001" Label="IIS 10.0+&#xD;&#xA;(Production)" />
+    <Node Id="JWT" Category="Security" Bounds="1092.12,228.1375,76.4366666666665,24.63" Label="JWT Tokens" />
+    <Node Id="KestrelDev" Category="WebServer" Bounds="441.058333333333,148.545,86.5600000000001,25.96" Label="Kestrel (Dev)" />
+    <Node Id="Production" Category="Environment" Bounds="858.633333333333,312.6925,97.4866666666667,52.56" Label="Production&#xD;&#xA;(Live)" />
+    <Node Id="SQLServerDev" Category="Database" Bounds="49.893333333333,318.0125,114.276666666667,41.92" Label="SQL Server&#xD;&#xA;Developer Edition" />
+    <Node Id="SQLServerProd" Category="Database" Bounds="854.174999999999,396.94,106.543333333333,41.92" Label="SQL Server 2022&#xD;&#xA;Standard" />
+    <Node Id="SonarQube" Category="DevOps" Bounds="0,149.21,74.6766666666667,24.63" Label="SonarQube" />
+    <Node Id="TDE" Category="Security" Bounds="726.158333333333,319.3425,102.36,39.26" Label="Transparent Data&#xD;&#xA;Encryption" />
+    <Node Id="Testing" Category="Environment" Bounds="65.708333333333,214.1725,82.9733333333333,52.56" Label="Test&#xD;&#xA;(Staging)" />
+  </Nodes>
+  <Links>
+    <Link Source="AppInsights" Target="Azure" Category="Monitors" Bounds="269.024434896524,252.767514648438,59.8139101908778,58.9286487569021" />
+    <Link Source="AppInsights" Target="Production" Category="Monitors" Bounds="399.183349609375,249.1083984375,450.549072265625,67.4198913574219" />
+    <Link Source="Azure" Target="AzureAppService" Category="Contains" Bounds="241.338327625148,359.932503662109,3.47867083405617E-06,35.9874902343749" />
+    <Link Source="Azure" Target="AzureSQL" Category="Contains" Bounds="270.284389206593,359.932503662109,54.8387893651084,39.7090720078263" />
+    <Link Source="AzureDevOps" Target="Production" Category="DeploysTo" Bounds="265.991516113281,173.84001159668,590.932250976563,134.687759399414" />
+    <Link Source="AzureDevOps" Target="Testing" Category="DeploysTo" Bounds="153.88494721039,173.840009155273,53.0195531908847,35.4205415462512" />
+    <Link Source="CloudflareCDN" Target="CloudflareCache" Category="Contains" Bounds="907.661863676607,182.485,0.0313451753979734,28.0075056364368" />
+    <Link Source="CloudflareCDN" Target="CloudflareDNS" Category="Contains" Bounds="821.670577066546,182.485,52.1659236250168,32.272503032713" />
+    <Link Source="CloudflareCDN" Target="CloudflareSSL" Category="Contains" Bounds="947.892827368763,182.485,403.088294831696,210.292136232705" />
+    <Link Source="CloudflareCDN" Target="CloudflareWAF" Category="Contains" Bounds="706.415285003817,176.8747303119,150.026381662849,44.9120331193531" />
+    <Link Source="CloudflareCDN" Target="Production" Category="Proxies" Bounds="933.361755371094,182.485000610352,32.1798706054688,123.401657104492" Label="Global CDN" LabelBounds="969.541601717798,238.629894778461,62.3433333333336,15.96" />
+    <Link Source="CloudflareCache" Target="Production" Category="Accelerates" Bounds="907.466788394337,261.4125,0.108003187744089,42.2800293638486" />
+    <Link Source="CloudflareSSLSec" Target="CloudflareSSL" Category="Implements" Bounds="1366.23137322884,358.602503662109,16.9072396108832,30.467954367419" />
+    <Link Source="CloudflareSSLSec" Target="IISProd" Category="Secures" Bounds="1304.37820860872,358.602503662109,31.5607695193594,31.9360304975384" />
+    <Link Source="CloudflareWAF" Target="Production" Category="Protects" Bounds="697.121509564421,260.304481880726,153.082521752673,57.276590790718" />
+    <Link Source="Development" Target="DockerCompose" Category="Uses" Bounds="363.080633948524,108.8775,11.264890138898,31.2022833909549" />
+    <Link Source="Development" Target="DockerDesktop" Category="Uses" Bounds="450.166666666667,105.711885642208,114.423060136257,39.8716392716238" />
+    <Link Source="Development" Target="KestrelDev" Category="Uses" Bounds="417.297851997963,108.8775,43.4336754461963,34.1088722107474" />
+    <Link Source="Development" Target="Testing" Category="PromotesTo" Bounds="128.427612304688,100.172607421875,189.072387695313,106.371963500977" Label="Deploy" LabelBounds="221.157711476552,131.99412577048,37.4866666666667,15.96" />
+    <Link Source="DockerCompose" Target="DockerImages" Category="Orchestrates" Bounds="380.828802932408,174.504993896484,95.998992549806,48.8836097194397" />
+    <Link Source="DockerDesktop" Target="DockerImages" Category="Creates" Bounds="533.848458991162,174.505001525879,60.0444209409741,47.3915708679057" />
+    <Link Source="DockerImages" Target="Azure" Category="DeployedTo" Bounds="289.842703680654,253.432507019043,185.054932042626,67.775498941555" />
+    <Link Source="DockerImages" Target="Production" Category="DeployedTo" Bounds="556.176879882813,253.432510375977,293.757202148438,70.2420501708984" />
+    <Link Source="DotNetLogging" Target="IISProd" Category="Logs" Bounds="1282.88806152344,260.08251953125,59.411376953125,128.009521484375" />
+    <Link Source="DotNetLogging" Target="Production" Category="Logs" Bounds="964.914385467207,249.685104575373,352.975599070554,76.7728366351162" />
+    <Link Source="GitHubActions" Target="Development" Category="BuildsFrom" Bounds="385.592188035171,24.6300024414062,1.13198141943326,22.698668279582" />
+    <Link Source="HealthChecks" Target="Production" Category="Monitors" Bounds="964.756320530668,252.73024069915,236.713892079208,69.4158071212849" />
+    <Link Source="HealthChecks" Target="SQLServerProd" Category="Monitors" Bounds="955.079791474569,252.767514648438,264.947372246398,139.968483250613" />
+    <Link Source="IISProd" Target="IISAppPool" Category="Contains" Bounds="1277.33829582255,438.859993896484,4.21998461206385E-05,22.6875024414219" />
+    <Link Source="JWT" Target="Production" Category="Authenticates" Bounds="964.352151295595,252.767499389648,138.115960347607,61.0292596248738" />
+    <Link Source="Production" Target="IISProd" Category="Uses" Bounds="956.12,349.371388009971,269.737999405819,57.5458233164472" />
+    <Link Source="Production" Target="SQLServerProd" Category="Uses" Bounds="907.399974132379,365.2525,0.0201213170030314,22.6875035395793" />
+    <Link Source="SonarQube" Target="Testing" Category="Analyzes" Bounds="48.2380297173232,173.839993896484,29.7323390480698,33.5930697730121" />
+    <Link Source="TDE" Target="SQLServerProd" Category="Encrypts" Bounds="809.697470325686,358.602503662109,55.5027588318246,33.6695825824725" />
+    <Link Source="Testing" Target="Azure" Category="DeployedTo" Bounds="142.977446849513,266.7325,62.5682494793518,45.9525197712886" />
+    <Link Source="Testing" Target="Production" Category="PromotesTo" Bounds="148.681666666666,245.560423075802,701.019116439376,86.3109044216299" Label="Release" LabelBounds="222.925106626938,236.72632491804,39.7633333333333,15.96" />
+    <Link Source="Testing" Target="SQLServerDev" Category="Uses" Bounds="107.081336425563,266.7325,0.0700947559226819,42.2800123683696" />
+  </Links>
+  <Categories>
+    <Category Id="Accelerates" Label="Accélère" />
+    <Category Id="Analyzes" Label="Analyse" />
+    <Category Id="Authenticates" Label="Authentifie" />
+    <Category Id="BuildsFrom" Label="Construit depuis" />
+    <Category Id="CDN" Label="CDN Cloudflare" Background="#FFFFA726" />
+    <Category Id="Cloud" Label="Cloud" Background="#FFF3E5F5" />
+    <Category Id="Container" Label="Conteneurisation" Background="#FFFCE4EC" />
+    <Category Id="Contains" Label="Contient" Description="Si la source de la liaison contient ou non l'objet cible" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contenu par" IsContainment="True" OutgoingActionLabel="Contient" />
+    <Category Id="Creates" Label="Crée" />
+    <Category Id="Database" Label="Base de Données" Background="#FFE8F5E8" />
+    <Category Id="DeployedTo" Label="Déployé sur" />
+    <Category Id="DeploysTo" Label="Déploie vers" />
+    <Category Id="DevOps" Label="DevOps" Background="#FFFFF3E0" />
+    <Category Id="Encrypts" Label="Chiffre" />
+    <Category Id="Environment" Label="Environnement" Background="#FFE3F2FD" />
+    <Category Id="Implements" Label="Implémente" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Implémenté par" OutgoingActionLabel="Implémente" />
+    <Category Id="Logs" Label="Journalise" />
+    <Category Id="Monitoring" Label="Monitoring" Background="#FFF8BBD9" />
+    <Category Id="Monitors" Label="Surveille" />
+    <Category Id="Orchestrates" Label="Orchestre" />
+    <Category Id="PromotesTo" Label="Déploie vers" />
+    <Category Id="Protects" Label="Protège" />
+    <Category Id="Proxies" Label="Proxy pour" />
+    <Category Id="Secures" Label="Sécurise" />
+    <Category Id="Security" Label="Sécurité" Background="#FFFFE0B2" />
+    <Category Id="Uses" Label="Utilise" />
+    <Category Id="WebServer" Label="Serveur Web" Background="#FFEFF7F3" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Arrière-plan" Description="Couleur d'arrière-plan" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Étiquette" Description="Étiquette affichable d'un objet pouvant être annoté" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Environnement" ValueLabel="True">
+      <Condition Expression="HasCategory('Environment')" />
+      <Setter Property="Background" Value="#E3F2FD" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="CDN Cloudflare" ValueLabel="True">
+      <Condition Expression="HasCategory('CDN')" />
+      <Setter Property="Background" Value="#FFA726" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Conteneurisation" ValueLabel="True">
+      <Condition Expression="HasCategory('Container')" />
+      <Setter Property="Background" Value="#FCE4EC" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Serveur Web" ValueLabel="True">
+      <Condition Expression="HasCategory('WebServer')" />
+      <Setter Property="Background" Value="#EFF7F3" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Base de Données" ValueLabel="True">
+      <Condition Expression="HasCategory('Database')" />
+      <Setter Property="Background" Value="#E8F5E8" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Cloud" ValueLabel="True">
+      <Condition Expression="HasCategory('Cloud')" />
+      <Setter Property="Background" Value="#F3E5F5" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="DevOps" ValueLabel="True">
+      <Condition Expression="HasCategory('DevOps')" />
+      <Setter Property="Background" Value="#FFF3E0" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Monitoring" ValueLabel="True">
+      <Condition Expression="HasCategory('Monitoring')" />
+      <Setter Property="Background" Value="#F8BBD9" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Sécurité" ValueLabel="True">
+      <Condition Expression="HasCategory('Security')" />
+      <Setter Property="Background" Value="#FFE0B2" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Proxy pour" ValueLabel="True">
+      <Condition Expression="HasCategory('Proxies')" />
+      <Setter Property="Stroke" Value="#FF9800" />
+      <Setter Property="StrokeThickness" Value="4" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Déploie vers" ValueLabel="True">
+      <Condition Expression="HasCategory('PromotesTo')" />
+      <Setter Property="Stroke" Value="#4CAF50" />
+      <Setter Property="StrokeThickness" Value="3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Protège" ValueLabel="True">
+      <Condition Expression="HasCategory('Protects')" />
+      <Setter Property="Stroke" Value="#F44336" />
+      <Setter Property="StrokeDashArray" Value="5 5" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+  </Styles>
+</DirectedGraph>

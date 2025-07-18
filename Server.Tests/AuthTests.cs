@@ -105,9 +105,10 @@ public class AuthControllerTests
 
         var userService = CreateMockUserService();
         var mockDbContext = new Mock<AppDbContext>(new DbContextOptions<AppDbContext>());
+        var userValidatorService = new UserAccessValidator();
 
         var authService = new AuthService(mockConfig.Object, userService, mockDbContext.Object);
-        var controller = new AuthController(authService);
+        var controller = new AuthController(authService, userValidatorService);
 
         var userId = GuidUtils.GenerateLittleGuid();
         var role = UserRole.Admin;

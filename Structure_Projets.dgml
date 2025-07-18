@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="ASPNETCore" Category="Framework" Bounds="390.856666666666,885.02,92.9633333333334,25.96" Label="ASP.NET Core" />
+    <Node Id="BlazorWASM" Category="Framework" Bounds="391.618333333333,88.02,91.4400000000001,25.96" Label="Blazor WASM" />
+    <Node Id="Docker" Category="Deployment" Bounds="408.638333333333,344.02,57.4000000000001,25.96" Label="Docker" />
+    <Node Id="EntityFramework" Category="Framework" Bounds="381.545,829.02,111.586666666667,25.96" Label="Entity Framework" />
+    <Node Id="IIS" Category="Deployment" Bounds="412.338333333333,288.02,50,25.96" Label="IIS" />
+    <Node Id="NET8" Category="Framework" Bounds="606.546666666666,281.02,53.6900000000001,25.96" Label=".NET 8" />
+    <Node Id="SQLServer" Category="Database" Bounds="594.703333333333,765.04,77.3766666666666,41.9200000000001" Label="Microsoft&#xD;&#xA;SQL Server" />
+    <Node Id="Server" Category="ApiProject" Bounds="149.936666666666,573.38,138,47.24" Label="Server Project&#xD;&#xA;(ASP.NET Core API)" />
+    <Node Id="ServerCommon" Category="ServerComponent" Bounds="402.861666666666,605.02,68.9533333333334,25.96" Label="Common" />
+    <Node Id="ServerContexts" Category="ServerComponent" Bounds="404.208333333333,773.02,66.26,25.96" Label="Contexts" />
+    <Node Id="ServerControllers" Category="ServerComponent" Bounds="594.453333333333,561.02,77.8766666666667,25.96" Label="Controllers" />
+    <Node Id="ServerMappings" Category="ServerComponent" Bounds="400.915,661.02,72.8466666666667,25.96" Label="Mappings" />
+    <Node Id="ServerServices" Category="ServerComponent" Bounds="406.143333333333,717.02,62.39,25.96" Label="Services" />
+    <Node Id="ServerTests" Category="TestProject" Bounds="0,423.38,94.29,47.24" Label="Server.Tests&#xD;&#xA;(xUnit Tests)" />
+    <Node Id="Shared" Category="SharedProject" Bounds="375.226666666666,432.38,124.223333333333,47.24" Label="Shared Project&#xD;&#xA;(Common Types)" />
+    <Node Id="SharedCommon" Category="SharedComponent" Bounds="598.915,337.02,68.9533333333334,25.96" Label="Common" />
+    <Node Id="SharedControllers" Category="SharedComponent" Bounds="594.453333333333,505.02,77.8766666666667,25.96" Label="Controllers" />
+    <Node Id="SharedDTOs" Category="SharedComponent" Bounds="608.391666666666,449.02,50,25.96" Label="DTOs" />
+    <Node Id="SharedEntities" Category="SharedComponent" Bounds="604.303333333333,393.02,58.1766666666667,25.96" Label="Entities" />
+    <Node Id="Web" Category="BlazorProject" Bounds="163.043333333333,209.38,111.786666666667,47.24" Label="Web Project&#xD;&#xA;(Blazor WASM)" />
+    <Node Id="WebCommon" Category="WebComponent" Bounds="402.861666666666,232.02,68.9533333333334,25.96" Label="Common" />
+    <Node Id="WebComponents" Category="WebComponent" Bounds="393.39,32.02,87.8966666666668,25.96" Label="Components" />
+    <Node Id="WebPages" Category="WebComponent" Bounds="411.911666666666,144.02,50.8533333333332,25.96" Label="Pages" />
+    <Node Id="WebServices" Category="WebComponent" Bounds="406.143333333333,510.02,62.39,25.96" Label="Services" />
+    <Node Id="xUnit" Category="Framework" Bounds="193.936666666666,651.02,50,25.96" Label="xUnit" />
+  </Nodes>
+  <Links>
+    <Link Source="EntityFramework" Target="SQLServer" Category="Connects" Bounds="492.315155029297,803.432189941406,93.9425354003906,26.530517578125" />
+    <Link Source="Server" Target="ASPNETCore" Category="Uses" Bounds="232.794342041016,620.619995117188,172.330902099609,260.156311035156" />
+    <Link Source="Server" Target="Docker" Category="DeployedTo" Bounds="233.555755615234,374.307739257813,172.223785400391,199.072265625" />
+    <Link Source="Server" Target="EntityFramework" Category="Uses" Bounds="235.565887451172,620.619995117188,178.607757568359,202.761779785156" />
+    <Link Source="Server" Target="IIS" Category="DeployedTo" Bounds="231.007034301758,314.320159912109,172.973007202148,259.059844970703" />
+    <Link Source="Server" Target="NET8" Category="Uses" Bounds="239.21452331543,310.433013916016,360.586380004883,262.946990966797" />
+    <Link Source="Server" Target="ServerCommon" Category="Contains" Bounds="287.936676025391,616.339660644531,105.973297119141,8.56732177734375" />
+    <Link Source="Server" Target="ServerContexts" Category="Contains" Bounds="239.723190307617,620.619995117188,167.315414428711,147.903259277344" />
+    <Link Source="Server" Target="ServerControllers" Category="Contains" Bounds="287.936676025391,577.651245117188,297.542694091797,19.2254638671875" />
+    <Link Source="Server" Target="ServerMappings" Category="Contains" Bounds="260.509704589844,620.619995117188,131.472534179688,47.8046875" />
+    <Link Source="Server" Target="ServerServices" Category="Contains" Bounds="246.65202331543,620.619995117188,151.130325317383,95.5409545898438" />
+    <Link Source="Server" Target="Shared" Category="ProjectReference" Bounds="275.54638671875,485.599060058594,128.490905761719,87.7809448242188" Label="References" LabelBounds="302.936666666666,550,57.29,15.96" />
+    <Link Source="ServerContexts" Target="SQLServer" Category="Connects" Bounds="470.468322753906,786,115.234985351563,0" />
+    <Link Source="ServerTests" Target="NET8" Category="Uses" Bounds="51.1152954101563,1,575.900390625,422.380004882813" />
+    <Link Source="ServerTests" Target="Server" Category="ProjectReference" Bounds="78.6548156738281,470.619995117188,109.437377929688,96.4976806640625" Label="Tests" LabelBounds="109.29,487.236842105263,25.6466666666665,15.96" />
+    <Link Source="ServerTests" Target="Shared" Category="ProjectReference" Bounds="94.2900009155273,447,271.954322814941,3.2315673828125" Label="References" LabelBounds="190.291666666667,447,57.29,15.96" />
+    <Link Source="ServerTests" Target="xUnit" Category="Uses" Bounds="65.8441696166992,470.619995117188,120.444190979004,177.911010742188" />
+    <Link Source="Shared" Target="NET8" Category="Uses" Bounds="464.307769775391,312.441772460938,144.930755615234,119.938232421875" />
+    <Link Source="Shared" Target="SharedCommon" Category="Contains" Bounds="477.792510986328,366.913269042969,120.790069580078,65.4667358398438" />
+    <Link Source="Shared" Target="SharedControllers" Category="Contains" Bounds="499.450012207031,474.143310546875,88.5166625976563,28.0933837890625" />
+    <Link Source="Shared" Target="SharedDTOs" Category="Contains" Bounds="499.450012207031,456.013519287109,99.9632568359375,3.62796020507813" />
+    <Link Source="Shared" Target="SharedEntities" Category="Contains" Bounds="499.450012207031,413.892028808594,96.0422973632813,23.9916687011719" />
+    <Link Source="Web" Target="BlazorWASM" Category="Uses" Bounds="247.241714477539,117.023338317871,145.502548217773,92.3566665649414" />
+    <Link Source="Web" Target="Docker" Category="DeployedTo" Bounds="260.509704589844,256.619995117188,146.122009277344,82.9588928222656" />
+    <Link Source="Web" Target="IIS" Category="DeployedTo" Bounds="274.829986572266,248.878082275391,128.988433837891,40.7116088867188" />
+    <Link Source="Web" Target="NET8" Category="Uses" Bounds="274.829986572266,201,340.370025634766,73.4277954101563" />
+    <Link Source="Web" Target="Shared" Category="ProjectReference" Bounds="238.645370483398,256.619995117188,163.388717651367,170.003387451172" Label="References" LabelBounds="302.936666666666,368,57.29,15.96" />
+    <Link Source="Web" Target="WebCommon" Category="Contains" Bounds="274.829986572266,233,119.089050292969,7.07330322265625" />
+    <Link Source="Web" Target="WebComponents" Category="Contains" Bounds="240.222061157227,62.5860328674316,167.594985961914,146.793972015381" />
+    <Link Source="Web" Target="WebPages" Category="Contains" Bounds="261.169616699219,161.223587036133,141.809295654297,48.1564178466797" />
+    <Link Source="Web" Target="WebServices" Category="Contains" Bounds="229.752410888672,256.619995117188,169.368743896484,250.479766845703" />
+    <Link Source="WebServices" Target="ServerControllers" Category="HttpCommunication" Bounds="468.533325195313,526.403686523438,127.916564941406,30.9118041992188" Label="HTTPS/REST" LabelBounds="514.45,519,65.0033333333333,15.96" />
+  </Links>
+  <Categories>
+    <Category Id="ApiProject" Label="Projet API" Background="#FFFCE4EC" />
+    <Category Id="BlazorProject" Label="Projet Blazor" Background="#FFE3F2FD" />
+    <Category Id="Connects" Label="Se connecte �" />
+    <Category Id="Contains" Label="Contient" Description="Si la source de la liaison contient ou non l'objet cible" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contenu par" IsContainment="True" OutgoingActionLabel="Contient" />
+    <Category Id="Database" Label="Base de Donn�es" Background="#FFE8F5E8" />
+    <Category Id="DeployedTo" Label="D�ploy� sur" />
+    <Category Id="Deployment" Label="D�ploiement" Background="#FFFFF8E1" />
+    <Category Id="Framework" Label="Framework" Background="#FFF8BBD9" />
+    <Category Id="HttpCommunication" Label="Communication HTTP" />
+    <Category Id="ProjectReference" Label="R�f�rence Projet" />
+    <Category Id="ServerComponent" Label="Composant Serveur" Background="#FFFFFFFF" />
+    <Category Id="SharedComponent" Label="Composant Partag�" Background="#FFFFFFFF" />
+    <Category Id="SharedProject" Label="Projet Partag�" Background="#FFEFF7F3" />
+    <Category Id="TestProject" Label="Projet de Test" Background="#FFFFF3E0" />
+    <Category Id="Uses" Label="Utilise" />
+    <Category Id="WebComponent" Label="Composant Web" Background="#FFFFFFFF" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Arrière-plan" Description="Couleur d'arrière-plan" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Étiquette" Description="Étiquette affichable d'un objet pouvant être annoté" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Projet Blazor" ValueLabel="True">
+      <Condition Expression="HasCategory('BlazorProject')" />
+      <Setter Property="Background" Value="#E3F2FD" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Projet API" ValueLabel="True">
+      <Condition Expression="HasCategory('ApiProject')" />
+      <Setter Property="Background" Value="#FCE4EC" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Projet Partag�" ValueLabel="True">
+      <Condition Expression="HasCategory('SharedProject')" />
+      <Setter Property="Background" Value="#EFF7F3" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Projet de Test" ValueLabel="True">
+      <Condition Expression="HasCategory('TestProject')" />
+      <Setter Property="Background" Value="#FFF3E0" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Framework" ValueLabel="True">
+      <Condition Expression="HasCategory('Framework')" />
+      <Setter Property="Background" Value="#F8BBD9" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Base de Donn�es" ValueLabel="True">
+      <Condition Expression="HasCategory('Database')" />
+      <Setter Property="Background" Value="#E8F5E8" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="R�f�rence Projet" ValueLabel="True">
+      <Condition Expression="HasCategory('ProjectReference')" />
+      <Setter Property="Stroke" Value="#4CAF50" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Communication HTTP" ValueLabel="True">
+      <Condition Expression="HasCategory('HttpCommunication')" />
+      <Setter Property="Stroke" Value="#2196F3" />
+      <Setter Property="StrokeThickness" Value="3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="D�ploy� sur" ValueLabel="True">
+      <Condition Expression="HasCategory('DeployedTo')" />
+      <Setter Property="Stroke" Value="#FF9800" />
+      <Setter Property="StrokeDashArray" Value="5 5" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+  </Styles>
+</DirectedGraph>

@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <!-- Tables principales -->
+    <Node Id="Users" Category="MainTable" Bounds="150,200,80,40" Label="Users" />
+    <Node Id="Links" Category="MainTable" Bounds="350,200,80,40" Label="Links" />
+    
+    <!-- Champs Users -->
+    <Node Id="Users_Id" Category="PrimaryKey" Bounds="50,100,80,25" Label="Id (PK)" />
+    <Node Id="Users_Username" Category="UniqueField" Bounds="150,100,80,25" Label="Username" />
+    <Node Id="Users_HashedPassword" Category="Field" Bounds="250,100,120,25" Label="HashedPassword" />
+    <Node Id="Users_Role" Category="Field" Bounds="50,150,80,25" Label="Role" />
+    <Node Id="Users_CreatedAt" Category="Field" Bounds="150,150,80,25" Label="CreatedAt" />
+    <Node Id="Users_UpdatedAt" Category="Field" Bounds="250,150,80,25" Label="UpdatedAt" />
+    
+    <!-- Champs Links -->
+    <Node Id="Links_Id" Category="PrimaryKey" Bounds="450,100,80,25" Label="Id (PK)" />
+    <Node Id="Links_Target" Category="Field" Bounds="550,100,80,25" Label="Target" />
+    <Node Id="Links_UserId" Category="ForeignKey" Bounds="450,150,80,25" Label="UserId (FK)" />
+    <Node Id="Links_CreatedAt" Category="Field" Bounds="550,150,80,25" Label="CreatedAt" />
+    <Node Id="Links_UpdatedAt" Category="Field" Bounds="450,300,80,25" Label="UpdatedAt" />
+    
+    <!-- Index et contraintes -->
+    <Node Id="IX_Users_Username" Category="Index" Bounds="50,350,120,25" Label="IX_Users_Username" />
+    <Node Id="IX_Links_UserId" Category="Index" Bounds="200,350,120,25" Label="IX_Links_UserId" />
+    <Node Id="FK_Links_Users" Category="ForeignKeyConstraint" Bounds="350,350,140,25" Label="FK_Links_Users_UserId" />
+    
+    <!-- Patterns de sécurité -->
+    <Node Id="PasswordHashing" Category="SecurityPattern" Bounds="50,450,120,40" Label="Password Hashing&#xD;&#xA;(BCrypt)" />
+    <Node Id="GuidGeneration" Category="SecurityPattern" Bounds="200,450,120,40" Label="GUID Generation&#xD;&#xA;(Secure IDs)" />
+    
+    <!-- Stratégies de sauvegarde -->
+    <Node Id="FullBackup" Category="BackupStrategy" Bounds="350,450,120,25" Label="Full Backup (Daily)" />
+    <Node Id="DifferentialBackup" Category="BackupStrategy" Bounds="500,450,120,25" Label="Differential (6h)" />
+  </Nodes>
+  
+  <Links>
+    <!-- Relations table-champs -->
+    <Link Source="Users" Target="Users_Id" Category="Contains" />
+    <Link Source="Users" Target="Users_Username" Category="Contains" />
+    <Link Source="Users" Target="Users_HashedPassword" Category="Contains" />
+    <Link Source="Users" Target="Users_Role" Category="Contains" />
+    <Link Source="Users" Target="Users_CreatedAt" Category="Contains" />
+    <Link Source="Users" Target="Users_UpdatedAt" Category="Contains" />
+    
+    <Link Source="Links" Target="Links_Id" Category="Contains" />
+    <Link Source="Links" Target="Links_Target" Category="Contains" />
+    <Link Source="Links" Target="Links_UserId" Category="Contains" />
+    <Link Source="Links" Target="Links_CreatedAt" Category="Contains" />
+    <Link Source="Links" Target="Links_UpdatedAt" Category="Contains" />
+    
+    <!-- Relation FK -->
+    <Link Source="Links_UserId" Target="Users_Id" Category="ForeignKeyRelation" Label="FK" />
+    
+    <!-- Index -->
+    <Link Source="IX_Users_Username" Target="Users_Username" Category="IndexesField" />
+    <Link Source="IX_Links_UserId" Target="Links_UserId" Category="IndexesField" />
+    
+    <!-- Contraintes -->
+    <Link Source="FK_Links_Users" Target="Links_UserId" Category="EnforcesConstraint" />
+    
+    <!-- Sécurité -->
+    <Link Source="PasswordHashing" Target="Users_HashedPassword" Category="Secures" />
+    <Link Source="GuidGeneration" Target="Users_Id" Category="Secures" />
+    <Link Source="GuidGeneration" Target="Links_Id" Category="Secures" />
+    
+    <!-- Sauvegarde -->
+    <Link Source="FullBackup" Target="Users" Category="Backs up" />
+    <Link Source="FullBackup" Target="Links" Category="Backs up" />
+    <Link Source="DifferentialBackup" Target="Users" Category="Backs up" />
+    <Link Source="DifferentialBackup" Target="Links" Category="Backs up" />
+  </Links>
+  
+  <Categories>
+    <Category Id="MainTable" Label="Table Principale" Background="#FFE3F2FD" />
+    <Category Id="PrimaryKey" Label="Clé Primaire" Background="#FFFFE0B2" />
+    <Category Id="ForeignKey" Label="Clé Étrangère" Background="#FFEFF7F3" />
+    <Category Id="UniqueField" Label="Champ Unique" Background="#FFF3E5F5" />
+    <Category Id="Field" Label="Champ" Background="#FFFFFFFF" />
+    <Category Id="Index" Label="Index" Background="#FFE8F5E8" />
+    <Category Id="ForeignKeyConstraint" Label="Contrainte FK" Background="#FFFFF3E0" />
+    <Category Id="SecurityPattern" Label="Pattern Sécurité" Background="#FFFFE0B2" />
+    <Category Id="BackupStrategy" Label="Stratégie Sauvegarde" Background="#FFE0F2E1" />
+    <Category Id="Contains" Label="Contient" IsContainment="True" />
+    <Category Id="ForeignKeyRelation" Label="Relation FK" />
+    <Category Id="IndexesField" Label="Index sur" />
+    <Category Id="EnforcesConstraint" Label="Applique contrainte" />
+    <Category Id="Secures" Label="Sécurise" />
+    <Category Id="Backs up" Label="Sauvegarde" />
+  </Categories>
+  
+  <Properties>
+    <Property Id="Background" Label="Arrière-plan" Description="Couleur d'arrière-plan" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="Label" Label="Étiquette" Description="Étiquette affichable d'un objet pouvant être annoté" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Table Principale" ValueLabel="True">
+      <Condition Expression="HasCategory('MainTable')" />
+      <Setter Property="Background" Value="#E3F2FD" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Clé Primaire" ValueLabel="True">
+      <Condition Expression="HasCategory('PrimaryKey')" />
+      <Setter Property="Background" Value="#FFE0B2" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Clé Étrangère" ValueLabel="True">
+      <Condition Expression="HasCategory('ForeignKey')" />
+      <Setter Property="Background" Value="#EFF7F3" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Pattern Sécurité" ValueLabel="True">
+      <Condition Expression="HasCategory('SecurityPattern')" />
+      <Setter Property="Background" Value="#FFE0B2" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    
+    <Style TargetType="Link" GroupLabel="Relation FK" ValueLabel="True">
+      <Condition Expression="HasCategory('ForeignKeyRelation')" />
+      <Setter Property="Stroke" Value="#4CAF50" />
+      <Setter Property="StrokeThickness" Value="3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    
+    <Style TargetType="Link" GroupLabel="Sécurise" ValueLabel="True">
+      <Condition Expression="HasCategory('Secures')" />
+      <Setter Property="Stroke" Value="#FF9800" />
+      <Setter Property="StrokeDashArray" Value="5 5" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+  </Styles>
+</DirectedGraph>

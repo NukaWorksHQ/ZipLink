@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="AC001" Category="AcceptanceCriteria" Bounds="710.825833333333,895.854492869167,138.06,25.96" Label="AC: URL valide requise" />
+    <Node Id="AC002" Category="AcceptanceCriteria" Bounds="1148.5275,1067.85449286917,142.5,25.96" Label="AC: Lien unique généré" />
+    <Node Id="AC003" Category="AcceptanceCriteria" Bounds="1322.715,831.854492869167,138.813333333334,25.96" Label="AC: Redirection 200ms" />
+    <Node Id="AC004" Category="AcceptanceCriteria" Bounds="704.530833333333,459.854492869167,150.65,25.96" Label="AC: Authentification JWT" />
+    <Node Id="AC005" Category="AcceptanceCriteria" Bounds="490.8625,395.854492869167,127.223333333333,25.96" Label="AC: RGPD compliant" />
+    <Node Id="ActorAdmin" Category="Actor" Bounds="241.029166666667,37.8544928691665,98.4933333333338,25.9599999999998" Label="Administrateur" />
+    <Node Id="ActorAnonymous" Category="Actor" Bounds="253.5075,875.874492869167,73.5366666666666,41.92" Label="Utilisateur&#xD;&#xA;Anonyme" />
+    <Node Id="ActorRegistered" Category="Actor" Bounds="517.705833333333,253.874492869167,73.5366666666669,41.92" Label="Utilisateur&#xD;&#xA;Connecté" />
+    <Node Id="SS001" Category="SecurityStory" Bounds="502.994166666667,1058.20449286917,102.96,39.2600000000002" Label="SS001: Validation&#xD;&#xA;d'entrées (XSS)" />
+    <Node Id="SS002" Category="SecurityStory" Bounds="226.649166666667,536.204492869167,127.253333333333,39.26" Label="SS002: Protection SQL&#xD;&#xA;Injection" />
+    <Node Id="SS004" Category="SecurityStory" Bounds="513.9425,31.2044928691664,81.0633333333335,39.26" Label="SS004: Audit&#xD;&#xA;Trail" />
+    <Node Id="Sprint1" Category="Sprint" Bounds="22.1833333333334,927.874492869167,100.08,41.9200000000001" Label="Sprint 1&#xD;&#xA;(Core Features)" />
+    <Node Id="Sprint2" Category="Sprint" Bounds="19.6683333333335,239.874492869167,105.11,41.92" Label="Sprint 2&#xD;&#xA;(Authentication)" />
+    <Node Id="Sprint3" Category="Sprint" Bounds="505.5575,100.874492869167,97.8333333333339,41.9200000000001" Label="Sprint 3&#xD;&#xA;(Management)" />
+    <Node Id="Sprint4" Category="Sprint" Bounds="23.1683333333335,636.874492869167,98.1099999999999,41.92" Label="Sprint 4&#xD;&#xA;(Security Tests)" />
+    <Node Id="TEST001" Category="TestStory" Bounds="218.0975,707.874492869167,144.356666666667,41.9200000000001" Label="TEST001: Tests unitaires&#xD;&#xA;xUnit" />
+    <Node Id="TEST002" Category="TestStory" Bounds="953.874166666666,739.874492869166,95.96,41.9200000000001" Label="TEST002: Tests&#xD;&#xA;d'intégration" />
+    <Node Id="TEST003" Category="TestStory" Bounds="945.559166666666,667.874492869166,112.59,41.9200000000001" Label="TEST003: Tests de&#xD;&#xA;performance" />
+    <Node Id="TS001" Category="TechnicalStory" Bounds="229.775833333334,980.204492869167,121,39.26" Label="TS001: Architecture&#xD;&#xA;Blazor WebAssembly" />
+    <Node Id="TS002" Category="TechnicalStory" Bounds="953.090833333333,844.204492869167,97.5266666666666,39.26" Label="TS002: API REST&#xD;&#xA;ASP.NET Core" />
+    <Node Id="TS003" Category="TechnicalStory" Bounds="486.119166666667,326.204492869167,136.71,39.26" Label="TS003: Base de données&#xD;&#xA;SQL Server" />
+    <Node Id="TS004" Category="TechnicalStory" Bounds="245.844166666667,638.204492869167,88.8633333333332,39.26" Label="TS004: Docker&#xD;&#xA;Setup" />
+    <Node Id="US001" Category="EpicStory" Bounds="176.134166666667,1050.21449286917,228.283333333333,47.2399999999998" Label="US001: Raccourcissement de liens&#xD;&#xA;(Fonctionnalité principale)" />
+    <Node Id="US001_1" Category="SubStory" Bounds="480.310833333333,907.874492869167,148.326666666667,41.92" Label="US001.1: Raccourcir URL&#xD;&#xA;(Utilisateur anonyme)" />
+    <Node Id="US001_2" Category="SubStory" Bounds="706.955833333333,1043.87449286917,145.8,41.9200000000001" Label="US001.2: Validation URL&#xD;&#xA;(Sécurité)" />
+    <Node Id="US001_3" Category="SubStory" Bounds="930.590833333333,1059.87449286917,142.526666666667,41.9200000000001" Label="US001.3: Génération ID&#xD;&#xA;sécurisé" />
+    <Node Id="US001_4" Category="SubStory" Bounds="1155.35416666667,823.874492869166,128.846666666667,41.9200000000001" Label="US001.4: Redirection&#xD;&#xA;vers URL cible" />
+    <Node Id="US002" Category="UserStory" Bounds="0,399.874492869167,144.446666666667,41.92" Label="US002: Authentification&#xD;&#xA;utilisateur" />
+    <Node Id="US002_1" Category="SubStory" Bounds="228.010833333334,255.874492869167,124.53,41.9200000000001" Label="US002.1: Inscription&#xD;&#xA;utilisateur" />
+    <Node Id="US002_2" Category="SubStory" Bounds="491.7075,451.874492869167,125.533333333333,41.92" Label="US002.2: Connexion&#xD;&#xA;sécurisée" />
+    <Node Id="US002_3" Category="SubStory" Bounds="229.154166666667,327.874492869167,122.243333333333,41.9200000000001" Label="US002.3: Reset mot&#xD;&#xA;de passe" />
+    <Node Id="US002_4" Category="SubStory" Bounds="227.549166666667,399.874492869167,125.453333333333,41.9200000000001" Label="US002.4: JWT Token&#xD;&#xA;management" />
+    <Node Id="US003" Category="UserStory" Bounds="479.8275,172.874492869167,149.293333333333,41.92" Label="US003: Gestion des liens&#xD;&#xA;personnels" />
+    <Node Id="US003_1" Category="SubStory" Bounds="708.875833333333,292.874492869166,141.96,41.9200000000001" Label="US003.1: Liste des liens&#xD;&#xA;utilisateur" />
+    <Node Id="US003_2" Category="SubStory" Bounds="715.980833333333,196.874492869166,127.75,41.9200000000001" Label="US003.2: édition des&#xD;&#xA;liens" />
+    <Node Id="US003_3" Category="SubStory" Bounds="713.0475,4.87449286916649,133.616666666667,41.9200000000001" Label="US003.3: Suppression&#xD;&#xA;des liens" />
+    <Node Id="US003_4" Category="SubStory" Bounds="715.150833333333,76.8744928691666,129.41,41.9200000000001" Label="US003.4: Statistiques&#xD;&#xA;de clics" />
+  </Nodes>
+  <Links>
+    <Link Source="ActorAdmin" Target="SS004" Category="Manages" Bounds="339.522491455078,50.8344917297363,165.420013427734,0" />
+    <Link Source="ActorAnonymous" Target="US001_1" Category="Performs" Bounds="327.044158935547,896.83447265625,145.636688232422,9.74591064453125" />
+    <Link Source="ActorRegistered" Target="US003_1" Category="Performs" Bounds="591.242492675781,287.597686767578,108.6484375,25.3964233398438" />
+    <Link Source="ActorRegistered" Target="US003_2" Category="Performs" Bounds="591.242492675781,243.228973388672,143.764343261719,35.4505920410156" />
+    <Link Source="SS001" Target="US001_2" Category="Secures" Bounds="605.954162597656,1065.16271972656,92.0037231445313,6.715087890625" />
+    <Link Source="SS002" Target="US002_2" Category="Secures" Bounds="352.043151855469,495.103118896484,131.547454833984,41.3266906738281" />
+    <Link Source="SS004" Target="US003_3" Category="Secures" Bounds="592.898620605469,4.08168363571167,111.348266601563,27.2587265968323" />
+    <Link Source="Sprint1" Target="TS001" Category="PlannedFor" Bounds="122.259201049805,966.951965332031,98.6128692626953,22.7266235351563" />
+    <Link Source="Sprint1" Target="TS002" Category="PlannedFor" Bounds="89.9722366333008,844.83447265625,854.244682312012,83.0400390625" />
+    <Link Source="Sprint1" Target="US001_1" Category="PlannedFor" Bounds="122.263336181641,933.053405761719,349.059051513672,15.7431030273438" />
+    <Link Source="Sprint1" Target="US001_2" Category="PlannedFor" Bounds="80.9303436279297,969.794494628906,641.437026977539,191.039978027344" />
+    <Link Source="Sprint1" Target="US001_3" Category="PlannedFor" Bounds="79.7884368896484,969.794494628906,895.397048950195,223.039978027344" />
+    <Link Source="Sprint1" Target="US001_4" Category="PlannedFor" Bounds="85.796028137207,812.83447265625,1060.67211151123,115.0400390625" />
+    <Link Source="Sprint2" Target="TS003" Category="PlannedFor" Bounds="99.3687133789063,213.393203735352,433.910217285156,105.860427856445" />
+    <Link Source="Sprint2" Target="US002_1" Category="PlannedFor" Bounds="124.778335571289,260.906127929688,94.2984008789063,7.17697143554688" />
+    <Link Source="Sprint2" Target="US002_2" Category="PlannedFor" Bounds="123.375717163086,233.305084228516,391.027603149414,213.692260742188" />
+    <Link Source="Sprint2" Target="US002_3" Category="PlannedFor" Bounds="101.065299987793,281.794494628906,119.244834899902,54.08642578125" />
+    <Link Source="Sprint2" Target="US002_4" Category="PlannedFor" Bounds="86.6443176269531,281.794494628906,132.197463989258,121.321594238281" />
+    <Link Source="Sprint3" Target="US003_1" Category="PlannedFor" Bounds="591.269348144531,142.794494628906,164.12060546875,143.333770751953" />
+    <Link Source="Sprint3" Target="US003_2" Category="PlannedFor" Bounds="603.390808105469,121.834495544434,144.927124023438,69.2138290405273" />
+    <Link Source="Sprint3" Target="US003_3" Category="PlannedFor" Bounds="579.004272460938,27.226469039917,125.098266601563,73.6480274200439" />
+    <Link Source="Sprint3" Target="US003_4" Category="PlannedFor" Bounds="603.390808105469,93.0344924926758,102.764343261719,14.8675537109375" />
+    <Link Source="Sprint4" Target="SS001" Category="PlannedFor" Bounds="76.2397232055664,678.794494628906,426.794883728027,450.039978027344" />
+    <Link Source="Sprint4" Target="SS002" Category="PlannedFor" Bounds="94.7341384887695,567.106628417969,123.037940979004,69.7678833007813" />
+    <Link Source="Sprint4" Target="SS004" Category="PlannedFor" Bounds="84.2879486083984,76.1312026977539,433.598770141602,560.743309020996" />
+    <Link Source="Sprint4" Target="TEST001" Category="PlannedFor" Bounds="121.278335571289,675.646057128906,90.6881561279297,29.6627197265625" />
+    <Link Source="Sprint4" Target="TEST002" Category="PlannedFor" Bounds="87.2305374145508,678.794494628906,857.646171569824,93.4385986328125" />
+    <Link Source="Sprint4" Target="TEST003" Category="PlannedFor" Bounds="108.417175292969,606.83447265625,858.392272949219,55.6284790039063" />
+    <Link Source="Sprint4" Target="TS004" Category="PlannedFor" Bounds="121.278335571289,657.83447265625,115.565826416016,0" />
+    <Link Source="TEST001" Target="US001_1" Category="Tests" Bounds="351.481719970703,749.794494628906,174.526031494141,151.865478515625" />
+    <Link Source="TEST001" Target="US002_2" Category="Tests" Bounds="325.639221191406,501.247833251953,209.604309082031,206.626678466797" />
+    <Link Source="TEST002" Target="US001_4" Category="Tests" Bounds="1049.83410644531,769.640747070313,126.500366210938,49.6754150390625" />
+    <Link Source="TEST003" Target="US001_4" Category="Tests" Bounds="1039.92041015625,709.794494628906,149.315795898438,108.130187988281" />
+    <Link Source="TS001" Target="US001_1" Category="Supports" Bounds="350.775848388672,951.869445800781,122.478759765625,32.4263305664063" />
+    <Link Source="TS002" Target="US001_4" Category="Supports" Bounds="1050.61755371094,851.233032226563,95.7706298828125,8.3499755859375" />
+    <Link Source="TS003" Target="US003_1" Category="Supports" Bounds="622.829162597656,335.611450195313,77.8444213867188,10.03515625" />
+    <Link Source="US001" Target="US001_1" Category="Contains" Bounds="334.555084228516,954.249206542969,175.3037109375,95.9652709960938" />
+    <Link Source="US001" Target="US001_2" Category="Contains" Bounds="404.417510986328,1037.34033203125,303.532867431641,22.247314453125" />
+    <Link Source="US001" Target="US001_3" Category="Contains" Bounds="404.417510986328,1090.65295410156,517.376617431641,28.58154296875" />
+    <Link Source="US001" Target="US001_4" Category="Contains" Bounds="363.472137451172,870.897338867188,818.440704345703,179.317138671875" />
+    <Link Source="US001_1" Target="AC001" Category="MustSatisfy" Bounds="628.637512207031,909.197143554688,73.1915283203125,6.6929931640625" />
+    <Link Source="US001_1" Target="US001_2" Category="DependsOn" Bounds="628.622375488281,947.095520019531,120.730651855469,90.8242797851563" Label="Requires" LabelBounds="644.120833333333,939.834492869167,45.4099999999999,15.96" />
+    <Link Source="US001_2" Target="US001_3" Category="DependsOn" Bounds="852.755859375,1070.08862304688,68.8582763671875,4.9627685546875" Label="Requires" LabelBounds="870.180833333333,1072.98086033439,45.4099999999999,15.96" />
+    <Link Source="US001_3" Target="AC002" Category="MustSatisfy" Bounds="1073.11755371094,1080.83447265625,66.409912109375,0" />
+    <Link Source="US001_3" Target="US001_4" Category="DependsOn" Bounds="1050.44946289063,873.591674804688,152.750122070313,186.282836914063" Label="Requires" LabelBounds="1088.1175,1033.83449286917,45.4099999999999,15.96" />
+    <Link Source="US001_4" Target="AC003" Category="MustSatisfy" Bounds="1284.20080566406,844.83447265625,29.51416015625,0" />
+    <Link Source="US002" Target="US002_1" Category="Contains" Bounds="86.6443176269531,285.730926513672,132.451263427734,114.1435546875" />
+    <Link Source="US002" Target="US002_2" Category="Contains" Bounds="107.721145629883,441.794494628906,374.986343383789,31.0400085449219" />
+    <Link Source="US002" Target="US002_3" Category="Contains" Bounds="101.065299987793,353.194763183594,119.108787536621,46.6797180175781" />
+    <Link Source="US002" Target="US002_4" Category="Contains" Bounds="144.446670532227,420.834503173828,74.1024932861328,0" />
+    <Link Source="US002_1" Target="AC005" Category="MustSatisfy" Bounds="338.360229492188,297.794494628906,186.1884765625,93.5111694335938" />
+    <Link Source="US002_1" Target="US002_2" Category="DependsOn" Bounds="318.528869628906,297.794494628906,200.464111328125,148.717681884766" Label="Requires" LabelBounds="419.4175,373.524509586406,45.4099999999999,15.96" />
+    <Link Source="US002_2" Target="AC004" Category="MustSatisfy" Bounds="617.240844726563,472.834503173828,78.2899780273438,0" />
+    <Link Source="US002_2" Target="US003_1" Category="DependsOn" Bounds="583.895568847656,339.948608398438,158.578308105469,111.925872802734" Label="Enables" LabelBounds="646.6775,376.834492869167,40.2966666666666,15.96" />
+    <Link Source="US003" Target="US003_1" Category="Contains" Bounds="596.525817871094,214.794494628906,138.481018066406,73.6455383300781" />
+    <Link Source="US003" Target="US003_2" Category="Contains" Bounds="629.120849609375,209.454162597656,77.8622436523438,8.1287841796875" />
+    <Link Source="US003" Target="US003_3" Category="Contains" Bounds="579.062561035156,52.0100440979004,163.982177734375,120.864452362061" />
+    <Link Source="US003" Target="US003_4" Category="Contains" Bounds="613.333801269531,122.789993286133,116.152038574219,50.0845031738281" />
+  </Links>
+  <Categories>
+    <Category Id="AcceptanceCriteria" Label="Crit�re d'Acceptation" Background="#FFE8F5E8" />
+    <Category Id="Actor" Label="Acteur" Background="#FFFFF3E0" />
+    <Category Id="Contains" Label="Contient" Description="Si la source de la liaison contient ou non l'objet cible" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contenu par" IsContainment="True" OutgoingActionLabel="Contient" />
+    <Category Id="DependsOn" Label="D�pend de" />
+    <Category Id="EpicStory" Label="Epic" Background="#FFE3F2FD" />
+    <Category Id="Manages" Label="G�re" />
+    <Category Id="MustSatisfy" Label="Doit satisfaire" />
+    <Category Id="Performs" Label="Ex�cute" />
+    <Category Id="PlannedFor" Label="Planifi� pour" />
+    <Category Id="Secures" Label="S�curise" />
+    <Category Id="SecurityStory" Label="Story S�curit�" Background="#FFFFE0B2" />
+    <Category Id="Sprint" Label="Sprint" Background="#FFF8BBD9" />
+    <Category Id="SubStory" Label="Sous-Story" Background="#FFFFFFFF" />
+    <Category Id="Supports" Label="Supporte" />
+    <Category Id="TechnicalStory" Label="Story Technique" Background="#FFEFF7F3" />
+    <Category Id="TestStory" Label="Story Test" Background="#FFF3E5F5" />
+    <Category Id="Tests" Label="Teste" />
+    <Category Id="UserStory" Label="User Story" Background="#FFFCE4EC" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Arrière-plan" Description="Couleur d'arrière-plan" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Étiquette" Description="Étiquette affichable d'un objet pouvant être annoté" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Epic" ValueLabel="True">
+      <Condition Expression="HasCategory('EpicStory')" />
+      <Setter Property="Background" Value="#E3F2FD" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="User Story" ValueLabel="True">
+      <Condition Expression="HasCategory('UserStory')" />
+      <Setter Property="Background" Value="#FCE4EC" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Story S�curit�" ValueLabel="True">
+      <Condition Expression="HasCategory('SecurityStory')" />
+      <Setter Property="Background" Value="#FFE0B2" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Story Technique" ValueLabel="True">
+      <Condition Expression="HasCategory('TechnicalStory')" />
+      <Setter Property="Background" Value="#EFF7F3" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Sprint" ValueLabel="True">
+      <Condition Expression="HasCategory('Sprint')" />
+      <Setter Property="Background" Value="#F8BBD9" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Acteur" ValueLabel="True">
+      <Condition Expression="HasCategory('Actor')" />
+      <Setter Property="Background" Value="#FFF3E0" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="D�pend de" ValueLabel="True">
+      <Condition Expression="HasCategory('DependsOn')" />
+      <Setter Property="Stroke" Value="#4CAF50" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="S�curise" ValueLabel="True">
+      <Condition Expression="HasCategory('Secures')" />
+      <Setter Property="Stroke" Value="#FF9800" />
+      <Setter Property="StrokeDashArray" Value="5 5" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Planifi� pour" ValueLabel="True">
+      <Condition Expression="HasCategory('PlannedFor')" />
+      <Setter Property="Stroke" Value="#9C27B0" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+  </Styles>
+</DirectedGraph>

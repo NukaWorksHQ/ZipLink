@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph ZoomLevel="1.0" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="AccountComponent" Category="BlazorComponent" Bounds="372.186666666667,10.6399999999999,129.593333333333,25.96" Label="Account Component" />
+    <Node Id="ApiEndpoints" Category="HttpComponent" Bounds="241.525,282.36,93.8066666666667,25.96" Label="API Endpoints" />
+    <Node Id="AppDbContext" Category="DataContext" Bounds="890.981666666667,495.46,98.48,25.96" Label="AppDbContext" />
+    <Node Id="AppInsights" Category="LoggingComponent" Bounds="783.873333333333,159.8,124.39,25.96" Label="Application Insights" />
+    <Node Id="AuditLogEntity" Category="Entity" Bounds="1009.56666666667,559.4,101.31,25.96" Label="AuditLog Entity" />
+    <Node Id="AuditLogger" Category="SecurityComponent" Bounds="766.163333333333,495.46,89.12,25.96" Label="Audit Logger" />
+    <Node Id="AuthController" Category="Controller" Bounds="236.971666666667,348.96,98.17,25.96" Label="AuthController" />
+    <Node Id="AuthDto" Category="DTO" Bounds="147.773333333333,423.54,64.8966666666666,25.96" Label="AuthDto" />
+    <Node Id="AuthMiddleware" Category="Middleware" Bounds="243.286666666667,415.56,97.87,41.9200000000001" Label="Authentication&#xD;&#xA;Middleware" />
+    <Node Id="AuthService" Category="SecurityComponent" Bounds="456.783333333333,495.46,115.22,41.92" Label="AuthService&#xD;&#xA;(Authentication)" />
+    <Node Id="BlazorAccountService" Category="Implementation" Bounds="107.658333333333,151.82,100.8,41.92" Label="AccountService&#xD;&#xA;(Blazor)" />
+    <Node Id="BlazorLinkService" Category="Implementation" Bounds="245.143333333333,151.82,78.6066666666667,41.92" Label="LinkService&#xD;&#xA;(Blazor)" />
+    <Node Id="DIContainer" Category="Implementation" Bounds="699.666666666667,85.2199999999998,80.3966666666667,25.96" Label="DI Injection" />
+    <Node Id="DTOValidator" Category="Validator" Bounds="539.785,348.96,92.8733333333334,25.96" Label="DTO Validator" />
+    <Node Id="DotNetLogger" Category="LoggingComponent" Bounds="775.738333333333,282.36,110.383333333333,25.96" Label=".NET ILogger&lt;T&gt;" />
+    <Node Id="GenericService" Category="Implementation" Bounds="865.606666666667,348.96,141.076666666667,25.96" Label="GenericService&lt;T,C,U&gt;" />
+    <Node Id="GenericServicePattern" Category="DesignPattern" Bounds="538.563333333333,0,162.146666666667,47.24" Label="Generic Service Pattern&#xD;&#xA;(Direct DB Access)" />
+    <Node Id="HomeComponent" Category="BlazorComponent" Bounds="742.42,10.6399999999999,118.253333333333,25.96" Label="Home Component" />
+    <Node Id="HttpClient" Category="HttpComponent" Bounds="251.87,226.4,74.0833333333333,25.96" Label="HttpClient" />
+    <Node Id="IAccountService" Category="Interface" Bounds="385.94,77.2399999999999,100.913333333333,41.92" Label="IAccountService&#xD;&#xA;(Web)" />
+    <Node Id="IAuthStrategy" Category="Interface" Bounds="13.0916666666667,423.54,95.8633333333333,25.96" Label="IAuthValidator" />
+    <Node Id="IGenericService" Category="Interface" Bounds="923.003333333333,282.36,142.32,25.96" Label="IGenericService&lt;T,C,U&gt;" />
+    <Node Id="ILinkService" Category="Interface" Bounds="581.641666666667,77.2399999999998,80.4066666666667,41.92" Label="ILinkService&#xD;&#xA;(Web)" />
+    <Node Id="InputValidator" Category="SecurityComponent" Bounds="403.85,423.54,98.1166666666667,25.96" Label="Input Validator" />
+    <Node Id="JWTAuthStrategy" Category="Implementation" Bounds="638.47,226.4,70.68,25.96" Label="JWT Auth" />
+    <Node Id="JWTTokenService" Category="SecurityComponent" Bounds="309.496666666667,495.46,117.053333333333,25.96" Label="JWT Token Service" />
+    <Node Id="LinkCreateDto" Category="DTO" Bounds="538.646666666667,423.54,95.1500000000001,25.96" Label="LinkCreateDto" />
+    <Node Id="LinkEntity" Category="Entity" Bounds="797.07,559.4,74.3033333333333,25.96" Label="Link Entity" />
+    <Node Id="LinksComponent" Category="BlazorComponent" Bounds="896.031666666667,10.6399999999999,112.493333333333,25.96" Label="Links Component" />
+    <Node Id="LinksController" Category="Controller" Bounds="403.37,348.96,99.1866666666667,25.96" Label="LinksController" />
+    <Node Id="LoggingConfig" Category="LoggingComponent" Bounds="776.005,226.4,139.706666666667,25.96" Label="Logging Configuration" />
+    <Node Id="PasswordHasher" Category="SecurityComponent" Bounds="1020.30666666667,487.48,109.793333333333,41.92" Label="Password Hasher&#xD;&#xA;(BCrypt)" />
+    <Node Id="ProxyPattern" Category="DesignPattern" Bounds="360.216666666667,149.16,133.31,47.24" Label="Proxy Pattern&#xD;&#xA;(Blazor HttpClient)" />
+    <Node Id="ServerLinkService" Category="Implementation" Bounds="792.143333333333,415.56,78.6066666666667,41.92" Label="LinkService&#xD;&#xA;(Server)" />
+    <Node Id="ServerUserService" Category="Implementation" Bounds="1003.28666666667,415.56,81.0833333333333,41.92" Label="UserService&#xD;&#xA;(Server)" />
+    <Node Id="ServiceRegistration" Category="Implementation" Bounds="1044.88,10.6399999999999,123.893333333333,25.96" Label="Service Registration" />
+    <Node Id="StrategyPattern" Category="DesignPattern" Bounds="0,338.32,121.53,47.24" Label="Strategy Pattern&#xD;&#xA;(Auth strategies)" />
+    <Node Id="UserCreateDto" Category="DTO" Bounds="664.408333333334,423.54,97.6266666666666,25.96" Label="UserCreateDto" />
+    <Node Id="UserEntity" Category="Entity" Bounds="901.831666666667,559.4,76.78,25.96" Label="User Entity" />
+    <Node Id="UsersController" Category="Controller" Bounds="663.478333333333,348.96,101.663333333333,25.96" Label="UsersController" />
+  </Nodes>
+  <Links>
+    <Link Source="AccountComponent" Target="IAccountService" Category="Uses" Bounds="436.632338026044,36.5999999999999,0.248891079168061,31.6402784392322" />
+    <Link Source="ApiEndpoints" Target="AuthController" Category="RoutesTo" Bounds="286.839185455462,308.32005,1.12692180512903,31.645651107032" />
+    <Link Source="ApiEndpoints" Target="LinksController" Category="RoutesTo" Bounds="320.495388939231,308.32005,92.0584106727026,37.2631084442912" />
+    <Link Source="ApiEndpoints" Target="UsersController" Category="RoutesTo" Bounds="335.331665039063,301.91845703125,319.273986816406,49.8701171875" />
+    <Link Source="AppDbContext" Target="AuditLogEntity" Category="Contains" Bounds="964.581981653361,521.420017700195,63.3365737551012,33.7478873822387" />
+    <Link Source="AppDbContext" Target="LinkEntity" Category="Contains" Bounds="863.44648105643,521.420017700195,55.2569061831184,33.3313920698738" />
+    <Link Source="AppDbContext" Target="UserEntity" Category="Contains" Bounds="940.2216796875,521.420017700195,0,28.9800177001953" />
+    <Link Source="AppInsights" Target="LoggingConfig" Category="ExtendsWith" Bounds="845.927639498567,185.76,0.0997659068389112,31.6400447403531" />
+    <Link Source="AuthController" Target="AuthDto" Category="Receives" Bounds="205.998201956953,374.92,61.638811032713,43.4357660157096" />
+    <Link Source="AuthController" Target="AuthMiddleware" Category="SecuredBy" Bounds="287.129632145303,374.92,2.61798590849003,31.6705968354173" />
+    <Link Source="AuthController" Target="AuthService" Category="Uses" Bounds="335.141666666667,369.472931703729,136.311233520508,120.274734507896" />
+    <Link Source="AuthController" Target="IAuthStrategy" Category="Uses" Bounds="108.731473664522,374.92,138.160099590149,45.7886841687158" />
+    <Link Source="AuthMiddleware" Target="JWTTokenService" Category="Uses" Bounds="314.312925043545,457.480004272461,33.5009193293901,31.7853980309237" />
+    <Link Source="AuthService" Target="AppDbContext" Category="DirectAccess" Bounds="572.003333333333,520.4,309.978333333334,28.04" />
+    <Link Source="AuthService" Target="JWTTokenService" Category="Uses" Bounds="414.023344039917,515.38,42.7599893334156,3.90062558848969" />
+    <Link Source="AuthService" Target="PasswordHasher" Category="Uses" Bounds="571.003333333333,519.628929138184,440.303333333334,12.0432240386844" />
+    <Link Source="AuthService" Target="ServerUserService" Category="Uses" Bounds="571.003333333333,513.8,423.283333333334,29.76" />
+    <Link Source="BlazorAccountService" Target="HttpClient" Category="Uses" Bounds="199.239833719845,193.74,56.1482953845096,28.5775957702789" />
+    <Link Source="BlazorAccountService" Target="IAuthStrategy" Category="Uses" Bounds="101.501358032227,193.740005493164,53.2044067382813,226.429122924805" />
+    <Link Source="BlazorLinkService" Target="HttpClient" Category="Uses" Bounds="285.851868922824,193.74,1.58756398547695,23.6801079629468" />
+    <Link Source="BlazorLinkService" Target="IAuthStrategy" Category="Uses" Bounds="91.8215179443359,193.740005493164,178.34992980957,225.371292114258" />
+    <Link Source="DIContainer" Target="AuthService" Category="Resolves" Bounds="532.963378906249,111.180000305176,189.753662109375,376.360693359375" />
+    <Link Source="DIContainer" Target="BlazorAccountService" Category="Resolves" Bounds="206.719223022461,111.180000305176,504.89241027832,36.9631423950195" />
+    <Link Source="DIContainer" Target="BlazorLinkService" Category="Resolves" Bounds="332.663055419922,111.180000305176,378.948577880859,54.8483200073242" />
+    <Link Source="DIContainer" Target="JWTAuthStrategy" Category="Resolves" Bounds="683.697130233048,111.18,50.0948148016599,107.068139485253" />
+    <Link Source="DIContainer" Target="ServerLinkService" Category="Resolves" Bounds="741.810668945313,111.180000305176,73.3450927734375,296.546867370605" />
+    <Link Source="DIContainer" Target="ServerUserService" Category="Resolves" Bounds="741.919555664063,111.180000305176,274.865661621094,297.978141784668" />
+    <Link Source="DTOValidator" Target="LinkCreateDto" Category="Validates" Bounds="586.22165448124,374.920002441406,1.62122108804397E-05,39.6200170898445" />
+    <Link Source="DTOValidator" Target="UserCreateDto" Category="Validates" Bounds="608.324888942771,374.920002441406,75.03275333125,44.0625513838004" />
+    <Link Source="DotNetLogger" Target="GenericService" Category="InjectsInto" Bounds="851.435866366366,308.32,56.5987142330276,35.8263970718971" />
+    <Link Source="DotNetLogger" Target="ServerLinkService" Category="InjectsInto" Bounds="830.977502006894,308.32,0.359522343614685,98.2400602674316" />
+    <Link Source="DotNetLogger" Target="ServerUserService" Category="InjectsInto" Bounds="836.364562988281,308.320007324219,158.186462402344,115.985382080078" />
+    <Link Source="GenericService" Target="AppDbContext" Category="DirectAccess" Bounds="936.506196559389,374.92,3.10393902272983,111.543500256972" />
+    <Link Source="GenericService" Target="ServerLinkService" Category="InheritsFrom" Bounds="868.201505798722,374.92,49.7216603763026,35.4183425160984" />
+    <Link Source="GenericService" Target="ServerUserService" Category="InheritsFrom" Bounds="954.886369263248,374.92,51.2797833835865,35.5156327677852" />
+    <Link Source="GenericServicePattern" Target="IAccountService" Category="Defines" Bounds="494.239877015437,47.2399499999999,67.3634576810848,27.4174309213501" />
+    <Link Source="GenericServicePattern" Target="IGenericService" Category="Defines" Bounds="682.64404296875,47.2399482727051,300.730285644531,227.116039276123" />
+    <Link Source="GenericServicePattern" Target="ILinkService" Category="Defines" Bounds="620.336060115232,47.2399499999999,0.621934376099375,21.0040428511398" />
+    <Link Source="HomeComponent" Target="ILinkService" Category="Uses" Bounds="670.360872766632,36.5999999999999,99.9103035600123,41.4649211286535" />
+    <Link Source="HttpClient" Target="ApiEndpoints" Category="CallsTo" Bounds="288.61817403093,252.35995,0.181382995713136,21.000435679444" />
+    <Link Source="IAccountService" Target="BlazorAccountService" Category="ImplementedBy" Bounds="217.151669921092,111.719726711496,168.788330078909,45.2263743428022" />
+    <Link Source="IGenericService" Target="GenericService" Category="ImplementedBy" Bounds="953.364192086894,308.32,29.4916642694628,33.8538652784385" />
+    <Link Source="ILinkService" Target="BlazorLinkService" Category="ImplementedBy" Bounds="332.253814697266,106.500885009766,249.387847900391,49.6271514892578" />
+    <Link Source="JWTAuthStrategy" Target="JWTTokenService" Category="Uses" Bounds="373.720825195313,252.360000610352,283.923583984375,234.395431518555" />
+    <Link Source="LinksComponent" Target="ILinkService" Category="Uses" Bounds="670.827495984433,36.0338491239306,226.450209895345,51.1106667300676" />
+    <Link Source="LinksController" Target="InputValidator" Category="Uses" Bounds="452.924542771057,374.92,0.0292182908903555,39.6200024473323" />
+    <Link Source="LinksController" Target="LinkCreateDto" Category="Receives" Bounds="476.155782819785,374.92,79.0197715576101,44.224592810559" />
+    <Link Source="LinksController" Target="ServerLinkService" Category="Uses" Bounds="502.556666666667,371.712347879695,280.756466065596,55.3229571689782" />
+    <Link Source="LoggingConfig" Target="DotNetLogger" Category="Configures" Bounds="836.712433678871,252.36,5.68325192989755,21.3041048116822" />
+    <Link Source="ProxyPattern" Target="HttpClient" Category="Uses" Bounds="323.904384154925,196.4,54.0390896227081,26.0872765070882" />
+    <Link Source="ServerLinkService" Target="AppDbContext" Category="DirectAccess" Bounds="863.147496919806,457.48,49.9352526483326,33.0162613140204" />
+    <Link Source="ServerLinkService" Target="AuditLogger" Category="Uses" Bounds="816.955357953986,457.48,8.45180556103071,29.3318572920701" />
+    <Link Source="ServerUserService" Target="AppDbContext" Category="DirectAccess" Bounds="966.313703558137,457.47991180013,47.3200766215321,32.8479378694482" />
+    <Link Source="ServerUserService" Target="PasswordHasher" Category="Uses" Bounds="1052.97209147605,457.47991180013,9.4887849317397,21.7508959735207" />
+    <Link Source="ServiceRegistration" Target="DIContainer" Category="Configures" Bounds="788.883027344238,35.9731136769994,257.161671188417,52.2646346454865" />
+    <Link Source="StrategyPattern" Target="IAuthStrategy" Category="Defines" Bounds="60.8468159470814,385.56,0.100382327001668,28.9800539914191" />
+    <Link Source="UsersController" Target="ServerUserService" Category="Uses" Bounds="764.772789284106,373.361247297309,229.735897002655,51.9961446832452" />
+    <Link Source="UsersController" Target="UserCreateDto" Category="Receives" Bounds="713.542390684688,374.92,0.578191373841378,39.6209776867479" />
+  </Links>
+  <Categories>
+    <Category Id="BlazorComponent" Label="Composant Blazor" Background="#FFE8F5E8" />
+    <Category Id="CallsTo" Label="Appelle" />
+    <Category Id="Configures" Label="Configure" />
+    <Category Id="Contains" Label="Contient" Description="Si la source de la liaison contient ou non l'objet cible" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contenu par" IsContainment="True" OutgoingActionLabel="Contient" />
+    <Category Id="Controller" Label="Contrôleur" Background="#FFF3E5F5" />
+    <Category Id="DTO" Label="DTO" Background="#FFE0F2E1" />
+    <Category Id="DataContext" Label="Contexte de Données" Background="#FFF8BBD9" />
+    <Category Id="Defines" Label="Définit" />
+    <Category Id="DesignPattern" Label="Pattern de Conception" Background="#FFE3F2FD" />
+    <Category Id="DirectAccess" Label="Accès Direct" />
+    <Category Id="Entity" Label="Entité" Background="#FFFFE0E6" />
+    <Category Id="ExtendsWith" Label="Étend avec" />
+    <Category Id="HttpComponent" Label="Composant HTTP" Background="#FFE0F7FA" />
+    <Category Id="Implementation" Label="Implémentation" Background="#FFFFFFFF" />
+    <Category Id="ImplementedBy" Label="Implémenté par" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Implémente" OutgoingActionLabel="Implémenté par" />
+    <Category Id="InheritsFrom" Label="Hérite de" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Hérité par" OutgoingActionLabel="Hérite de" />
+    <Category Id="InjectsInto" Label="Injecte dans" />
+    <Category Id="Interface" Label="Interface" Background="#FFFCE4EC" />
+    <Category Id="LoggingComponent" Label="Composant Logging" Background="#FFECEFF1" />
+    <Category Id="Middleware" Label="Middleware" Background="#FFFFF3E0" />
+    <Category Id="Receives" Label="Reçoit" />
+    <Category Id="Resolves" Label="Résout" />
+    <Category Id="RoutesTo" Label="Route vers" />
+    <Category Id="SecuredBy" Label="Sécurisé par" />
+    <Category Id="SecurityComponent" Label="Composant Sécurité" Background="#FFFFE0B2" />
+    <Category Id="Uses" Label="Utilise" />
+    <Category Id="Validates" Label="Valide" />
+    <Category Id="Validator" Label="Validateur" Background="#FFFFFDE7" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Arrière-plan" Description="Couleur d'arrière-plan" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Étiquette" Description="Étiquette affichable d'un objet pouvant être annoté" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Pattern de Conception" ValueLabel="True">
+      <Condition Expression="HasCategory('DesignPattern')" />
+      <Setter Property="Background" Value="#E3F2FD" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Interface" ValueLabel="True">
+      <Condition Expression="HasCategory('Interface')" />
+      <Setter Property="Background" Value="#FCE4EC" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontStyle" Value="Italic" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Implémentation" ValueLabel="True">
+      <Condition Expression="HasCategory('Implementation')" />
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Contrôleur" ValueLabel="True">
+      <Condition Expression="HasCategory('Controller')" />
+      <Setter Property="Background" Value="#F3E5F5" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Composant Blazor" ValueLabel="True">
+      <Condition Expression="HasCategory('BlazorComponent')" />
+      <Setter Property="Background" Value="#E8F5E8" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Composant Sécurité" ValueLabel="True">
+      <Condition Expression="HasCategory('SecurityComponent')" />
+      <Setter Property="Background" Value="#FFE0B2" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Composant HTTP" ValueLabel="True">
+      <Condition Expression="HasCategory('HttpComponent')" />
+      <Setter Property="Background" Value="#E0F7FA" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Composant Logging" ValueLabel="True">
+      <Condition Expression="HasCategory('LoggingComponent')" />
+      <Setter Property="Background" Value="#ECEFF1" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Hérite de" ValueLabel="True">
+      <Condition Expression="HasCategory('InheritsFrom')" />
+      <Setter Property="Stroke" Value="#4CAF50" />
+      <Setter Property="StrokeThickness" Value="3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Accès Direct" ValueLabel="True">
+      <Condition Expression="HasCategory('DirectAccess')" />
+      <Setter Property="Stroke" Value="#FF5722" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Injecte dans" ValueLabel="True">
+      <Condition Expression="HasCategory('InjectsInto')" />
+      <Setter Property="Stroke" Value="#607D8B" />
+      <Setter Property="StrokeDashArray" Value="3 3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Appelle" ValueLabel="True">
+      <Condition Expression="HasCategory('CallsTo')" />
+      <Setter Property="Stroke" Value="#2196F3" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+  </Styles>
+</DirectedGraph>

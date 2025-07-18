@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph ZoomLevel="1.0" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <!-- Couche Présentation -->
+    <Node Id="BlazorWebAssembly" Category="PresentationLayer" Bounds="50,50,200,60" Label="Blazor WebAssembly&#xD;&#xA;(SPA Client)" />
+    <Node Id="Components" Category="Component" Bounds="70,120,80,40" Label="Components" />
+    <Node Id="Pages" Category="Component" Bounds="160,120,60,40" Label="Pages" />
+    <Node Id="Services" Category="Component" Bounds="230,120,70,40" Label="Client Services" />
+    
+    <!-- Couche CDN et Proxy -->
+    <Node Id="Cloudflare" Category="CDNLayer" Bounds="350,50,150,60" Label="Cloudflare CDN&#xD;&#xA;(SSL Auto-Managed)" />
+    <Node Id="CloudflareSSL" Category="CDNComponent" Bounds="350,120,70,40" Label="SSL/TLS" />
+    <Node Id="CloudflareDNS" Category="CDNComponent" Bounds="430,120,70,40" Label="DNS" />
+    
+    <!-- Couche API Gateway -->
+    <Node Id="ApiGateway" Category="ApiLayer" Bounds="50,220,200,60" Label="ASP.NET Core Web API&#xD;&#xA;(API Gateway)" />
+    <Node Id="Controllers" Category="Component" Bounds="70,290,80,40" Label="Controllers" />
+    <Node Id="Middlewares" Category="Component" Bounds="160,290,80,40" Label="Middlewares" />
+    <Node Id="IIS" Category="Infrastructure" Bounds="250,290,50,40" Label="IIS" />
+    
+    <!-- Couche Logique Métier (Services Directs) -->
+    <Node Id="BusinessLogic" Category="BusinessLayer" Bounds="50,390,200,60" Label="Generic Services Layer&#xD;&#xA;(Direct DB Access)" />
+    <Node Id="GenericServices" Category="Component" Bounds="70,460,100,40" Label="GenericService&lt;T&gt;" />
+    <Node Id="LinkService" Category="Component" Bounds="180,460,80,40" Label="LinkService" />
+    <Node Id="UserService" Category="Component" Bounds="270,460,80,40" Label="UserService" />
+    <Node Id="AuthService" Category="Component" Bounds="360,460,80,40" Label="AuthService" />
+    
+    <!-- Couche Accès aux Données (Direct) -->
+    <Node Id="DataAccess" Category="DataLayer" Bounds="50,560,200,60" Label="Entity Framework Core&#xD;&#xA;(Direct Access)" />
+    <Node Id="DbContext" Category="Component" Bounds="70,630,80,40" Label="AppDbContext" />
+    <Node Id="DbSets" Category="Component" Bounds="160,630,80,40" Label="DbSets&lt;T&gt;" />
+    
+    <!-- Couche Base de Données -->
+    <Node Id="Database" Category="DatabaseLayer" Bounds="50,730,200,60" Label="Microsoft SQL Server&#xD;&#xA;(Base de Données)" />
+    <Node Id="Tables" Category="Component" Bounds="70,800,60,40" Label="Tables" />
+    <Node Id="Indexes" Category="Component" Bounds="140,800,60,40" Label="Index" />
+    <Node Id="Constraints" Category="Component" Bounds="210,800,80,40" Label="Contraintes" />
+    
+    <!-- Composants transversaux -->
+    <Node Id="Security" Category="CrossCutting" Bounds="370,220,100,40" Label="Sécurité&#xD;&#xA;(JWT, HTTPS)" />
+    <Node Id="Logging" Category="CrossCutting" Bounds="370,280,100,40" Label="Logging&#xD;&#xA;(.NET Logging)" />
+    <Node Id="Monitoring" Category="CrossCutting" Bounds="370,340,100,40" Label="Monitoring&#xD;&#xA;(Health Checks)" />
+  </Nodes>
+  
+  <Links>
+    <!-- Liens hiérarchiques -->
+    <Link Source="BlazorWebAssembly" Target="Components" Category="Contains" />
+    <Link Source="BlazorWebAssembly" Target="Pages" Category="Contains" />
+    <Link Source="BlazorWebAssembly" Target="Services" Category="Contains" />
+    
+    <Link Source="Cloudflare" Target="CloudflareSSL" Category="Contains" />
+    <Link Source="Cloudflare" Target="CloudflareDNS" Category="Contains" />
+    
+    <Link Source="ApiGateway" Target="Controllers" Category="Contains" />
+    <Link Source="ApiGateway" Target="Middlewares" Category="Contains" />
+    <Link Source="ApiGateway" Target="IIS" Category="Contains" />
+    
+    <Link Source="BusinessLogic" Target="GenericServices" Category="Contains" />
+    <Link Source="BusinessLogic" Target="LinkService" Category="Contains" />
+    <Link Source="BusinessLogic" Target="UserService" Category="Contains" />
+    <Link Source="BusinessLogic" Target="AuthService" Category="Contains" />
+    
+    <Link Source="DataAccess" Target="DbContext" Category="Contains" />
+    <Link Source="DataAccess" Target="DbSets" Category="Contains" />
+    
+    <Link Source="Database" Target="Tables" Category="Contains" />
+    <Link Source="Database" Target="Indexes" Category="Contains" />
+    <Link Source="Database" Target="Constraints" Category="Contains" />
+    
+    <!-- Flux de données avec Cloudflare -->
+    <Link Source="BlazorWebAssembly" Target="Cloudflare" Category="DataFlow" Label="HTTPS" />
+    <Link Source="Cloudflare" Target="ApiGateway" Category="DataFlow" Label="HTTPS/SSL" />
+    <Link Source="ApiGateway" Target="BusinessLogic" Category="DataFlow" />
+    <Link Source="BusinessLogic" Target="DataAccess" Category="DataFlow" Label="Direct Access" />
+    <Link Source="DataAccess" Target="Database" Category="DataFlow" />
+    
+    <!-- Services héritent de GenericService -->
+    <Link Source="GenericServices" Target="LinkService" Category="Inherits" />
+    <Link Source="GenericServices" Target="UserService" Category="Inherits" />
+    
+    <!-- Liens transversaux -->
+    <Link Source="Security" Target="ApiGateway" Category="Uses" />
+    <Link Source="Security" Target="BusinessLogic" Category="Uses" />
+    <Link Source="Security" Target="AuthService" Category="SecuresVia" />
+    <Link Source="Logging" Target="ApiGateway" Category="Uses" />
+    <Link Source="Logging" Target="BusinessLogic" Category="Uses" />
+    <Link Source="Monitoring" Target="ApiGateway" Category="Uses" />
+    <Link Source="Monitoring" Target="Database" Category="Uses" />
+    
+    <!-- AuthService relationships -->
+    <Link Source="AuthService" Target="UserService" Category="Uses" />
+    <Link Source="AuthService" Target="DataAccess" Category="DataFlow" Label="Password Hash &amp; Validation" />
+    
+    <!-- Cloudflare gère SSL automatiquement -->
+    <Link Source="CloudflareSSL" Target="Security" Category="Provides" Label="Auto SSL" />
+  </Links>
+  
+  <Categories>
+    <Category Id="PresentationLayer" Label="Couche Présentation" Background="#FFE1F5FE" />
+    <Category Id="CDNLayer" Label="CDN/Proxy" Background="#FFFFA726" />
+    <Category Id="CDNComponent" Label="Composant CDN" Background="#FFFFF8E1" />
+    <Category Id="ApiLayer" Label="Couche API" Background="#FFF3E5F5" />
+    <Category Id="BusinessLayer" Label="Couche Métier" Background="#FFEDE7F6" />
+    <Category Id="DataLayer" Label="Couche Données" Background="#FFE8F5E8" />
+    <Category Id="DatabaseLayer" Label="Base de Données" Background="#FFF1F8E9" />
+    <Category Id="Component" Label="Composant" Background="#FFFFFFFF" />
+    <Category Id="Infrastructure" Label="Infrastructure" Background="#FFFFECB3" />
+    <Category Id="CrossCutting" Label="Préoccupation Transversale" Background="#FFFCE4EC" />
+    <Category Id="Contains" Label="Contient" />
+    <Category Id="DataFlow" Label="Flux de Données" />
+    <Category Id="Uses" Label="Utilise" />
+    <Category Id="Inherits" Label="Hérite de" />
+    <Category Id="Provides" Label="Fournit" />
+    <Category Id="SecuresVia" Label="Sécurise via" />
+  </Categories>
+  
+  <Styles>
+    <Style TargetType="Node" GroupLabel="CDN/Proxy" ValueLabel="True">
+      <Condition Expression="HasCategory('CDNLayer')" />
+      <Setter Property="Background" Value="#FFA726" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Couche Présentation" ValueLabel="True">
+      <Condition Expression="HasCategory('PresentationLayer')" />
+      <Setter Property="Background" Value="#E1F5FE" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Couche API" ValueLabel="True">
+      <Condition Expression="HasCategory('ApiLayer')" />
+      <Setter Property="Background" Value="#F3E5F5" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Couche Métier" ValueLabel="True">
+      <Condition Expression="HasCategory('BusinessLayer')" />
+      <Setter Property="Background" Value="#EDE7F6" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Couche Données" ValueLabel="True">
+      <Condition Expression="HasCategory('DataLayer')" />
+      <Setter Property="Background" Value="#E8F5E8" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Base de Données" ValueLabel="True">
+      <Condition Expression="HasCategory('DatabaseLayer')" />
+      <Setter Property="Background" Value="#F1F8E9" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style TargetType="Node" GroupLabel="Préoccupation Transversale" ValueLabel="True">
+      <Condition Expression="HasCategory('CrossCutting')" />
+      <Setter Property="Background" Value="#FCE4EC" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    
+    <Style TargetType="Link" GroupLabel="Flux de Données" ValueLabel="True">
+      <Condition Expression="HasCategory('DataFlow')" />
+      <Setter Property="Stroke" Value="#2196F3" />
+      <Setter Property="StrokeThickness" Value="3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    
+    <Style TargetType="Link" GroupLabel="Hérite de" ValueLabel="True">
+      <Condition Expression="HasCategory('Inherits')" />
+      <Setter Property="Stroke" Value="#4CAF50" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    
+    <Style TargetType="Link" GroupLabel="Fournit" ValueLabel="True">
+      <Condition Expression="HasCategory('Provides')" />
+      <Setter Property="Stroke" Value="#FF9800" />
+      <Setter Property="StrokeDashArray" Value="5 5" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+    
+    <Style TargetType="Link" GroupLabel="Sécurise via" ValueLabel="True">
+      <Condition Expression="HasCategory('SecuresVia')" />
+      <Setter Property="Stroke" Value="#E91E63" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="StrokeDashArray" Value="3 3" />
+      <Setter Property="DrawArrow" Value="True" />
+    </Style>
+  </Styles>
+</DirectedGraph>
