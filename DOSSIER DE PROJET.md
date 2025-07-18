@@ -195,7 +195,6 @@ Cette interface répond au besoin des utilisateurs connectés de gérer leurs liens
 
 #### Technologies front-end utilisées
 - **Blazor WebAssembly** : Framework SPA avec C#
-- **Bootstrap** : Framework CSS pour le responsive design
 - **CSS3** : Styles personnalisés et animations
 - **JavaScript Interop** : Intégration avec des bibliothèques JavaScript
 - **PWA** : Progressive Web App pour l'installation native
@@ -417,16 +416,6 @@ Bien que ZipLink soit principalement une application web, elle intègre des carac
 **Fonctionnalités de mobilité** :
 - **Progressive Web App (PWA)** : Installation native sur mobile
 - **Responsive Design** : Adaptation automatique aux écrans mobiles
-- **Offline Capability** : Fonctionnement en mode déconnecté
-- **Push Notifications** : Notifications push sur mobile
-- **Touch Gestures** : Support des gestes tactiles
-
-**Technologies pour la mobilité** :
-- **Blazor WebAssembly** : Rendu côté client pour la performance
-- **Service Workers** : Cache et fonctionnement offline
-- **Manifest PWA** : Configuration pour l'installation native
-- **Bootstrap** : Framework responsive pour mobile-first
-- **CSS Media Queries** : Adaptation aux différentes résolutions
 
 ---
 
