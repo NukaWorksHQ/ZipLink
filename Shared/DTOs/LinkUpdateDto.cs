@@ -10,5 +10,7 @@ namespace Shared.DTOs
         
         [Url(ErrorMessage = "Target must be a valid URL.")]
         public required string Target { get; set; }
+
+        public required string ApiHostName { get; set; }
     }
 }

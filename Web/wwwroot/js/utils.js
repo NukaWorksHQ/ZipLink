@@ -52,3 +52,21 @@ window.getViewportSize = () => {
         window.addEventListener("resize", resizeHandler);
     };
 })();
+
+// Custom selector utilities
+window.addOutsideClickListener = (element, dotNetRef, methodName) => {
+    const handleOutsideClick = (event) => {
+        if (element && !element.contains(event.target)) {
+            dotNetRef.invokeMethodAsync(methodName);
+        }
+    };
+    
+    document.addEventListener('click', handleOutsideClick);
+    return handleOutsideClick;
+};
+
+window.removeOutsideClickListener = (handler) => {
+    if (handler) {
+        document.removeEventListener('click', handler);
+    }
+};

@@ -7,6 +7,7 @@
 @inject IAccountService accountService
 @inject ILinkService linkService
 @inject IConfiguration config
+@inject IApiHostService apiHostService
 
 <div class="island">
     <EditForm class="island__form" Model="dto" OnValidSubmit="HandleSubmit">
@@ -14,6 +15,10 @@
 
         <div class="island__form--controls">
             <InputText @bind-Value="dto.Target" placeholder="Enter a long URL here..." />
+            
+            <CustomSelector @bind-Value="dto.ApiHostName" 
+                          Options="availableHosts" />
+            
             <button type="submit">Shorten</button>
         </div>
 
@@ -22,8 +27,13 @@
             {
                 <ValidationMessage For="() => dto.Target" />
             }
+            
+            @if (!string.IsNullOrEmpty(dto.ApiHostName))
+            {
+                <ValidationMessage For="() => dto.ApiHostName" />
+            }
 
-            @if (context.Validate() && createdLink != null)
+            @if (!string.IsNullOrEmpty(createdLink))
             {
                 <div class="island__form--display__lnk">
                     <a href="@createdLink" target="_blank">@createdLink</a>
@@ -35,12 +45,19 @@
 </div>
 
 @code {
-    private LinkUpdateDto dto = new() { Target = "" } ;
-    private string createdLink { get; set; }
+    private LinkUpdateDto dto = new() { Target = "", ApiHostName = "" };
+    private string createdLink { get; set; } = "";
+    private List<ApiHostDto> availableHosts = new();
 
     protected override void OnInitialized()
     {
         accountState.OnChange += StateHasChanged;
+        availableHosts = apiHostService.GetApiHosts();
+        
+        if (availableHosts.Any())
+        {
+            dto.ApiHostName = availableHosts.First().Name;
+        }
     }
 
     public void Dispose()
@@ -86,14 +103,15 @@
         if (userClaim is null)
             throw new InvalidOperationException("userClaim cannot be null");
 
-        var createdLinkDto = new LinkCreateDto()
+        var createdLinkDto = new LinkCreateDto
         {
             UserId = userClaim.UserId,
-            Target = dto.Target
+            Target = dto.Target,
+            ApiHostName = dto.ApiHostName
         };
 
         var link = await linkService.Create(createdLinkDto);
-        createdLink = Utils.GetFinalLink(link, config);
+        createdLink = Utils.GetFinalLink(link, config, dto.ApiHostName);
         Console.WriteLine(JsonSerializer.Serialize(link));
 	}
 }

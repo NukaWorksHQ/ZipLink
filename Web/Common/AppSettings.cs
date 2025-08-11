@@ -1,8 +1,9 @@
-﻿namespace Web.Common
+﻿using Shared.DTOs;
+
+namespace Web.Common
 {
     public class AppSettings
     {
-        public string ApiHost { get; set; }
+        public List<ApiHostDto> ApiHosts { get; set; } = new();
     }
-
 }

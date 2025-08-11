@@ -17,13 +17,20 @@ var environment = builder.HostEnvironment.Environment;
 var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
 var config = await httpClient.GetFromJsonAsync<AppSettings>($"appsettings.{environment}.json");
 
-if (config.ApiHost is null)
-    throw new InvalidOperationException("apiBaseUrl (AppSettings:ApiHost) cannot be null, please update your appSettings.json configuration.");
+if (config?.ApiHosts == null || !config.ApiHosts.Any())
+{
+    throw new InvalidOperationException("ApiHosts cannot be null or empty, please update your appSettings.json configuration.");
+}
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(config.ApiHost) });
+var defaultApiHost = config.ApiHosts.First().Url;
+builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(defaultApiHost) });
+
 builder.Services.AddScoped<IAuthValidator, AuthValidator>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ILinkService, LinkService>();
+builder.Services.AddScoped<IApiHostService, ApiHostService>();
+
+builder.Services.AddSingleton(config);
 
 builder.Services.AddSingleton<AccountState>();
 

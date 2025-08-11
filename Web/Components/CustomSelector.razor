@@ -1,0 +1,135 @@
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Linq.Expressions
+@inherits InputBase<string?>
+
+<div class="custom-selector" @ref="selectorRef">
+    <div class="custom-selector__toggle" @onclick="ToggleDropdown" @onkeydown="HandleKeyDown" tabindex="0">
+        <span class="custom-selector__value">@GetDisplayText()</span>
+        <svg class="custom-selector__arrow @(isOpen ? "custom-selector__arrow--open" : "")" 
+             fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M7 10l5 5 5-5z"/>
+        </svg>
+    </div>
+    
+    @if (isOpen)
+    {
+        <div class="custom-selector__dropdown">
+            @foreach (var option in Options)
+            {
+                <div class="custom-selector__option @(IsSelected(option) ? "custom-selector__option--selected" : "")" 
+                     @onclick="() => SelectOption(option)">
+                    @GetOptionText(option)
+                </div>
+            }
+        </div>
+        <div class="custom-selector__backdrop" @onclick="CloseDropdown"></div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<ApiHostDto> Options { get; set; } = new();
+    [Parameter] public string PlaceholderText { get; set; } = "Select an option...";
+
+    private bool isOpen = false;
+    private ElementReference selectorRef;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        
+        // Auto-select first option if no value is set and options are available
+        // This handles the case where the parent component hasn't set a value yet
+        if (string.IsNullOrEmpty(CurrentValue) && Options.Any())
+        {
+            CurrentValue = Options.First().Name;
+        }
+    }
+
+    protected override bool TryParseValueFromString(string? value, out string? result, out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
+
+    private string GetDisplayText()
+    {
+        if (string.IsNullOrEmpty(CurrentValue))
+            return PlaceholderText;
+        
+        var selectedOption = Options.FirstOrDefault(o => o.Name == CurrentValue);
+        return selectedOption?.Name ?? PlaceholderText;
+    }
+
+    private string GetOptionText(ApiHostDto option)
+    {
+        return option.Name;
+    }
+
+    private bool IsSelected(ApiHostDto option)
+    {
+        return option.Name == CurrentValue;
+    }
+
+    private async Task ToggleDropdown()
+    {
+        isOpen = !isOpen;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task CloseDropdown()
+    {
+        isOpen = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SelectOption(ApiHostDto option, bool close = true)
+    {
+        CurrentValue = option.Name;
+        if (close)
+        {
+            await CloseDropdown();
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "Enter":
+            case " ":
+                await ToggleDropdown();
+                break;
+            case "Escape":
+                if (isOpen)
+                    await CloseDropdown();
+                break;
+            case "ArrowDown":
+                if (!isOpen)
+                {
+                    await ToggleDropdown();
+                }
+                else if (Options.Any())
+                {
+                    var currentIndex = Options.FindIndex(o => o.Name == CurrentValue);
+                    var nextIndex = currentIndex < Options.Count - 1 ? currentIndex + 1 : 0;
+                    if (nextIndex >= 0 && nextIndex < Options.Count)
+                    {
+                        await SelectOption(Options[nextIndex], close: false);
+                    }
+                }
+                break;
+            case "ArrowUp":
+                if (isOpen && Options.Any())
+                {
+                    var currentIndex = Options.FindIndex(o => o.Name == CurrentValue);
+                    var prevIndex = currentIndex > 0 ? currentIndex - 1 : Options.Count - 1;
+                    if (prevIndex >= 0 && prevIndex < Options.Count)
+                    {
+                        await SelectOption(Options[prevIndex], close: false);
+                    }
+                }
+                break;
+        }
+    }
+}
