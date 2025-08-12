@@ -9,8 +9,33 @@ namespace Server.Services
 {
     public class LinkService : GenericService<AppDbContext, Link, LinkCreateDto, LinkUpdateDto>
     {
-        public LinkService(AppDbContext context, IMapper mapper) : base(context, mapper)
+        private readonly IApiHostService _apiHostService;
+
+        public LinkService(AppDbContext context, IMapper mapper, IApiHostService apiHostService) : base(context, mapper)
         {
+            _apiHostService = apiHostService;
+        }
+
+        public override async Task<Link> Create(LinkCreateDto dto)
+        {
+            // Validate that the ApiHostName is configured
+            if (!_apiHostService.IsValidApiHost(dto.ApiHostName))
+            {
+                throw new ArgumentException($"Invalid API Host: {dto.ApiHostName}");
+            }
+
+            return await base.Create(dto);
+        }
+
+        public override async Task<Link> Edit(string id, LinkUpdateDto dto)
+        {
+            // Validate that the ApiHostName is configured
+            if (!_apiHostService.IsValidApiHost(dto.ApiHostName))
+            {
+                throw new ArgumentException($"Invalid API Host: {dto.ApiHostName}");
+            }
+
+            return await base.Edit(id, dto);
         }
 
         public override async Task<Link> Get(string id)
@@ -56,6 +81,16 @@ namespace Server.Services
             _context.Links.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        // New method to get the full URL for a link
+        public string GetFullLinkUrl(Link link)
+        {
+            if (link is null)
+                throw new ArgumentNullException(nameof(link));
+
+            var hostUrl = _apiHostService.GetApiHostUrl(link.ApiHostName);
+            return $"{hostUrl}/{link.Id}";
         }
     }
 }

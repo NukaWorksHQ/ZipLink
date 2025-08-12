@@ -113,6 +113,7 @@ builder.Services.AddScoped<LinkService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<ClaimsPrincipal>();
 builder.Services.AddScoped<UserAccessValidator>();
+builder.Services.AddScoped<IApiHostService, ApiHostService>();
 
 var app = builder.Build();
 

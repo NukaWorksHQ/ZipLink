@@ -8,6 +8,8 @@ namespace Shared.Entities
         
         public required string Target { get; set; }
 
+        public required string ApiHostName { get; set; }
+
         public User User { get; set; }
     }
 }
