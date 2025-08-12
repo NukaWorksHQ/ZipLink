@@ -691,6 +691,7 @@ code {
     color: #1E293B;
     font-family: 'Inter', sans-serif;
     font-size: 14pt;
+    user-select: none;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
     border-radius: 4px;
@@ -721,42 +722,66 @@ code {
     background-color: transparent;
 }
 
-/* Responsive adjustments for custom selector */
+/* Glossy Aero-style information page styling */
+.info-section {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.15) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+    margin: 2rem auto;
+    color: #F8FAFC;
+    max-width: 800px;
+    width: 85%;
+}
+
+.info-section h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    color: white;
+    position: relative;
+}
+
+.info-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.info-section ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-section ul li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+
+
+/* Responsive adjustments for info pages */
 @media (max-width: 768px) {
-    .custom-selector {
-        min-width: 100px;
-        max-width: 140px;
+    .info-section {
+        padding: 1.5rem;
+        margin: 1rem auto;
+        width: 90%;
     }
     
-    .custom-selector__toggle {
-        font-size: 12pt;
-        padding: 0.4rem;
-        padding-right: 28px;
+    .info-section h1 {
+        font-size: 1.8rem;
     }
     
-    .custom-selector__arrow {
-        width: 14px;
-        height: 14px;
-        right: 6px;
+    .info-section p, .info-section ul li {
+        font-size: 1rem;
     }
-    
-    .custom-selector__option {
-        font-size: 12pt;
-        padding: 6px 10px;
-    }
-    
-    .custom-selector__dropdown {
-        max-height: 150px;
-    }
-}
-
-/* Improved accessibility */
-.custom-selector__toggle:focus-visible {
-    outline: 2px solid #4F46E5;
-    outline-offset: 2px;
-}
-
-.custom-selector__option:focus {
-    background-color: rgba(79, 70, 229, 0.1);
-    outline: none;
 }
