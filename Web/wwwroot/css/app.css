@@ -32,7 +32,6 @@ button {
     outline: none;
     box-shadow: var(--aero-shadow);
     text-shadow: var(--aero-text-shadow);
-    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
 }
@@ -206,7 +205,6 @@ code {
     position: relative;
 }
 
-    /* Glass shine effect - subtle light reflection at the top */
     .island::before {
         content: '';
         position: absolute;
@@ -223,12 +221,11 @@ code {
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
     }
 
-    /* Disable hover scale effect when form is being interacted with */
     .island:focus-within:hover {
-        transform: none;
+        transform: scale(1.02);
     }
 
-    /* Also disable scale when custom selector is open */
+    /* We disable scale when custom selector is open */
     .island:has(.custom-selector__dropdown):hover {
         transform: none;
     }
@@ -262,7 +259,6 @@ code {
     display: flex;
     align-items: start;
     padding: 1em 0.4rem;
-    width: 100%;
     gap: 0.5em;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
@@ -402,7 +398,7 @@ code {
 }
 
 .tooltip {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 240, 0.95) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(240, 240, 240, 0.95) 100%);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     width: fit-content;
@@ -418,23 +414,6 @@ code {
     border: 1px solid rgba(255, 255, 255, 0.6);
     position: relative;
 }
-
-    .tooltip::before {
-        position: absolute;
-        z-index: -1;
-        top: -10px;
-        right: 5px;
-        content: '';
-        display: block;
-        width: 20px;
-        height: 20px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 240, 0.95) 100%);
-        border-radius: 2px;
-        transform: rotate(45deg);
-        border-top: 1px solid rgba(255, 255, 255, 0.6);
-        border-left: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.05);
-    }
 
 .tooltip__backdrop {
     position: fixed;
@@ -490,7 +469,6 @@ code {
     font-weight: 700;
     cursor: pointer;
     color: var(--aero-accent);
-    transition: all 0.2s ease;
 }
 
     .miniview__link:hover {
