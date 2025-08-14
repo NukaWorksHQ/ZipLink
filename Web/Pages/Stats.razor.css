@@ -6,6 +6,7 @@
 
 .stats-container {
     padding: 1.5rem;
+    overflow: hidden;
 }
 
 .stats-title {
@@ -130,12 +131,18 @@
 /* Stats grid - FIXED 3x2 layout */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
     max-width: 100%;
     width: 100%;
     overflow: visible;
+}
+
+@media (min-width: 992px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .stat-card {
@@ -301,6 +308,8 @@
     
     .stats-container {
         padding: 1rem;
+        width: 100%;
+        max-width: 100%;
     }
     
     .stats-title {
@@ -311,9 +320,8 @@
     
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, 120px);
         gap: 0.75rem;
-        height: 380px;
+        height: auto;
     }
     
     .stat-card {
@@ -336,38 +344,158 @@
     .stat-icon {
         font-size: 2rem;
     }
+    
+    .top-hosts-section {
+        padding: 1rem;
+    }
+    
+    .host-item {
+        padding: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .host-name {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .host-stats {
+        width: 100%;
+    }
+    
+    .loading-container {
+        padding: 2rem 1rem;
+    }
+    
+    .error-container {
+        padding: 2rem 1rem;
+    }
 }
 
 @media (max-width: 480px) {
     .controls {
-        padding: 1rem 0.25rem;
+        padding: 0.75rem 0.25rem;
+    }
+    
+    .stats-container {
+        padding: 0.75rem;
+    }
+    
+    .stats-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.25rem;
     }
     
     .stats-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(5, 110px);
-        gap: 0.5rem;
-        height: 580px;
+        gap: 0.75rem;
+        height: auto;
     }
     
     .stat-card {
         padding: 0.75rem;
-        color: white !important;
-        height: 110px;
-        max-height: 110px;
+        height: 100px;
+        max-height: 100px;
     }
     
     .stat-content h3 {
         font-size: 1.4rem;
-        color: white !important;
     }
     
     .stat-content p {
         font-size: 0.7rem;
-        color: white !important;
     }
     
     .stat-icon {
         font-size: 1.8rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .top-hosts-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .host-count {
+        font-size: 0.8rem;
+    }
+    
+    .host-bar {
+        height: 5px;
+    }
+    
+    .last-updated {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .stats-container {
+        padding: 0.5rem;
+    }
+    
+    .stats-title {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-card {
+        height: 90px;
+        max-height: 90px;
+        padding: 0.5rem;
+    }
+    
+    .stat-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .stat-content p {
+        font-size: 0.65rem;
+    }
+    
+    .stat-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .top-hosts-section {
+        padding: 0.75rem;
+    }
+    
+    .top-hosts-section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .hosts-list {
+        gap: 0.5rem;
+    }
+    
+    .loading-spinner {
+        width: 32px;
+        height: 32px;
+        border-width: 3px;
+    }
+    
+    .loading-container p {
+        font-size: 0.9rem;
+    }
+    
+    .error-icon {
+        font-size: 2.5rem;
+    }
+    
+    .error-container p {
+        font-size: 0.9rem;
+    }
+    
+    .retry-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 }
