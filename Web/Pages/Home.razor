@@ -1,9 +1,10 @@
 ﻿@implements IDisposable
 @inject AccountState accountState
+@inject ILocalizationService LocalizationService
 
 @page "/"
 
-<PageTitle>stfu.lat - Quick link shortener</PageTitle>
+<PageTitle>@LocalizationService.GetString("Home.Title")</PageTitle>
 
 @if (accountState.Property?.Id != null)
 {
@@ -23,10 +24,12 @@
 	protected override void OnInitialized()
 	{
 		accountState.OnChange += StateHasChanged;
+		LocalizationService.OnLanguageChanged += StateHasChanged;
 	}
 
 	public void Dispose()
 	{
 		accountState.OnChange -= StateHasChanged;
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
 	}
 }

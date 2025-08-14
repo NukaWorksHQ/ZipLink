@@ -1,5 +1,6 @@
 ﻿@implements IDisposable
 @inject AccountState accountState
+@inject ILocalizationService LocalizationService
 
 <div @ref="accountIslandRef" aria-role="button" aria-label="Open account details" class="accountisland" @onclick="HandleToggleClick">
 	<Avatar Initials="@GetInitials(accountState.Property?.Username ?? "")" />
@@ -22,11 +23,13 @@
 	protected override void OnInitialized()
 	{
 		accountState.OnChange += StateHasChanged;
+		LocalizationService.OnLanguageChanged += StateHasChanged;
 	}
 
 	public void Dispose()
 	{
 		accountState.OnChange -= StateHasChanged;
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
 	}
 
 	private void HandleToggleClick()

@@ -23,12 +23,18 @@
     "Error": "Erreur",
     "Success": "Succès",
     "Retry": "Réessayer",
-    "Language": "Langue"
+    "Language": "Langue",
+    "NotAvailable": "N/A",
+    "Unknown": "Inconnu",
+    "Back": "Retour",
+    "Submit": "Valider"
   },
   "Home": {
     "Title": "stfu.lat - Raccourcisseur de liens rapide",
     "Welcome": "Bienvenue sur stfu.lat",
-    "Description": "Le moyen le plus rapide de raccourcir vos liens"
+    "Description": "Le moyen le plus rapide de raccourcir vos liens",
+    "FreeUrlShortener": "Raccourcisseur d'URL gratuit",
+    "Slogan": "Raccourcir. Partager. Simple."
   },
   "Stats": {
     "Title": "Statistiques - stfu.lat",
@@ -52,7 +58,9 @@
     "LoginSuccess": "Connexion réussie",
     "LoginError": "Échec de la connexion",
     "LogoutSuccess": "Déconnexion réussie",
-    "InvalidCredentials": "Nom d'utilisateur ou mot de passe invalide"
+    "InvalidCredentials": "Nom d'utilisateur ou mot de passe invalide",
+    "LoginSignup": "Connexion/Inscription",
+    "ResetPassword": "Réinitialiser le mot de passe"
   },
   "Links": {
     "ShortenLink": "Raccourcir le lien",
@@ -62,11 +70,73 @@
     "YourLinks": "Vos liens",
     "NoLinks": "Aucun lien trouvé",
     "CopyLink": "Copier le lien",
-    "LinkCopied": "Lien copié dans le presse-papiers"
+    "LinkCopied": "Lien copié dans le presse-papiers",
+    "EnterUrlPlaceholder": "Saisissez une URL longue ici...",
+    "ShortenButton": "Raccourcir",
+    "EditLinks": "Modifier les liens",
+    "NoLinksCreated": "Aucun lien créé pour le moment."
   },
   "Footer": {
     "Copyright": "© stfu.lat {0}",
     "MadeBy": "❤️ Créé par @Powerm1nt"
+  },
+  "Account": {
+    "Stats": "Statistiques du compte",
+    "CreatedAt": "Compte créé le",
+    "UserType": "Type d'utilisateur",
+    "NumberOfLinksCreated": "Nombre de liens créés",
+    "AdminDashboard": "Tableau de bord Admin",
+    "ChangePassword": "Changer votre mot de passe",
+    "LoginCreateAccount": "Connexion/Créer un nouveau compte",
+    "EditLinks": "Modifier les liens"
+  },
+  "Admin": {
+    "PageTitle": "Tableau de bord Admin - ZipLink",
+    "AccessDenied": "Accès refusé. Vous devez être administrateur pour accéder à cette page.",
+    "Dashboard": "Tableau de bord Admin",
+    "Users": "Utilisateurs",
+    "Links": "Liens",
+    "Statistics": "Statistiques",
+    "UserManagement": "Gestion des Utilisateurs",
+    "LinkManagement": "Gestion des Liens",
+    "ID": "ID",
+    "Username": "Nom d'utilisateur",
+    "Role": "Rôle",
+    "CreatedDate": "Date de création",
+    "LinkCount": "Nombre de liens",
+    "Actions": "Actions",
+    "User": "Utilisateur",
+    "TargetUrl": "URL cible",
+    "ApiHost": "Host API",
+    "AppStatistics": "Statistiques de l'Application",
+    "TotalUsers": "Total Utilisateurs",
+    "TotalLinks": "Total Liens",
+    "Administrators": "Administrateurs",
+    "StandardUsers": "Utilisateurs Standard",
+    "RecentActivity": "Activité Récente",
+    "RecentUsers": "Derniers utilisateurs créés",
+    "RecentLinks": "Derniers liens créés",
+    "UnknownUser": "Utilisateur inconnu"
+  },
+  "About": {
+    "PageTitle": "À propos - stfu.lat",
+    "Title": "À propos de stfu.lat",
+    "Description": "stfu.lat est un raccourcisseur de liens simple et respectueux de la vie privée conçu pour faciliter et sécuriser le partage de liens. Notre objectif est de fournir un service rapide, fiable et axé sur l'utilisateur sans collecte de données inutiles.",
+    "Feature1": "Raccourcir les URL longues pour un partage facile",
+    "Feature2": "Collecte de données minimale et forte orientation vie privée",
+    "Feature3": "Authentification sécurisée utilisant des cookies",
+    "Feature4": "Interface moderne et facile à utiliser",
+    "Commitment": "Nous nous engageons à protéger votre vie privée et à fournir une expérience utilisateur fluide. Merci d'utiliser stfu.lat !"
+  },
+  "Privacy": {
+    "PageTitle": "Politique de Confidentialité - stfu.lat",
+    "Title": "Politique de Confidentialité",
+    "Description": "stfu.lat valorise votre vie privée. Nous collectons un minimum de données nécessaires pour fournir notre service de raccourcissement de liens.",
+    "Point1": "Nous ne collectons pas d'informations personnelles à moins que vous ne choisissiez de créer un compte ou de vous connecter.",
+    "Point2": "Nous utilisons des cookies pour stocker les données d'authentification et vous maintenir connecté.",
+    "Point3": "Nous ne partageons pas vos données personnelles avec des tiers.",
+    "Point4": "Des données d'utilisation de base (comme les clics sur les liens) peuvent être collectées pour améliorer notre service.",
+    "Contact": "Si vous avez des questions concernant votre vie privée, veuillez nous contacter."
   }
 }
 

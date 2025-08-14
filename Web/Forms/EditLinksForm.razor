@@ -1,7 +1,9 @@
 ﻿@inject ILinkService linkService
 @inject IConfiguration config
+@inject ILocalizationService LocalizationService
+@implements IDisposable
 
-<p class="tooltip__title">Edit links</p>
+<p class="tooltip__title">@LocalizationService.GetString("Links.EditLinks")</p>
 
 <div class="editlinks">
 	<ul class="editlinks__list">
@@ -16,18 +18,18 @@
 						</a>
 						<p class="target">@link.Target</p>
 					</div>
-					<p class="cpy_btn" @onclick="() => HandleDeleteLink(link.Id)">Delete</p>
+					<p class="cpy_btn" @onclick="() => HandleDeleteLink(link.Id)">@LocalizationService.GetString("Common.Delete")</p>
 				</li>
 			}
 		}
 		else
 		{
-			<p class="editlinks__placeholder">No links created yet.</p>
+			<p class="editlinks__placeholder">@LocalizationService.GetString("Links.NoLinksCreated")</p>
 		}
 	</ul>
 
 	<div class="miniview__actions">
-		<button type="button" @onclick="GoBack">Back</button>
+		<button type="button" @onclick="GoBack">@LocalizationService.GetString("Common.Back")</button>
 	</div>
 </div>
 
@@ -39,7 +41,13 @@
 
 	protected async override Task OnInitializedAsync()
 	{
+		LocalizationService.OnLanguageChanged += StateHasChanged;
 		await FetchLinks();
+	}
+
+	public void Dispose()
+	{
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
 	}
 
 	private async Task FetchLinks()

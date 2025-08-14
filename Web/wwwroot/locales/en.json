@@ -23,12 +23,18 @@
     "Error": "Error",
     "Success": "Success",
     "Retry": "Retry",
-    "Language": "Language"
+    "Language": "Language",
+    "NotAvailable": "N/A",
+    "Unknown": "Unknown",
+    "Back": "Back",
+    "Submit": "Submit"
   },
   "Home": {
     "Title": "stfu.lat - Quick link shortener",
     "Welcome": "Welcome to stfu.lat",
-    "Description": "The fastest way to shorten your links"
+    "Description": "The fastest way to shorten your links",
+    "FreeUrlShortener": "Free URL shortener",
+    "Slogan": "Shorten. Share. Simple."
   },
   "Stats": {
     "Title": "Statistics - stfu.lat",
@@ -52,7 +58,9 @@
     "LoginSuccess": "Login successful",
     "LoginError": "Login failed",
     "LogoutSuccess": "Logout successful",
-    "InvalidCredentials": "Invalid username or password"
+    "InvalidCredentials": "Invalid username or password",
+    "LoginSignup": "Login/Signup",
+    "ResetPassword": "Reset Password"
   },
   "Links": {
     "ShortenLink": "Shorten Link",
@@ -62,11 +70,73 @@
     "YourLinks": "Your Links",
     "NoLinks": "No links found",
     "CopyLink": "Copy Link",
-    "LinkCopied": "Link copied to clipboard"
+    "LinkCopied": "Link copied to clipboard",
+    "EnterUrlPlaceholder": "Enter a long URL here...",
+    "ShortenButton": "Shorten",
+    "EditLinks": "Edit links",
+    "NoLinksCreated": "No links created yet."
   },
   "Footer": {
     "Copyright": "© stfu.lat {0}",
     "MadeBy": "❤️ Made by @Powerm1nt"
+  },
+  "Account": {
+    "Stats": "Account stats",
+    "CreatedAt": "Account created at",
+    "UserType": "UserType",
+    "NumberOfLinksCreated": "Number of Links created",
+    "AdminDashboard": "Admin Dashboard",
+    "ChangePassword": "Change your password",
+    "LoginCreateAccount": "Login/Create a new account",
+    "EditLinks": "Edit links"
+  },
+  "Admin": {
+    "PageTitle": "Admin Dashboard - ZipLink",
+    "AccessDenied": "Access denied. You must be an administrator to access this page.",
+    "Dashboard": "Admin Dashboard",
+    "Users": "Users",
+    "Links": "Links",
+    "Statistics": "Statistics",
+    "UserManagement": "User Management",
+    "LinkManagement": "Link Management",
+    "ID": "ID",
+    "Username": "Username",
+    "Role": "Role",
+    "CreatedDate": "Created Date",
+    "LinkCount": "Link Count",
+    "Actions": "Actions",
+    "User": "User",
+    "TargetUrl": "Target URL",
+    "ApiHost": "API Host",
+    "AppStatistics": "Application Statistics",
+    "TotalUsers": "Total Users",
+    "TotalLinks": "Total Links",
+    "Administrators": "Administrators",
+    "StandardUsers": "Standard Users",
+    "RecentActivity": "Recent Activity",
+    "RecentUsers": "Recently Created Users",
+    "RecentLinks": "Recently Created Links",
+    "UnknownUser": "Unknown User"
+  },
+  "About": {
+    "PageTitle": "About - stfu.lat",
+    "Title": "About stfu.lat",
+    "Description": "stfu.lat is a simple and privacy-friendly link shortener designed to make sharing links easy and secure. Our goal is to provide a fast, reliable, and user-focused service without unnecessary data collection.",
+    "Feature1": "Shorten long URLs for easy sharing",
+    "Feature2": "Minimal data collection and strong privacy focus",
+    "Feature3": "Secure authentication using cookies",
+    "Feature4": "Modern, easy-to-use interface",
+    "Commitment": "We are committed to protecting your privacy and providing a smooth user experience. Thank you for using stfu.lat!"
+  },
+  "Privacy": {
+    "PageTitle": "Privacy Policy - stfu.lat",
+    "Title": "Privacy Policy",
+    "Description": "stfu.lat values your privacy. We collect minimal data necessary to provide our link shortening service.",
+    "Point1": "We do not collect personal information unless you choose to create an account or log in.",
+    "Point2": "We use cookies to store authentication data and to keep you logged in.",
+    "Point3": "We do not share your personal data with third parties.",
+    "Point4": "Basic usage data (such as link clicks) may be collected to improve our service.",
+    "Contact": "If you have any questions about your privacy, please contact us."
   }
 }
 

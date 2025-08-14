@@ -1,20 +1,34 @@
 ﻿@page "/about"
 @layout Web.Layout.InformationLayout
+@inject ILocalizationService LocalizationService
+@implements IDisposable
 
-<PageTitle>About - stfu.lat</PageTitle>
+<PageTitle>@LocalizationService.GetString("About.PageTitle")</PageTitle>
 
 <section class="info-section">
-    <h1>About stfu.lat</h1>
+    <h1>@LocalizationService.GetString("About.Title")</h1>
     <p>
-        stfu.lat is a simple and privacy-friendly link shortener designed to make sharing links easy and secure. Our goal is to provide a fast, reliable, and user-focused service without unnecessary data collection.
+        @LocalizationService.GetString("About.Description")
     </p>
     <ul>
-        <li>Shorten long URLs for easy sharing</li>
-        <li>Minimal data collection and strong privacy focus</li>
-        <li>Secure authentication using cookies</li>
-        <li>Modern, easy-to-use interface</li>
+        <li>@LocalizationService.GetString("About.Feature1")</li>
+        <li>@LocalizationService.GetString("About.Feature2")</li>
+        <li>@LocalizationService.GetString("About.Feature3")</li>
+        <li>@LocalizationService.GetString("About.Feature4")</li>
     </ul>
     <p>
-        We are committed to protecting your privacy and providing a smooth user experience. Thank you for using stfu.lat!
+        @LocalizationService.GetString("About.Commitment")
     </p>
 </section>
+
+@code {
+    protected override void OnInitialized()
+    {
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+}
