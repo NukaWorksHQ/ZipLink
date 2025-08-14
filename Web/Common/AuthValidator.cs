@@ -54,7 +54,7 @@ namespace Web.Common
             return new()
             {
                 UserId = userId.Value,
-                Role = Enum.Parse<UserRole>(role.Value.ToString())
+                Role = Enum.Parse<UserRole>(role.Value)
             };
         }
 
