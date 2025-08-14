@@ -38,14 +38,30 @@ namespace Web.Services
 
         public async Task InitializeAsync()
         {
-            // Détection automatique de la langue du navigateur
-            var browserLanguage = await GetBrowserLanguageAsync();
-            var language = _availableLanguages.ContainsKey(browserLanguage) ? browserLanguage : "en";
-            
-            await SetLanguageAsync(language);
+            // Vérifier d'abord si une langue est sauvegardée dans le localStorage
+            var savedLanguage = await GetSavedLanguageAsync();
+
+            string language;
+            if (!string.IsNullOrEmpty(savedLanguage) && _availableLanguages.ContainsKey(savedLanguage))
+            {
+                language = savedLanguage;
+            }
+            else
+            {
+                // Détection automatique de la langue du navigateur si aucune langue sauvegardée
+                var browserLanguage = await GetBrowserLanguageAsync();
+                language = _availableLanguages.ContainsKey(browserLanguage) ? browserLanguage : "en";
+            }
+
+            await SetLanguageAsync(language, saveToStorage: false); // Ne pas sauvegarder lors de l'initialisation
         }
 
         public async Task SetLanguageAsync(string language)
+        {
+            await SetLanguageAsync(language, saveToStorage: true);
+        }
+
+        private async Task SetLanguageAsync(string language, bool saveToStorage)
         {
             if (!_availableLanguages.ContainsKey(language))
                 language = "en";
@@ -57,12 +73,18 @@ namespace Web.Services
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     var translations = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
-                    
+
                     if (translations != null)
                     {
                         _translations = translations;
                         _currentLanguage = language;
-                        
+
+                        // Sauvegarder dans le localStorage si demandé (changement manuel)
+                        if (saveToStorage)
+                        {
+                            await SaveLanguageToStorageAsync(language);
+                        }
+
                         OnLanguageChanged?.Invoke();
                     }
                 }
@@ -73,7 +95,7 @@ namespace Web.Services
                 // Fallback vers l'anglais si erreur
                 if (language != "en")
                 {
-                    await SetLanguageAsync("en");
+                    await SetLanguageAsync("en", saveToStorage);
                 }
             }
         }
@@ -149,6 +171,31 @@ namespace Web.Services
             {
                 Console.WriteLine($"Erreur lors de la détection de la langue du navigateur: {ex.Message}");
                 return "en";
+            }
+        }
+
+        private async Task<string?> GetSavedLanguageAsync()
+        {
+            try
+            {
+                return await _jsRuntime.InvokeAsync<string?>("localStorage.getItem", "preferredLanguage");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération de la langue sauvegardée: {ex.Message}");
+                return null;
+            }
+        }
+
+        private async Task SaveLanguageToStorageAsync(string language)
+        {
+            try
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "preferredLanguage", language);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la sauvegarde de la langue: {ex.Message}");
             }
         }
     }
