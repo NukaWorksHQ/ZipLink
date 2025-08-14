@@ -1,0 +1,72 @@
+{
+  "Common": {
+    "Home": "Accueil",
+    "About": "À propos",
+    "Privacy": "Confidentialité",
+    "Statistics": "Statistiques",
+    "API": "API",
+    "ReportAbuse": "Signaler un abus",
+    "Login": "Connexion",
+    "Logout": "Déconnexion",
+    "Register": "S'inscrire",
+    "Username": "Nom d'utilisateur",
+    "Password": "Mot de passe",
+    "Email": "Email",
+    "Save": "Enregistrer",
+    "Cancel": "Annuler",
+    "Delete": "Supprimer",
+    "Edit": "Modifier",
+    "Create": "Créer",
+    "Update": "Mettre à jour",
+    "Search": "Rechercher",
+    "Loading": "Chargement...",
+    "Error": "Erreur",
+    "Success": "Succès",
+    "Retry": "Réessayer",
+    "Language": "Langue"
+  },
+  "Home": {
+    "Title": "stfu.lat - Raccourcisseur de liens rapide",
+    "Welcome": "Bienvenue sur stfu.lat",
+    "Description": "Le moyen le plus rapide de raccourcir vos liens"
+  },
+  "Stats": {
+    "Title": "Statistiques - stfu.lat",
+    "PublicStats": "📊 Statistiques Publiques",
+    "TotalLinks": "Liens créés",
+    "TotalUsers": "Utilisateurs",
+    "LinksToday": "Liens aujourd'hui",
+    "LinksThisWeek": "Cette semaine",
+    "LinksThisMonth": "Ce mois-ci",
+    "TopDomains": "🏆 Domaines les plus populaires",
+    "LastUpdated": "Dernière mise à jour",
+    "LoadingStats": "Chargement des statistiques...",
+    "ErrorLoadingStats": "Impossible de charger les statistiques",
+    "Retry": "Réessayer"
+  },
+  "Auth": {
+    "Login": "Connexion",
+    "Register": "S'inscrire",
+    "ForgotPassword": "Mot de passe oublié ?",
+    "RememberMe": "Se souvenir de moi",
+    "LoginSuccess": "Connexion réussie",
+    "LoginError": "Échec de la connexion",
+    "LogoutSuccess": "Déconnexion réussie",
+    "InvalidCredentials": "Nom d'utilisateur ou mot de passe invalide"
+  },
+  "Links": {
+    "ShortenLink": "Raccourcir le lien",
+    "OriginalUrl": "URL originale",
+    "ShortUrl": "URL courte",
+    "CreateLink": "Créer un lien",
+    "YourLinks": "Vos liens",
+    "NoLinks": "Aucun lien trouvé",
+    "CopyLink": "Copier le lien",
+    "LinkCopied": "Lien copié dans le presse-papiers"
+  },
+  "Footer": {
+    "Copyright": "© stfu.lat {0}",
+    "MadeBy": "❤️ Créé par @Powerm1nt"
+  }
+}
+

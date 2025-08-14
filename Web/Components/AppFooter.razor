@@ -1,15 +1,33 @@
-﻿<footer class="appfooter">
+﻿@inject ILocalizationService LocalizationService
+@implements IDisposable
+
+<footer class="appfooter">
 	<ul class="appfooter__items">
-		<li><NavLink href="/" Match="NavLinkMatch.All">Home</NavLink></li>
-		<li><NavLink href="#" Match="NavLinkMatch.All">API</NavLink></li>
-		<li><NavLink href="/about" Match="NavLinkMatch.All">About</NavLink></li>
-		<li><NavLink href="/privacy" Match="NavLinkMatch.All">Privacy</NavLink></li>
-		<li><NavLink href="#" Match="NavLinkMatch.All">Statistics</NavLink></li>
-		<li><NavLink href="#" Match="NavLinkMatch.All">Report abuse</NavLink></li>
+		<li><NavLink href="/" Match="NavLinkMatch.All">@LocalizationService.GetString("Common.Home")</NavLink></li>
+		<li><NavLink href="#" Match="NavLinkMatch.All">@LocalizationService.GetString("Common.API")</NavLink></li>
+		<li><NavLink href="/about" Match="NavLinkMatch.All">@LocalizationService.GetString("Common.About")</NavLink></li>
+		<li><NavLink href="/privacy" Match="NavLinkMatch.All">@LocalizationService.GetString("Common.Privacy")</NavLink></li>
+		<li><NavLink href="/stats" Match="NavLinkMatch.All">@LocalizationService.GetString("Common.Statistics")</NavLink></li>
+		<li><NavLink href="#" Match="NavLinkMatch.All">@LocalizationService.GetString("Common.ReportAbuse")</NavLink></li>
 	</ul>
 
 	<div class="appfooter__credits">
-		<p>&copy; stfu.lat @DateTime.Today.Year </p>
-		<p>❤️ Made by &#64;Powerm1nt</p>
+		<p>@LocalizationService.GetString("Footer.Copyright", DateTime.Today.Year)</p>
+		<div class="appfooter__credits-right">
+			<p>@LocalizationService.GetString("Footer.MadeBy")</p>
+			<LanguageSelector />
+		</div>
 	</div>
 </footer>
+
+@code {
+	protected override void OnInitialized()
+	{
+		LocalizationService.OnLanguageChanged += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
+	}
+}

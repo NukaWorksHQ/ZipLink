@@ -1,8 +1,8 @@
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System;
 using System.Net.Http.Json;
+using Microsoft.JSInterop;
 using Web;
 using Web.Common;
 using Web.Services;
@@ -29,6 +29,15 @@ builder.Services.AddScoped<IAuthValidator, AuthValidator>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddScoped<IApiHostService, ApiHostService>();
+builder.Services.AddScoped<IStatsService, StatsService>();
+
+// HttpClient spécifique pour le service de localisation (pointe vers wwwroot du client Web)
+builder.Services.AddScoped<ILocalizationService>(serviceProvider =>
+{
+    var httpClientForLocalization = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+    var jsRuntime = serviceProvider.GetRequiredService<IJSRuntime>();
+    return new LocalizationService(httpClientForLocalization, jsRuntime);
+});
 
 builder.Services.AddSingleton(config);
 

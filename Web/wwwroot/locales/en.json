@@ -1,0 +1,72 @@
+{
+  "Common": {
+    "Home": "Home",
+    "About": "About",
+    "Privacy": "Privacy",
+    "Statistics": "Statistics",
+    "API": "API",
+    "ReportAbuse": "Report abuse",
+    "Login": "Login",
+    "Logout": "Logout",
+    "Register": "Register",
+    "Username": "Username",
+    "Password": "Password",
+    "Email": "Email",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Create": "Create",
+    "Update": "Update",
+    "Search": "Search",
+    "Loading": "Loading...",
+    "Error": "Error",
+    "Success": "Success",
+    "Retry": "Retry",
+    "Language": "Language"
+  },
+  "Home": {
+    "Title": "stfu.lat - Quick link shortener",
+    "Welcome": "Welcome to stfu.lat",
+    "Description": "The fastest way to shorten your links"
+  },
+  "Stats": {
+    "Title": "Statistics - stfu.lat",
+    "PublicStats": "📊 Public Statistics",
+    "TotalLinks": "Links created",
+    "TotalUsers": "Users",
+    "LinksToday": "Links today",
+    "LinksThisWeek": "This week",
+    "LinksThisMonth": "This month",
+    "TopDomains": "🏆 Most popular domains",
+    "LastUpdated": "Last updated",
+    "LoadingStats": "Loading statistics...",
+    "ErrorLoadingStats": "Unable to load statistics",
+    "Retry": "Retry"
+  },
+  "Auth": {
+    "Login": "Login",
+    "Register": "Register",
+    "ForgotPassword": "Forgot password?",
+    "RememberMe": "Remember me",
+    "LoginSuccess": "Login successful",
+    "LoginError": "Login failed",
+    "LogoutSuccess": "Logout successful",
+    "InvalidCredentials": "Invalid username or password"
+  },
+  "Links": {
+    "ShortenLink": "Shorten Link",
+    "OriginalUrl": "Original URL",
+    "ShortUrl": "Short URL",
+    "CreateLink": "Create Link",
+    "YourLinks": "Your Links",
+    "NoLinks": "No links found",
+    "CopyLink": "Copy Link",
+    "LinkCopied": "Link copied to clipboard"
+  },
+  "Footer": {
+    "Copyright": "© stfu.lat {0}",
+    "MadeBy": "❤️ Made by @Powerm1nt"
+  }
+}
+

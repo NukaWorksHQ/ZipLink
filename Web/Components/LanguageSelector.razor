@@ -1,0 +1,68 @@
+@inject ILocalizationService LocalizationService
+@implements IDisposable
+
+<div class="language-selector">
+    <select @onchange="OnLanguageChanged" value="@LocalizationService.CurrentLanguage" class="language-select">
+        @foreach (var language in LocalizationService.GetAvailableLanguages())
+        {
+            <option value="@language.Code">@language.Name</option>
+        }
+    </select>
+</div>
+
+<style>
+    .language-selector {
+        display: inline-block;
+    }
+
+    .language-select {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+        min-width: 70px;
+    }
+
+    .language-select:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+    }
+
+    .language-select:focus {
+        border-color: rgba(59, 130, 246, 0.6);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .language-select option {
+        background: #1a1a1a;
+        color: white;
+        padding: 0.5rem;
+    }
+</style>
+
+@code {
+    protected override void OnInitialized()
+    {
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+    }
+
+    private async Task OnLanguageChanged(ChangeEventArgs e)
+    {
+        if (e.Value is not null and string language)
+        {
+            await LocalizationService.SetLanguageAsync(language);
+        }
+    }
+
+    public void Dispose()
+    {
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+}

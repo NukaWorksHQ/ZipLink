@@ -70,3 +70,15 @@ window.removeOutsideClickListener = (handler) => {
         document.removeEventListener('click', handler);
     }
 };
+
+window.getBrowserLanguage = () => {
+    if (navigator.language) {
+        return navigator.language.substring(0, 2).toLowerCase();
+    }
+    
+    // Fallback
+    if (navigator.languages && navigator.languages.length > 0) {
+        return navigator.languages[0].substring(0, 2).toLowerCase();
+    }
+    return "en";
+};
