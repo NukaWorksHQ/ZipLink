@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Common;
 using Server.Contexts;
+using Shared.Common;
 using Shared.DTOs;
 using Shared.Entities;
 
@@ -26,12 +27,19 @@ namespace Server.Services
                 throw new ArgumentException($"Invalid API Host: {dto.ApiHostName}");
             }
 
-            var createdLink = await base.Create(dto);
+            // Générer un ID unique court
+            var existingIds = await _context.Links.Select(l => l.Id).ToHashSetAsync();
+            var uniqueId = GuidUtils.GenerateUniqueShortId(existingIds);
 
-            // Les statistiques avec vraies données sont créées via CreateWithContext
-            // Cette méthode est utilisée pour les créations sans contexte HTTP
+            var entity = _mapper.Map<Link>(dto);
+            entity.Id = uniqueId;
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
 
-            return createdLink;
+            _context.Add(entity);
+            await _context.SaveChangesAsync();
+
+            return entity;
         }
 
         // Surcharge pour accepter les informations du créateur
@@ -43,13 +51,23 @@ namespace Server.Services
                 throw new ArgumentException($"Invalid API Host: {dto.ApiHostName}");
             }
 
-            var createdLink = await base.Create(dto);
+            // Générer un ID unique court
+            var existingIds = await _context.Links.Select(l => l.Id).ToHashSetAsync();
+            var uniqueId = GuidUtils.GenerateUniqueShortId(existingIds);
+
+            var entity = _mapper.Map<Link>(dto);
+            entity.Id = uniqueId;
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            _context.Add(entity);
+            await _context.SaveChangesAsync();
 
             // Créer une statistique initiale de création avec les vraies données du créateur
             try
             {
                 await _statsService.RecordAccessAsync(
-                    createdLink.Id, 
+                    entity.Id, 
                     ipAddress,
                     userAgent ?? "Unknown Browser",
                     "Link Creation"
@@ -60,7 +78,7 @@ namespace Server.Services
                 // Ignorer les erreurs de logging pour ne pas affecter la création du lien
             }
 
-            return createdLink;
+            return entity;
         }
 
         public override async Task<Link> Edit(string id, LinkUpdateDto dto)
