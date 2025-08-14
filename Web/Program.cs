@@ -31,7 +31,6 @@ builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddScoped<IApiHostService, ApiHostService>();
 builder.Services.AddScoped<IStatsService, StatsService>();
 
-// HttpClient spécifique pour le service de localisation (pointe vers wwwroot du client Web)
 builder.Services.AddScoped<ILocalizationService>(serviceProvider =>
 {
     var httpClientForLocalization = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
