@@ -17,6 +17,9 @@ namespace Server.Services
         public async Task<User> EditPassword(string id, string hashedPassword)
         {
             var entity = await _context.Users.FindAsync(id);
+            if (entity == null)
+                throw new KeyNotFoundException($"User with ID {id} not found.");
+
             entity.HashedPassword = hashedPassword;
             
             await _context.SaveChangesAsync();

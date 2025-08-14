@@ -29,14 +29,9 @@ namespace Server.Services
             UserService userService,
             AppDbContext dbContext)
         {
-            _secretKey = configuration["Jwt:Key"];
-            _issuer = configuration["Jwt:Issuer"];
-            _audience = configuration["Jwt:Audience"];
-
-            if (_secretKey == null || _issuer == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
+            _secretKey = configuration["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key configuration is missing");
+            _issuer = configuration["Jwt:Issuer"] ?? throw new ArgumentNullException("Jwt:Issuer configuration is missing");
+            _audience = configuration["Jwt:Audience"] ?? throw new ArgumentNullException("Jwt:Audience configuration is missing");
 
             _userService = userService;
             _dbContext = dbContext;

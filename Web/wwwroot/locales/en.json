@@ -27,7 +27,9 @@
     "NotAvailable": "N/A",
     "Unknown": "Unknown",
     "Back": "Back",
-    "Submit": "Submit"
+    "Submit": "Submit",
+    "Close": "Close",
+    "Clear": "Clear"
   },
   "Home": {
     "Title": "stfu.lat - Quick link shortener",
@@ -74,7 +76,21 @@
     "EnterUrlPlaceholder": "Enter a long URL here...",
     "ShortenButton": "Shorten",
     "EditLinks": "Edit links",
-    "NoLinksCreated": "No links created yet."
+    "NoLinksCreated": "No links created yet.",
+    "Stats": "Statistics",
+    "ExpirationDate": "Expiration Date",
+    "MaxUses": "Max Uses",
+    "IsActive": "Is Active",
+    "EnableTracking": "Enable Tracking",
+    "Statistics": "Statistics",
+    "TotalClicks": "Total Clicks",
+    "UniqueVisitors": "Unique Visitors",
+    "LastAccessed": "Last Accessed",
+    "TrackingDisabled": "Tracking Disabled",
+    "TrackingEnabled": "Tracking Enabled",
+    "Uses": "uses",
+    "Expires": "Expires",
+    "CountryStats": "Country Statistics"
   },
   "Footer": {
     "Copyright": "© stfu.lat {0}",
@@ -137,6 +153,56 @@
     "Point3": "We do not share your personal data with third parties.",
     "Point4": "Basic usage data (such as link clicks) may be collected to improve our service.",
     "Contact": "If you have any questions about your privacy, please contact us."
+  },
+  "LinkEditor": {
+    "EditLink": "Edit Link",
+    "LinkSettings": "Link Settings",
+    "TargetUrl": "Target URL",
+    "MaxUses": "Max Uses",
+    "UnlimitedUses": "Unlimited uses",
+    "ExpirationDate": "Expiration Date",
+    "NoExpiration": "No expiration",
+    "TrackingEnabled": "Enable tracking",
+    "IsActive": "Link is active",
+    "ApiHost": "API Host",
+    "CurrentUses": "Current Uses",
+    "LinkStats": "Link Statistics",
+    "TotalClicks": "Total Clicks",
+    "UniqueVisitors": "Unique Visitors",
+    "LastAccessed": "Last Accessed",
+    "CountryStats": "Country Statistics",
+    "RecentAccesses": "Recent Accesses",
+    "IpAddress": "IP Address",
+    "AccessTime": "Access Time",
+    "UserAgent": "User Agent",
+    "Country": "Country",
+    "SaveChanges": "Save Changes",
+    "CancelChanges": "Cancel",
+    "DeleteLink": "Delete Link",
+    "ConfirmDelete": "Are you sure you want to delete this link?",
+    "LinkUpdated": "Link updated successfully",
+    "LinkDeleted": "Link deleted successfully",
+    "ErrorUpdating": "Error updating link",
+    "ErrorDeleting": "Error deleting link",
+    "ErrorLoading": "Error loading link data",
+    "RemoveUsageLimit": "Remove usage limit",
+    "SetUsageLimit": "Set usage limit"
+  },
+  "Validation": {
+    "InvalidUrl": "Please enter a valid URL",
+    "UrlRequired": "URL is required",
+    "MaxUsesInvalid": "Max uses must be a positive number or empty for unlimited",
+    "ExpirationInPast": "Expiration date cannot be in the past",
+    "FieldRequired": "This field is required"
+  },
+  "HttpErrors": {
+    "ConnectionError": "Connection error. Please check your internet connection.",
+    "ServerError": "Server error. Please try again later.",
+    "UnauthorizedAccess": "Unauthorized access. Please log in.",
+    "NotFound": "Resource not found.",
+    "BadRequest": "Invalid request.",
+    "Timeout": "Request timeout. Please try again.",
+    "UnknownError": "An unknown error occurred."
   }
 }
 

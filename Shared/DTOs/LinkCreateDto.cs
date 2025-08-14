@@ -15,5 +15,13 @@ namespace Shared.DTOs
 
         [Required(ErrorMessage = "ApiHostName is required.")]
         public required string ApiHostName { get; set; }
+
+        // Nouvelles propriétés de personnalisation
+        public DateTime? ExpirationDate { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "MaxUses must be greater than 0.")]
+        public int? MaxUses { get; set; }
+
+        public bool TrackingEnabled { get; set; } = true;
     }
 }

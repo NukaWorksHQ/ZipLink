@@ -33,7 +33,6 @@ button {
     box-shadow: var(--aero-shadow);
     text-shadow: var(--aero-text-shadow);
     position: relative;
-    overflow: hidden;
 }
 
     button::before {
@@ -995,7 +994,6 @@ code {
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
 }
 
 .btn-danger {
