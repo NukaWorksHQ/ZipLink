@@ -128,6 +128,9 @@ app.UseCors("AllowBlazorClient");
 
 app.UseHttpsRedirection();
 
+// Redirection vers stfu.lat pour la racine de l'API
+app.MapGet("/", () => Results.Redirect(builder.Configuration["Jwt:Audience"]!));
+
 app.UseAuthentication();
 
 app.UseAuthorization();
