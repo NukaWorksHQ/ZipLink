@@ -29,7 +29,6 @@ builder.Services.AddScoped<IAuthValidator, AuthValidator>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddScoped<IApiHostService, ApiHostService>();
-builder.Services.AddScoped<IStatsService, StatsService>();
 
 builder.Services.AddScoped<ILocalizationService>(serviceProvider =>
 {
