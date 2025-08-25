@@ -112,17 +112,18 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<LinkStatsService>();
 builder.Services.AddScoped<LinkService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<StatsService>();
 builder.Services.AddScoped<ClaimsPrincipal>();
 builder.Services.AddScoped<UserAccessValidator>();
 builder.Services.AddScoped<IApiHostService, ApiHostService>();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddTransient<Func<HttpClient>>(serviceProvider =>
+builder.Services.AddTransient<Func<HttpClient>>(_ =>
 {
     return () =>
     {
-        var handler = new SocketsHttpHandler()
+        var handler = new SocketsHttpHandler
         {
             // Durée de vie courte des connexions poolées pour forcer la résolution DNS
             PooledConnectionLifetime = TimeSpan.FromMinutes(2),
@@ -135,13 +136,12 @@ builder.Services.AddTransient<Func<HttpClient>>(serviceProvider =>
 });
 
 // HttpClient spécifique pour la géolocalisation
-builder.Services.AddSingleton<Func<string, HttpClient>>(serviceProvider =>
+builder.Services.AddSingleton<Func<string, HttpClient>>(_ =>
 {
-    return (clientName) =>
+    return clientName =>
     {
-        var handler = new SocketsHttpHandler()
+        var handler = new SocketsHttpHandler
         {
-            // Connexions très courtes pour forcer la résolution DNS à chaque requête
             PooledConnectionLifetime = TimeSpan.FromMinutes(1),
             PooledConnectionIdleTimeout = TimeSpan.FromSeconds(30),
             ConnectTimeout = TimeSpan.FromSeconds(5)
@@ -172,7 +172,7 @@ app.UseCors("AllowBlazorClient");
 
 app.UseHttpsRedirection();
 
-// Redirection vers stfu.lat pour la racine de l'API
+// Redirect to stfu.lat
 app.MapGet("/", () => Results.Redirect(builder.Configuration["Jwt:Audience"]!));
 
 app.UseAuthentication();
