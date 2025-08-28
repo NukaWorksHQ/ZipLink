@@ -27,7 +27,7 @@ namespace Server.Controllers
         /// </summary>
         /// <returns>Statistiques publiques</returns>
         [HttpGet("public")]
-        public async Task<ActionResult<PublicStatsDto>> GetPublicStats()
+        public async Task<ActionResult> GetPublicStats()
         {
             try
             {
