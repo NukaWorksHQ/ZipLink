@@ -1,22 +1,36 @@
 ﻿@page "/privacy"
 @layout Web.Layout.InformationLayout
+@inject ILocalizationService LocalizationService
+@implements IDisposable
 
-<PageTitle>Privacy Policy - stfu.lat</PageTitle>
+<PageTitle>@LocalizationService.GetString("Privacy.PageTitle")</PageTitle>
 
 <section class="info-section">
-    <h1>Privacy Policy</h1>
+    <h1>@LocalizationService.GetString("Privacy.Title")</h1>
     <p>
-        stfu.lat values your privacy. We collect minimal data necessary to provide our link shortening service.
+        @LocalizationService.GetString("Privacy.Description")
     </p>
     <ul>
-        <li>We do not collect personal information unless you choose to create an account or log in.</li>
-        <li>We use cookies to store authentication data and to keep you logged in.</li>
-        <li>We do not share your personal data with third parties.</li>
-        <li>Basic usage data (such as link clicks) may be collected to improve our service.</li>
+        <li>@LocalizationService.GetString("Privacy.Point1")</li>
+        <li>@LocalizationService.GetString("Privacy.Point2")</li>
+        <li>@LocalizationService.GetString("Privacy.Point3")</li>
+        <li>@LocalizationService.GetString("Privacy.Point4")</li>
     </ul>
     <p>
-        If you have any questions about your privacy, please contact us.
+        @LocalizationService.GetString("Privacy.Contact")
     </p>
 </section>
+
+@code {
+    protected override void OnInitialized()
+    {
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+}
 
 

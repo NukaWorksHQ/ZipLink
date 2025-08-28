@@ -109,11 +109,55 @@ builder.Services.AddCors(options =>
 
 // Services registration
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<LinkStatsService>();
 builder.Services.AddScoped<LinkService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<StatsService>();
 builder.Services.AddScoped<ClaimsPrincipal>();
 builder.Services.AddScoped<UserAccessValidator>();
 builder.Services.AddScoped<IApiHostService, ApiHostService>();
+
+builder.Services.AddHttpClient();
+
+builder.Services.AddTransient<Func<HttpClient>>(_ =>
+{
+    return () =>
+    {
+        var handler = new SocketsHttpHandler
+        {
+            // Durée de vie courte des connexions poolées pour forcer la résolution DNS
+            PooledConnectionLifetime = TimeSpan.FromMinutes(2),
+            PooledConnectionIdleTimeout = TimeSpan.FromMinutes(1),
+            ConnectTimeout = TimeSpan.FromSeconds(10)
+        };
+
+        return new HttpClient(handler);
+    };
+});
+
+// HttpClient spécifique pour la géolocalisation
+builder.Services.AddSingleton<Func<string, HttpClient>>(_ =>
+{
+    return clientName =>
+    {
+        var handler = new SocketsHttpHandler
+        {
+            PooledConnectionLifetime = TimeSpan.FromMinutes(1),
+            PooledConnectionIdleTimeout = TimeSpan.FromSeconds(30),
+            ConnectTimeout = TimeSpan.FromSeconds(5)
+        };
+
+        var client = new HttpClient(handler);
+
+        if (clientName == "GeoLocation")
+        {
+            client.Timeout = TimeSpan.FromSeconds(10);
+            client.DefaultRequestHeaders.Add("User-Agent", "ZipLink-GeoResolver/1.0");
+        }
+
+        return client;
+    };
+});
 
 var app = builder.Build();
 
@@ -128,7 +172,7 @@ app.UseCors("AllowBlazorClient");
 
 app.UseHttpsRedirection();
 
-// Redirection vers stfu.lat pour la racine de l'API
+// Redirect to stfu.lat
 app.MapGet("/", () => Results.Redirect(builder.Configuration["Jwt:Audience"]!));
 
 app.UseAuthentication();

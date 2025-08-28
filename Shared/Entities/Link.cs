@@ -10,6 +10,19 @@ namespace Shared.Entities
 
         public required string ApiHostName { get; set; }
 
+        // Nouvelles propriétés de personnalisation
+        public DateTime? ExpirationDate { get; set; }
+
+        public int? MaxUses { get; set; }
+
+        public int CurrentUses { get; set; } = 0;
+
+        public bool IsActive { get; set; } = true;
+
+        public bool TrackingEnabled { get; set; } = true;
+
+        // Propriétés de navigation
         public User User { get; set; }
+        public ICollection<LinkStat> LinkStats { get; set; } = new List<LinkStat>();
     }
 }

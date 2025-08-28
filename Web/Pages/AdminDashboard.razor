@@ -1,0 +1,315 @@
+@page "/admin"
+@inject HttpClient Http
+@inject IAuthValidator authValidator
+@inject NavigationManager Navigation
+@inject ILocalizationService LocalizationService
+@implements IDisposable
+@using Shared.Entities
+@using Shared.Common
+@using Shared.DTOs
+
+<PageTitle>@LocalizationService.GetString("Admin.PageTitle")</PageTitle>
+
+@if (!isAuthorized)
+{
+    <div class="alert alert-danger">
+        <p>@LocalizationService.GetString("Admin.AccessDenied")</p>
+    </div>
+}
+else if (isLoading)
+{
+    <div class="loading">
+        <p>@LocalizationService.GetString("Common.Loading")</p>
+    </div>
+}
+else
+{
+    <div class="admin-dashboard">
+        <h1>@LocalizationService.GetString("Admin.Dashboard")</h1>
+
+        <div class="tabs">
+            <button class="tab-button @(activeTab == "users" ? "active" : "")" @onclick="@(() => SetActiveTab("users"))">
+                @LocalizationService.GetString("Admin.Users") (@users.Count)
+            </button>
+            <button class="tab-button @(activeTab == "links" ? "active" : "")" @onclick="@(() => SetActiveTab("links"))">
+                @LocalizationService.GetString("Admin.Links") (@links.Count)
+            </button>
+            <button class="tab-button @(activeTab == "stats" ? "active" : "")" @onclick="@(() => SetActiveTab("stats"))">
+                @LocalizationService.GetString("Admin.Statistics")
+            </button>
+        </div>
+
+        <div class="tab-content">
+            @if (activeTab == "users")
+            {
+                <div class="table-container">
+                    <h2>@LocalizationService.GetString("Admin.UserManagement")</h2>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>@LocalizationService.GetString("Admin.ID")</th>
+                                <th>@LocalizationService.GetString("Admin.Username")</th>
+                                <th>@LocalizationService.GetString("Admin.Role")</th>
+                                <th>@LocalizationService.GetString("Admin.CreatedDate")</th>
+                                <th>@LocalizationService.GetString("Admin.LinkCount")</th>
+                                <th>@LocalizationService.GetString("Admin.Actions")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in users)
+                            {
+                                <tr>
+                                    <td>@user.Id</td>
+                                    <td>@user.Username</td>
+                                    <td>
+                                        <span class="role-badge @(user.Role == Shared.Common.UserRole.Admin ? "admin" : "standard")">
+                                            @user.Role
+                                        </span>
+                                    </td>
+                                    <td>@user.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@(user.Links?.Count ?? 0)</td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => DeleteUser(user.Id)">
+                                            @LocalizationService.GetString("Common.Delete")
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (activeTab == "links")
+            {
+                <div class="table-container">
+                    <h2>@LocalizationService.GetString("Admin.LinkManagement")</h2>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>@LocalizationService.GetString("Admin.ID")</th>
+                                <th>@LocalizationService.GetString("Admin.User")</th>
+                                <th>@LocalizationService.GetString("Admin.TargetUrl")</th>
+                                <th>@LocalizationService.GetString("Admin.ApiHost")</th>
+                                <th>@LocalizationService.GetString("Admin.CreatedDate")</th>
+                                <th>@LocalizationService.GetString("Admin.Actions")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var link in links)
+                            {
+                                <tr>
+                                    <td>@link.Id</td>
+                                    <td>@GetUserName(link.UserId)</td>
+                                    <td>
+                                        <a href="@link.Target" target="_blank" class="link-target">
+                                            @(link.Target.Length > 50 ? link.Target.Substring(0, 50) + "..." : link.Target)
+                                        </a>
+                                    </td>
+                                    <td>@link.ApiHostName</td>
+                                    <td>@link.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => DeleteLink(link.Id)">
+                                            @LocalizationService.GetString("Common.Delete")
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (activeTab == "stats")
+            {
+                <div class="stats-container">
+                    <h2>@LocalizationService.GetString("Admin.AppStatistics")</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>@LocalizationService.GetString("Admin.TotalUsers")</h3>
+                            <p class="stat-number">@users.Count</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>@LocalizationService.GetString("Admin.TotalLinks")</h3>
+                            <p class="stat-number">@links.Count</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>@LocalizationService.GetString("Admin.Administrators")</h3>
+                            <p class="stat-number">@users.Count(u => u.Role == Shared.Common.UserRole.Admin)</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>@LocalizationService.GetString("Admin.StandardUsers")</h3>
+                            <p class="stat-number">@users.Count(u => u.Role == Shared.Common.UserRole.Standard)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-activity">
+                        <h3>@LocalizationService.GetString("Admin.RecentActivity")</h3>
+                        <div class="activity-list">
+                            <h4>@LocalizationService.GetString("Admin.RecentUsers")</h4>
+                            @foreach (var user in users.OrderByDescending(u => u.CreatedAt).Take(5))
+                            {
+                                <div class="activity-item">
+                                    <span>@user.Username</span>
+                                    <span class="activity-date">@user.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="activity-list">
+                            <h4>@LocalizationService.GetString("Admin.RecentLinks")</h4>
+                            @foreach (var link in links.OrderByDescending(l => l.CreatedAt).Take(5))
+                            {
+                                <div class="activity-item">
+                                    <span>@GetUserName(link.UserId) - @(link.Target.Length > 30 ? link.Target.Substring(0, 30) + "..." : link.Target)</span>
+                                    <span class="activity-date">@link.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private List<User> users = new();
+    private List<Link> links = new();
+    private string activeTab = "users";
+    private bool isLoading = true;
+    private bool isAuthorized = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            var userClaim = await authValidator.GetUserClaim();
+
+            if (userClaim?.Role != Shared.Common.UserRole.Admin)
+            {
+                isAuthorized = false;
+                return;
+            }
+
+            isAuthorized = true;
+            await LoadData();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'initialisation: {ex.Message}");
+            isAuthorized = false;
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            // Charger les utilisateurs en premier
+            var usersResponse = await Http.GetAsync("/Users");
+            if (usersResponse.IsSuccessStatusCode)
+            {
+                users = await usersResponse.Content.ReadFromJsonAsync<List<User>>() ?? new();
+                Console.WriteLine($"Utilisateurs chargés: {users.Count}");
+            }
+            else
+            {
+                Console.WriteLine($"Erreur lors du chargement des utilisateurs: {usersResponse.StatusCode}");
+                users = new List<User>();
+            }
+
+            // Charger les liens
+            var linksResponse = await Http.GetAsync("/Links");
+            if (linksResponse.IsSuccessStatusCode)
+            {
+                links = await linksResponse.Content.ReadFromJsonAsync<List<Link>>() ?? new();
+                Console.WriteLine($"Liens chargés: {links.Count}");
+            }
+            else
+            {
+                Console.WriteLine($"Erreur lors du chargement des liens: {linksResponse.StatusCode}");
+                links = new List<Link>();
+            }
+
+            // Forcer la mise à jour de l'interface
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des données: {ex.Message}");
+            users = new List<User>();
+            links = new List<Link>();
+        }
+    }
+
+    private void SetActiveTab(string tab)
+    {
+        activeTab = tab;
+        StateHasChanged();
+    }
+
+    private string GetUserName(string userId)
+    {
+        var user = users.FirstOrDefault(u => u.Id == userId);
+        return user?.Username ?? LocalizationService.GetString("Admin.UnknownUser");
+    }
+
+    private async Task DeleteUser(string userId)
+    {
+        if (await ConfirmAction("Êtes-vous sûr de vouloir supprimer cet utilisateur ?"))
+        {
+            try
+            {
+                var response = await Http.DeleteAsync($"/Users/{userId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    users.RemoveAll(u => u.Id == userId);
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la suppression de l'utilisateur: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task DeleteLink(string linkId)
+    {
+        if (await ConfirmAction("Êtes-vous sûr de vouloir supprimer ce lien ?"))
+        {
+            try
+            {
+                var response = await Http.DeleteAsync($"/Links/{linkId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    links.RemoveAll(l => l.Id == linkId);
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la suppression du lien: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task<bool> ConfirmAction(string message)
+    {
+        // Simple confirmation - dans un vrai projet, vous utiliseriez une modal
+        return true; // Pour simplifier, on confirme automatiquement
+    }
+}

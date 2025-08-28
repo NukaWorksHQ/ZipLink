@@ -1,33 +1,173 @@
 ﻿@inject ILinkService linkService
 @inject IConfiguration config
+@inject ILocalizationService LocalizationService
+@implements IDisposable
+@using Shared.DTOs
 
-<p class="tooltip__title">Edit links</p>
+<p class="tooltip__title">@LocalizationService.GetString("Links.EditLinks")</p>
 
 <div class="editlinks">
-	<ul class="editlinks__list">
-		@if (links.Count > 0)
-		{
-			@foreach (var link in links)
+	<div class="editlinks__scroll-container">
+		<ul class="editlinks__list">
+			@if (links.Count > 0)
 			{
-				<li class="editlinks__list--item">
-					<div>
+				@foreach (var link in links)
+				{
+					<li class="editlinks__list--item @(link.IsActive ? "" : "inactive")">
+					<div class="link-main-info">
 						<a href="@(Utils.GetFinalLink(link, config))" class="source" target="_blank">
 							@(Utils.GetFinalLink(link, config))
 						</a>
 						<p class="target">@link.Target</p>
+
+						<!-- Informations de personnalisation -->
+						<div class="link-custom-info">
+							@if (link.ExpirationDate.HasValue)
+							{
+								<span class="info-badge @(link.ExpirationDate.Value < DateTime.UtcNow ? "expired" : "active")">
+									📅 @LocalizationService.GetString("Links.Expires"): @link.ExpirationDate.Value.ToString("dd/MM/yyyy HH:mm")
+								</span>
+							}
+							@if (link.MaxUses.HasValue)
+							{
+								<span class="info-badge @(link.CurrentUses >= link.MaxUses.Value ? "limit-reached" : "active")">
+									🔢 @link.CurrentUses/@link.MaxUses @LocalizationService.GetString("Links.Uses")
+								</span>
+							}
+							else
+							{
+								<span class="info-badge active">
+									🔢 @link.CurrentUses @LocalizationService.GetString("Links.Uses")
+								</span>
+							}
+							@if (link.TrackingEnabled)
+							{
+								<span class="info-badge tracking">
+									📊 @LocalizationService.GetString("Links.TrackingEnabled")
+								</span>
+							}
+							else
+							{
+								<span class="info-badge tracking-disabled">
+									📊 @LocalizationService.GetString("Links.TrackingDisabled")
+								</span>
+							}
+						</div>
 					</div>
-					<p class="cpy_btn" @onclick="() => HandleDeleteLink(link.Id)">Delete</p>
+
+					<div class="link-actions">
+						<button type="button" @onclick="() => ToggleEditMode(link.Id)" class="edit-btn">
+							@LocalizationService.GetString("Common.Edit")
+						</button>
+						<button type="button" @onclick="() => ViewStats(link.Id)" class="stats-btn">
+							@LocalizationService.GetString("Links.Stats")
+						</button>
+						<button type="button" @onclick="() => HandleDeleteLink(link.Id)" class="delete-btn">
+							@LocalizationService.GetString("Common.Delete")
+						</button>
+					</div>
+
+					@if (editingLinkId == link.Id)
+					{
+						<div class="edit-form">
+							<div class="form-group">
+								<label>@LocalizationService.GetString("Links.ExpirationDate")</label>
+								<div>
+									<input type="datetime-local" class="form-input" @bind="editForm.ExpirationDate" />
+									<button type="button" @onclick="() => ClearExpiration()" class="clear-btn">
+										@LocalizationService.GetString("Common.Clear")
+									</button>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label>@LocalizationService.GetString("Links.MaxUses")</label>
+								<div>
+									<input type="number" min="1" class="form-input" @bind="editForm.MaxUses" />
+									<button type="button" @onclick="() => ClearMaxUses()" class="clear-btn">
+										@LocalizationService.GetString("Common.Clear")
+									</button>
+								</div>
+							</div>
+
+							<div class="form-group checkbox-group">
+								<label class="checkbox-label">
+									<input type="checkbox" class="form-checkbox" @bind="editForm.IsActive" />
+									@LocalizationService.GetString("Links.IsActive")
+								</label>
+							</div>
+
+							<div class="form-group checkbox-group">
+								<label class="checkbox-label">
+									<input type="checkbox" class="form-checkbox" @bind="editForm.TrackingEnabled" />
+									@LocalizationService.GetString("Links.EnableTracking")
+								</label>
+							</div>
+
+							<div class="form-actions">
+								<button type="button" @onclick="() => SaveChanges(link.Id)" class="save-btn">
+									@LocalizationService.GetString("Common.Save")
+								</button>
+								<button type="button" @onclick="() => CancelEdit()" class="cancel-btn">
+									@LocalizationService.GetString("Common.Cancel")
+								</button>
+							</div>
+						</div>
+					}
+
+					@if (showingStatsId == link.Id && linkStats != null)
+					{
+						<div class="stats-panel">
+							<h4>@LocalizationService.GetString("Links.Statistics")</h4>
+							<div class="stats-grid">
+								<div class="stat-item">
+									<span class="stat-label">@LocalizationService.GetString("Links.TotalClicks")</span>
+									<span class="stat-value">@linkStats.TotalClicks</span>
+								</div>
+								<div class="stat-item">
+									<span class="stat-label">@LocalizationService.GetString("Links.UniqueVisitors")</span>
+									<span class="stat-value">@linkStats.UniqueVisitors</span>
+								</div>
+								@if (linkStats.LastAccessed.HasValue)
+								{
+									<div class="stat-item">
+										<span class="stat-label">@LocalizationService.GetString("Links.LastAccessed")</span>
+										<span class="stat-value">@linkStats.LastAccessed.Value.ToString("dd/MM/yyyy HH:mm")</span>
+									</div>
+								}
+							</div>
+
+							@if (linkStats.CountryCounts.Any())
+							{
+								<div class="country-stats">
+									<h5>@LocalizationService.GetString("Links.CountryStats")</h5>
+									@foreach (var country in linkStats.CountryCounts.Take(5))
+									{
+										<div class="country-item">
+											<span>@country.Key</span>
+											<span>@country.Value</span>
+										</div>
+									}
+								</div>
+							}
+
+							<button type="button" @onclick="() => HideStats()" class="close-stats-btn">
+								@LocalizationService.GetString("Common.Close")
+							</button>
+						</div>
+					}
 				</li>
 			}
-		}
-		else
-		{
-			<p class="editlinks__placeholder">No links created yet.</p>
-		}
-	</ul>
+			}
+			else
+			{
+				<p class="editlinks__placeholder">@LocalizationService.GetString("Links.NoLinksCreated")</p>
+			}
+		</ul>
+	</div>
 
 	<div class="miniview__actions">
-		<button type="button" @onclick="GoBack">Back</button>
+		<button type="button" @onclick="GoBack">@LocalizationService.GetString("Common.Back")</button>
 	</div>
 </div>
 
@@ -36,10 +176,20 @@
 	[Parameter] public EventCallback OnSubmit { get; set; }
 
 	private ICollection<Link> links { get; set; } = [];
+	private string? editingLinkId;
+	private string? showingStatsId;
+	private LinkStatsDto? linkStats;
+	private LinkUpdateDto editForm = new();
 
 	protected async override Task OnInitializedAsync()
 	{
+		LocalizationService.OnLanguageChanged += StateHasChanged;
 		await FetchLinks();
+	}
+
+	public void Dispose()
+	{
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
 	}
 
 	private async Task FetchLinks()
@@ -75,5 +225,86 @@
 		{
 			Console.WriteLine("Failed to delete the link: " + e.Message);
 		}
+	}
+
+	private void ToggleEditMode(string linkId)
+	{
+		if (editingLinkId == linkId)
+		{
+			editingLinkId = null;
+		}
+		else
+		{
+			var link = links.FirstOrDefault(l => l.Id == linkId);
+			if (link != null)
+			{
+				editingLinkId = linkId;
+				editForm = new LinkUpdateDto
+				{
+					ExpirationDate = link.ExpirationDate,
+					MaxUses = link.MaxUses,
+					IsActive = link.IsActive,
+					TrackingEnabled = link.TrackingEnabled
+				};
+			}
+		}
+	}
+
+	private void CancelEdit()
+	{
+		editingLinkId = null;
+		editForm = new();
+	}
+
+	private async Task SaveChanges(string linkId)
+	{
+		try
+		{
+			await linkService.Edit(linkId, editForm);
+			await FetchLinks(); // Refresh the list
+			editingLinkId = null;
+			editForm = new();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("Failed to update link: " + e.Message);
+		}
+	}
+
+	private void ClearExpiration()
+	{
+		editForm.ExpirationDate = null;
+	}
+
+	private void ClearMaxUses()
+	{
+		editForm.MaxUses = null;
+	}
+
+	private async Task ViewStats(string linkId)
+	{
+		try
+		{
+			if (showingStatsId == linkId)
+			{
+				showingStatsId = null;
+				linkStats = null;
+			}
+			else
+			{
+				showingStatsId = linkId;
+				linkStats = await linkService.GetLinkStats(linkId);
+			}
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("Failed to fetch link stats: " + e.Message);
+		}
+	}
+
+	private void HideStats()
+	{
+		showingStatsId = null;
+		linkStats = null;
 	}
 }

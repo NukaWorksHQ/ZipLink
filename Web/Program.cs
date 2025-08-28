@@ -14,8 +14,14 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredLocalStorage();
 
 var environment = builder.HostEnvironment.Environment;
-var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-var config = await httpClient.GetFromJsonAsync<AppSettings>($"appsettings.{environment}.json");
+
+var configHttpClient = new HttpClient
+{ 
+    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
+};
+
+var config = await configHttpClient.GetFromJsonAsync<AppSettings>($"appsettings.{environment}.json");
+configHttpClient.Dispose();
 
 if (config?.ApiHosts == null || !config.ApiHosts.Any())
 {
@@ -23,7 +29,12 @@ if (config?.ApiHosts == null || !config.ApiHosts.Any())
 }
 
 var defaultApiHost = config.ApiHosts.First().Url;
-builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(defaultApiHost) });
+
+// HttpClient principal pour WebAssembly
+builder.Services.AddScoped(_ => new HttpClient
+{ 
+    BaseAddress = new Uri(defaultApiHost) 
+});
 
 builder.Services.AddScoped<IAuthValidator, AuthValidator>();
 builder.Services.AddScoped<IAccountService, AccountService>();
@@ -32,7 +43,10 @@ builder.Services.AddScoped<IApiHostService, ApiHostService>();
 
 builder.Services.AddScoped<ILocalizationService>(serviceProvider =>
 {
-    var httpClientForLocalization = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+    var httpClientForLocalization = new HttpClient
+    { 
+        BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
+    };
     var jsRuntime = serviceProvider.GetRequiredService<IJSRuntime>();
     return new LocalizationService(httpClientForLocalization, jsRuntime);
 });

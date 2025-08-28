@@ -14,5 +14,9 @@ namespace Web.Common
         public Task<Link> Get(string id);
 
         public Task<bool> Delete(string id);
+
+        public Task<LinkStatsDto> GetLinkStats(string id);
+
+        public Task RecordAccess(string id, string ipAddress, string? userAgent, string? referer);
     }
 }

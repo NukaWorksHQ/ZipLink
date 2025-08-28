@@ -68,10 +68,11 @@ namespace Server.Controllers
 
         [
             SwaggerOperation(
-            Summary = "Create a new Link",
-            Description = "Create a new Link by the user and store it to the database.")
+            Summary = "Create a new Link with customization options",
+            Description = "Create a new Link with expiration date, usage limits, and tracking settings.")
         ]
         [SwaggerResponse(200, "Return the created object")]
+        [SwaggerResponse(400, "Invalid input data")]
         [SwaggerResponse(409, "A link with the same ID already exists.")]
         [SwaggerResponse(500, "DbUpdateConcurrencyException or a server error is thrown")]
         [HttpPut]
@@ -79,12 +80,37 @@ namespace Server.Controllers
         {
             try
             {
-                var link = await _linkService.Create(dto);
+                // Validation des données d'entrée
+                if (dto.ExpirationDate.HasValue && dto.ExpirationDate.Value <= DateTime.UtcNow)
+                {
+                    return BadRequest("Expiration date must be in the future.");
+                }
+
+                // MaxUses : null/vide = illimité, sinon doit être > 0
+                if (dto.MaxUses.HasValue && dto.MaxUses.Value <= 0)
+                {
+                    // Convertir les valeurs <= 0 en null pour illimité
+                    dto.MaxUses = null;
+                }
+
+                // Capturer les vraies informations du créateur pour les statistiques
+                var ipAddress = GetClientIpAddress();
+                var userAgent = Request.Headers["User-Agent"].FirstOrDefault();
+
+                var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+                _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+                dto.UserId = userClaim.UserId;
+
+                var link = await _linkService.CreateWithContext(dto, ipAddress, userAgent);
                 return await Get(link.Id);
             }
             catch (DbUpdateConcurrencyException)
             {
                 return Conflict("A link with the same ID already exists.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -94,10 +120,11 @@ namespace Server.Controllers
 
         [
             SwaggerOperation(
-            Summary = "Edit an existing Link",
-            Description = "Edit a link by providing the LinkId and UserId and update it on the database.")
+            Summary = "Edit an existing Link configuration",
+            Description = "Edit a link's customization settings including expiration, limits, and tracking.")
         ]
         [SwaggerResponse(200, "Return the updated object")]
+        [SwaggerResponse(400, "Invalid input data")]
         [SwaggerResponse(404, "Link not found")]
         [SwaggerResponse(500, "DbUpdateConcurrencyException or a server error is thrown")]
         [HttpPost("{id}")]
@@ -107,6 +134,19 @@ namespace Server.Controllers
             {
                 var userClaim = _userAccessValidator.GetUserClaimStatus(User);
                 _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+
+                // Validation des données d'entrée
+                if (dto.ExpirationDate.HasValue && dto.ExpirationDate.Value <= DateTime.UtcNow)
+                {
+                    return BadRequest("Expiration date must be in the future.");
+                }
+
+                // MaxUses : null/vide = illimité, sinon doit être > 0
+                if (dto.MaxUses.HasValue && dto.MaxUses.Value <= 0)
+                {
+                    // Convertir les valeurs <= 0 en null pour illimité
+                    dto.MaxUses = null;
+                }
 
                 if (userClaim.Role == UserRole.Admin)
                     await _linkService.Edit(id, dto);
@@ -120,6 +160,100 @@ namespace Server.Controllers
                 }
 
                 return await Get(id);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [
+            SwaggerOperation(
+            Summary = "Get link statistics",
+            Description = "Get detailed statistics for a specific link including clicks, visitors, and geographical data.")
+        ]
+        [SwaggerResponse(200, "Return link statistics")]
+        [SwaggerResponse(404, "Link not found")]
+        [SwaggerResponse(403, "Permission denied")]
+        [HttpGet("{id}/stats")]
+        public async Task<IActionResult> GetStats(string id)
+        {
+            try
+            {
+                var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+                _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+
+                var stats = await _linkService.GetLinkStatsAsync(id, userClaim.UserId);
+                return Ok(stats);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
+        }
+
+        [
+            SwaggerOperation(
+            Summary = "Record link access",
+            Description = "Record an access to a link for statistics tracking. This endpoint is typically called during link redirection.")
+        ]
+        [SwaggerResponse(200, "Access recorded successfully")]
+        [SwaggerResponse(404, "Link not found")]
+        [SwaggerResponse(403, "Link is disabled or expired")]
+        [AllowAnonymous]
+        [HttpPost("{id}/access")]
+        public async Task<IActionResult> RecordAccess(string id)
+        {
+            try
+            {
+                // Vérifier si le lien peut être utilisé
+                if (!await _linkService.CanUseLinkAsync(id))
+                {
+                    return Forbid("Link is expired, disabled, or has reached its usage limit.");
+                }
+
+                // Obtenir les informations de la requête
+                var ipAddress = GetClientIpAddress();
+                var userAgent = Request.Headers["User-Agent"].FirstOrDefault();
+                var referer = Request.Headers["Referer"].FirstOrDefault();
+
+                // Enregistrer l'accès
+                await _linkService.RecordLinkAccessAsync(id, ipAddress, userAgent, referer);
+
+                // Incrémenter le compteur d'utilisation
+                await _linkService.IncrementLinkUsageAsync(id);
+
+                return Ok(new { message = "Access recorded successfully" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [
+            SwaggerOperation(
+            Summary = "Check if link can be used",
+            Description = "Check if a link is active, not expired, and within usage limits.")
+        ]
+        [SwaggerResponse(200, "Return link availability status")]
+        [SwaggerResponse(404, "Link not found")]
+        [AllowAnonymous]
+        [HttpGet("{id}/canuse")]
+        public async Task<IActionResult> CanUseLink(string id)
+        {
+            try
+            {
+                var canUse = await _linkService.CanUseLinkAsync(id);
+                return Ok(new { canUse = canUse });
             }
             catch (KeyNotFoundException)
             {
@@ -150,6 +284,29 @@ namespace Server.Controllers
             {
                 return NotFound();
             }
+        }
+
+        private string GetClientIpAddress()
+        {
+            // Essayer de récupérer l'IP à travers différents headers
+            var forwarded = Request.Headers["X-Forwarded-For"].FirstOrDefault();
+            if (!string.IsNullOrEmpty(forwarded))
+            {
+                var ips = forwarded.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                if (ips.Length > 0)
+                {
+                    return ips[0].Trim();
+                }
+            }
+
+            var realIp = Request.Headers["X-Real-IP"].FirstOrDefault();
+            if (!string.IsNullOrEmpty(realIp))
+            {
+                return realIp;
+            }
+
+            // Fallback sur l'IP de connexion directe
+            return HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
         }
     }
 }

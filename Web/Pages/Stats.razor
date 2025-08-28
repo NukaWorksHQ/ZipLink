@@ -1,0 +1,137 @@
+@page "/stats"
+@inject IStatsService StatsService
+@inject AccountState AccountState
+@inject ILocalizationService LocalizationService
+@implements IDisposable
+
+<PageTitle>@LocalizationService.GetString("Stats.Title")</PageTitle>
+
+@if (AccountState.Property?.Id != null)
+{
+    <AccountIsland />
+}
+
+<div class="controls">
+    <div class="stats-container">
+        <h1 class="stats-title">@LocalizationService.GetString("Stats.PublicStats")</h1>
+        
+        @if (_isLoading)
+        {
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>@LocalizationService.GetString("Stats.LoadingStats")</p>
+            </div>
+        }
+        else if (_stats != null)
+        {
+            @if (_stats.TopApiHosts.Any())
+            {
+                <div class="top-hosts-section">
+                    <h2>@LocalizationService.GetString("Stats.TopDomains")</h2>
+                    <div class="hosts-list">
+                        @foreach (var host in _stats.TopApiHosts)
+                        {
+                            <div class="host-item">
+                                <span class="host-name">@host.HostName</span>
+                                <div class="host-stats">
+                                    <span class="host-count">@host.LinkCount.ToString("N0")</span>
+                                    <div class="host-bar">
+                                        <div class="host-bar-fill" style="width: @(GetPercentage(host.LinkCount, _stats.TopApiHosts.Max(h => h.LinkCount)))%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="stats-grid">
+                <div class="stat-card highlight">
+                    <div class="stat-icon">🔗</div>
+                    <div class="stat-content">
+                        <h3>@_stats.TotalLinks.ToString("N0")</h3>
+                        <p>@LocalizationService.GetString("Stats.TotalLinks")</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <h3>@_stats.TotalUsers.ToString("N0")</h3>
+                        <p>@LocalizationService.GetString("Stats.TotalUsers")</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <h3>@_stats.LinksToday.ToString("N0")</h3>
+                        <p>@LocalizationService.GetString("Stats.LinksToday")</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-content">
+                        <h3>@_stats.LinksThisWeek.ToString("N0")</h3>
+                        <p>@LocalizationService.GetString("Stats.LinksThisWeek")</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <h3>@_stats.LinksThisMonth.ToString("N0")</h3>
+                        <p>@LocalizationService.GetString("Stats.LinksThisMonth")</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="last-updated">
+                @LocalizationService.GetString("Stats.LastUpdated") : @_stats.LastUpdated.ToString("dd/MM/yyyy HH:mm") UTC
+            </div>
+        }
+        else
+        {
+            <div class="error-container">
+                <div class="error-icon">⚠️</div>
+                <p>@LocalizationService.GetString("Stats.ErrorLoadingStats")</p>
+                <button class="retry-button" @onclick="LoadStats">@LocalizationService.GetString("Stats.Retry")</button>
+            </div>
+        }
+    </div>
+</div>
+
+<AppFooter />
+
+@code {
+    private PublicStatsDto? _stats;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AccountState.OnChange += StateHasChanged;
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+        await LoadStats();
+    }
+
+    private async Task LoadStats()
+    {
+        _isLoading = true;
+        _stats = await StatsService.GetPublicStatsAsync();
+        _isLoading = false;
+        StateHasChanged();
+    }
+
+    private double GetPercentage(int value, int max)
+    {
+        if (max == 0) return 0;
+        return (double)value / max * 100;
+    }
+
+    public void Dispose()
+    {
+        AccountState.OnChange -= StateHasChanged;
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+}

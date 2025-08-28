@@ -52,7 +52,7 @@ namespace Web.Services
         {
             await _authValidator.EnsureIsAuthenticated();
 
-            var res = await _httpClient.GetFromJsonAsync<Link>($"/Links{id}");
+            var res = await _httpClient.GetFromJsonAsync<Link>($"/Links/{id}");
             return res is null ? throw new InvalidOperationException("Link object response returned a null object") : res;
         }
 
@@ -62,6 +62,28 @@ namespace Web.Services
 
             var res = await _httpClient.GetFromJsonAsync<IEnumerable<Link>>("/Links");
             return res is null ? throw new InvalidOperationException("Link object response returned a null object") : res;
+        }
+
+        public async Task<LinkStatsDto> GetLinkStats(string id)
+        {
+            await _authValidator.EnsureIsAuthenticated();
+
+            var res = await _httpClient.GetFromJsonAsync<LinkStatsDto>($"/Links/{id}/stats");
+            return res is null ? throw new InvalidOperationException("LinkStats response returned a null object") : res;
+        }
+
+        public async Task RecordAccess(string id, string ipAddress, string? userAgent, string? referer)
+        {
+            // Cette méthode n'a pas besoin d'authentification car elle est appelée lors des redirections publiques
+            var requestData = new
+            {
+                IpAddress = ipAddress,
+                UserAgent = userAgent,
+                Referer = referer
+            };
+
+            var res = await _httpClient.PostAsJsonAsync($"/Links/{id}/access", requestData);
+            res.EnsureSuccessStatusCode();
         }
     }
 }

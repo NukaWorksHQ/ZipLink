@@ -1,5 +1,20 @@
-﻿<div class="headline">
+﻿@inject ILocalizationService LocalizationService
+@implements IDisposable
+
+<div class="headline">
 	<h3 class="headline__brand">stfu.lat</h3>
-	<h4 class="headline__desc">Free URL shortener</h4>
-	<h5 class="headline__slug">Shorten. Share. <i>Simple.</i></h5>
+	<h4 class="headline__desc">@LocalizationService.GetString("Home.FreeUrlShortener")</h4>
+	<h5 class="headline__slug">@LocalizationService.GetString("Home.Slogan")</h5>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+}

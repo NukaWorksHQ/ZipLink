@@ -8,18 +8,19 @@
 @inject ILinkService linkService
 @inject IConfiguration config
 @inject IApiHostService apiHostService
+@inject ILocalizationService LocalizationService
 
 <div class="island">
     <EditForm class="island__form" Model="dto" OnValidSubmit="HandleSubmit">
         <DataAnnotationsValidator />
 
         <div class="island__form--controls">
-            <InputText @bind-Value="dto.Target" placeholder="Enter a long URL here..." />
-            
+            <InputText @bind-Value="dto.Target" placeholder="@LocalizationService.GetString("Links.EnterUrlPlaceholder")" />
+
             <CustomSelector @bind-Value="dto.ApiHostName" 
                           Options="availableHosts" />
-            
-            <button type="submit">Shorten</button>
+
+            <button type="submit">@LocalizationService.GetString("Links.ShortenButton")</button>
         </div>
 
         <div class="island__form--display">
@@ -37,7 +38,7 @@
             {
                 <div class="island__form--display__lnk">
                     <a href="@createdLink" target="_blank">@createdLink</a>
-                    <p class="cpy_btn" @onclick="CopyLink">Copy</p>
+                    <p class="cpy_btn" @onclick="CopyLink">@LocalizationService.GetString("Links.CopyLink")</p>
                 </div>
             }
         </div>
@@ -52,8 +53,9 @@
     protected override void OnInitialized()
     {
         accountState.OnChange += StateHasChanged;
+        LocalizationService.OnLanguageChanged += StateHasChanged;
         availableHosts = apiHostService.GetApiHosts();
-        
+
         if (availableHosts.Any())
         {
             dto.ApiHostName = availableHosts.First().Name;
@@ -63,6 +65,7 @@
     public void Dispose()
     {
         accountState.OnChange -= StateHasChanged;
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
     }
 
     private async Task CreateAccount()

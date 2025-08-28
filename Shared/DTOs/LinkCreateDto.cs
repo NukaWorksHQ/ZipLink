@@ -5,7 +5,7 @@ namespace Shared.DTOs
     public class LinkCreateDto
     {
         [Required(ErrorMessage = "UserId cannot be null.")]
-        [StringLength(32, MinimumLength = 4, ErrorMessage = "Username should be between 4 and 32 characters.")]
+        [StringLength(8, MinimumLength = 3, ErrorMessage = "UserId should be between 3 and 8 characters.")]
         public required string UserId { get; set; }
 
         [Required(ErrorMessage = "Target cannot be null.")]
@@ -15,5 +15,13 @@ namespace Shared.DTOs
 
         [Required(ErrorMessage = "ApiHostName is required.")]
         public required string ApiHostName { get; set; }
+
+        // Nouvelles propriétés de personnalisation
+        public DateTime? ExpirationDate { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "MaxUses must be greater than 0.")]
+        public int? MaxUses { get; set; }
+
+        public bool TrackingEnabled { get; set; } = true;
     }
 }

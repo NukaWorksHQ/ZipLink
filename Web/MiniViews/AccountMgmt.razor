@@ -1,27 +1,36 @@
 ﻿@inject AccountState accountState
 @inject IAuthValidator authValidator
 @inject IAccountService accountService
+@inject NavigationManager Navigation
+@inject ILocalizationService LocalizationService
+@implements IDisposable
 
 <div class="miniview accountmgmt">
 	<div class="miniview__body">
 		@if (CurrentView == AccountView.ACCOUNT_STAT)
 		{
-			<p class="tooltip__title">Account stats</p>
+			<p class="tooltip__title">@LocalizationService.GetString("Account.Stats")</p>
 
 			<p>
-				Account created at: @(accountState.Property?.CreatedAt != null
+				@LocalizationService.GetString("Account.CreatedAt"): @(accountState.Property?.CreatedAt != null
 							? accountState.Property.CreatedAt.ToShortDateString()
-							: "N/A")
+							: @LocalizationService.GetString("Common.NotAvailable"))
 			</p>
 
-			<p>UserType: @(UserClaim?.Role.ToString() ?? "Unknown")</p>
-			<p>Number of Links created: @(accountState.Property?.Links?.Count ?? 0)</p>
-			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_RESET_PASSWORD)">Change your password</p>
-			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_CREATION_FORM)">Login/Create a new account</p>
-			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_EDIT_LINKS)">Edit links</p>
+			<p>@LocalizationService.GetString("Account.UserType"): @(UserClaim?.Role.ToString() ?? @LocalizationService.GetString("Common.Unknown"))</p>
+			<p>@LocalizationService.GetString("Account.NumberOfLinksCreated"): @(accountState.Property?.Links?.Count ?? 0)</p>
+
+			@if (UserClaim?.Role == UserRole.Admin)
+			{
+				<p class="miniview__link" @onclick="HandleNavigateToAdmin">@LocalizationService.GetString("Account.AdminDashboard")</p>
+			}
+
+			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_RESET_PASSWORD)">@LocalizationService.GetString("Account.ChangePassword")</p>
+			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_CREATION_FORM)">@LocalizationService.GetString("Account.LoginCreateAccount")</p>
+			<p class="miniview__link" @onclick="() => HandleChangeView(AccountView.ACCOUNT_EDIT_LINKS)">@LocalizationService.GetString("Account.EditLinks")</p>
 
 			<div class="miniview__actions">
-				<button class="button__danger" @onclick="HandleLogout">Logout</button>
+				<button class="button__danger" @onclick="HandleLogout">@LocalizationService.GetString("Common.Logout")</button>
 			</div>
 		}
 		
@@ -62,10 +71,21 @@
 	protected override async Task OnInitializedAsync()
 	{
 		UserClaim = await authValidator.GetUserClaim();
+		LocalizationService.OnLanguageChanged += StateHasChanged;
 	}
 
 	protected async Task HandleLogout()
 	{
 		await accountService.Logout();
+	}
+
+	protected void HandleNavigateToAdmin()
+	{
+		Navigation.NavigateTo("/admin");
+	}
+
+	public void Dispose()
+	{
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
 	}
 }
