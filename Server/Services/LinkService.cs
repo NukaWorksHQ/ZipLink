@@ -258,7 +258,7 @@ namespace Server.Services
             return await _statsService.RecordAccessAsync(linkId, ipAddress, userAgent, referer);
         }
 
-        private bool EntityExists(string id)
+        private new bool EntityExists(string id)
         {
             return _context.Links.Any(e => e.Id == id);
         }
