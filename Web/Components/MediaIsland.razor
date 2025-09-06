@@ -1,0 +1,121 @@
+﻿@using System.Text.Json
+
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+@inject AccountState accountState
+@inject IAuthValidator authValidator
+@inject IAccountService accountService
+@inject ILinkService linkService
+@inject IConfiguration config
+@inject IApiHostService apiHostService
+@inject ILocalizationService LocalizationService
+
+<div class="island">
+    <EditForm class="island__form" Model="dto" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="island__form--controls">
+            <InputFile />
+            <InputText @bind-Value="dto.Target" placeholder="@LocalizationService.GetString("Links.EnterUrlPlaceholder")" />
+
+            <CustomSelector @bind-Value="dto.ApiHostName" 
+                          Options="availableHosts" />
+
+            <button type="submit">@LocalizationService.GetString("Links.ShortenButton")</button>
+        </div>
+
+        <div class="island__form--display">
+            @if (dto.Target.Length > 0)
+            {
+                <ValidationMessage For="() => dto.Target" />
+            }
+            
+            @if (!string.IsNullOrEmpty(dto.ApiHostName))
+            {
+                <ValidationMessage For="() => dto.ApiHostName" />
+            }
+
+            @if (!string.IsNullOrEmpty(createdLink))
+            {
+                <div class="island__form--display__lnk">
+                    <a href="@createdLink" target="_blank">@createdLink</a>
+                    <p class="cpy_btn" @onclick="CopyLink">@LocalizationService.GetString("Links.CopyLink")</p>
+                </div>
+            }
+        </div>
+	</EditForm>
+</div>
+
+@code {
+    private LinkUpdateDto dto = new() { Target = "", ApiHostName = "" };
+    private string createdLink { get; set; } = "";
+    private List<ApiHostDto> availableHosts = new();
+
+    protected override void OnInitialized()
+    {
+        accountState.OnChange += StateHasChanged;
+        LocalizationService.OnLanguageChanged += StateHasChanged;
+        availableHosts = apiHostService.GetApiHosts();
+
+        if (availableHosts.Any())
+        {
+            dto.ApiHostName = availableHosts.First().Name;
+        }
+    }
+
+    public void Dispose()
+    {
+        accountState.OnChange -= StateHasChanged;
+        LocalizationService.OnLanguageChanged -= StateHasChanged;
+    }
+
+    private async Task CreateAccount()
+    {
+        var userClaim = await accountService.GenerateTempAccount();
+        var user = await accountService.GetUser(userClaim.UserId);
+        accountState.Property = user;
+    }
+
+    private async Task CopyLink()
+    {
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", createdLink);
+    }
+
+    private async Task HandleSubmit()
+    {
+        createdLink = "";
+
+        if (!authValidator.IsAuthenticated())
+        {
+            try
+            {
+                await authValidator.PrepareAndValidate();
+                if (authValidator.IsAuthenticated())
+                    return;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Account Missing, Continuing by making a new account...");
+            }
+
+            await CreateAccount();
+        }
+
+        var userClaim = await authValidator.GetUserClaim();
+
+        // Update dto UserId
+        if (userClaim is null)
+            throw new InvalidOperationException("userClaim cannot be null");
+
+        var createdLinkDto = new LinkCreateDto
+        {
+            UserId = userClaim.UserId,
+            Target = dto.Target,
+            ApiHostName = dto.ApiHostName
+        };
+
+        var link = await linkService.Create(createdLinkDto);
+        createdLink = Utils.GetFinalLink(link, config, dto.ApiHostName);
+        Console.WriteLine(JsonSerializer.Serialize(link));
+	}
+}

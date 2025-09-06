@@ -1,0 +1,32 @@
+﻿@implements IDisposable
+@inject AccountState accountState
+@inject ILocalizationService LocalizationService
+
+@page "/media"
+
+<PageTitle>@LocalizationService.GetString("Media.Title")</PageTitle>
+
+@if (accountState.Property?.Id != null)
+{
+	<AccountIsland />
+}
+
+<div class="controls">
+	<MediaIsland />
+</div>
+
+<AppFooter />
+
+@code {
+	protected override void OnInitialized()
+	{
+		accountState.OnChange += StateHasChanged;
+		LocalizationService.OnLanguageChanged += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		accountState.OnChange -= StateHasChanged;
+		LocalizationService.OnLanguageChanged -= StateHasChanged;
+	}
+}
