@@ -1,0 +1,27 @@
+{
+  "Jwt": {
+    "Key": "xxxx-xxxx-xxxxx-xxxx", // Change to production key
+    "Issuer": "ZipLink",
+    "Audience": "https://stfu.lat"
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=100.72.42.124;Database=ZIPLINK;TrustServerCertificate=True;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft.AspNetCore": "Debug"
+    }
+  },
+  "AllowedHosts": "*",
+  "ApiHosts": [
+    {
+      "name": "asm.lat",
+      "url": "https://asm.lat"
+    },
+    {
+      "name": "pdel.lat",
+      "url": "https://pdel.lat"
+    }
+  ]
+}

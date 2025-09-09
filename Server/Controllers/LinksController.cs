@@ -286,6 +286,63 @@ namespace Server.Controllers
             }
         }
 
+        [
+            SwaggerOperation(
+            Summary = "Create a new Link quickly with query parameters",
+            Description = "Create a new Link using query parameters for easy curl API calls. Perfect for quick link creation via command line.")
+        ]
+        [SwaggerResponse(200, "Return the created object")]
+        [SwaggerResponse(400, "Invalid input data")]
+        [SwaggerResponse(409, "A link with the same ID already exists.")]
+        [SwaggerResponse(500, "DbUpdateConcurrencyException or a server error is thrown")]
+        [HttpPost("CreateLink")]
+        public async Task<IActionResult> CreateLink(
+            [FromQuery] string target,
+            [FromQuery] string token,
+            [FromQuery] string? apiHostName = null,
+            [FromQuery] string? name = null,
+            [FromQuery] DateTime? expirationDate = null,
+            [FromQuery] int? maxUses = null,
+            [FromQuery] bool trackingEnabled = true)
+        {
+            // Validate required parameters
+            if (string.IsNullOrWhiteSpace(target))
+            {
+                return BadRequest("Target URL is required.");
+            }
+
+            // Validate URL format
+            if (!Uri.TryCreate(target, UriKind.Absolute, out var validUri) || 
+                (validUri.Scheme != Uri.UriSchemeHttp && validUri.Scheme != Uri.UriSchemeHttps))
+            {
+                return BadRequest("Target must be a valid HTTP or HTTPS URL.");
+            }
+
+            // Set default API host if not provided
+            if (string.IsNullOrWhiteSpace(apiHostName))
+            {
+                return BadRequest("ApiHostName is required. Please specify the API host to use.");
+            }
+
+            // Get user information for DTO creation
+            var userClaim = _userAccessValidator.GetUserClaimStatus(User);
+            _userAccessValidator.ValidateUser(User, userClaim.UserId, needsAdminPrivileges: false);
+
+            // Create the DTO using the same structure as the traditional PUT endpoint
+            var dto = new LinkCreateDto
+            {
+                UserId = userClaim.UserId,
+                Target = target,
+                ApiHostName = apiHostName,
+                ExpirationDate = expirationDate,
+                MaxUses = maxUses,
+                TrackingEnabled = trackingEnabled
+            };
+
+            // Reuse the existing Create logic
+            return await Create(dto);
+        }
+
         private string GetClientIpAddress()
         {
             // Essayer de récupérer l'IP à travers différents headers
