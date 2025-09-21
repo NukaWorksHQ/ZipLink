@@ -73,29 +73,51 @@ deploy_stack() {
     # Vérifier que les nœuds sont étiquetés
     echo "Vérification des étiquettes des nœuds..."
     
-    # Vérifier le nœud primaire
-    PRIMARY_NODES=$(docker node ls --filter "label=database.primary=true" --format "{{.ID}}")
-    if [ -z "$PRIMARY_NODES" ]; then
-        echo "ERREUR: Aucun nœud étiqueté pour la base de données primaire"
-        echo "   Labels trouvés :"
-        docker node ls -q | xargs -I {} docker node inspect {} --format '{{ .ID }} {{ .Description.Hostname }} {{ range $k, $v := .Spec.Labels }}{{ $k }}={{ $v }} {{ end }}'
-        echo "   Exécutez: docker node update --label-add database.primary=true <NODE-ID>"
-        exit 1
-    else
-        echo "✓ Nœud primaire trouvé : $PRIMARY_NODES"
+    # Méthode alternative pour trouver les nœuds avec les labels
+    PRIMARY_NODE=$(docker node ls -q | xargs -I {} docker node inspect {} --format '{{if .Spec.Labels}}{{if eq (index .Spec.Labels "database.primary") "true"}}{{.ID}}{{end}}{{end}}' | head -1)
+    REPLICA_NODE=$(docker node ls -q | xargs -I {} docker node inspect {} --format '{{if .Spec.Labels}}{{if eq (index .Spec.Labels "database.replica") "true"}}{{.ID}}{{end}}{{end}}' | head -1)
+    
+    # Afficher tous les labels pour debug
+    echo "Labels actuels des nœuds :"
+    docker node ls -q | xargs -I {} docker node inspect {} --format '{{ .ID }} {{ .Description.Hostname }} {{ range $k, $v := .Spec.Labels }}{{ $k }}={{ $v }} {{ end }}'
+    
+    if [ -z "$PRIMARY_NODE" ]; then
+        echo "ERREUR: Aucun nœud étiqueté pour la base de données primaire détecté"
+        echo "   Tentative de résolution automatique..."
+        
+        # Auto-résolution : prendre le nœud manager comme primaire
+        MANAGER_NODE=$(docker node ls --filter "role=manager" --format "{{.ID}}" | head -1)
+        if [ -n "$MANAGER_NODE" ]; then
+            echo "   Attribution du label database.primary=true au nœud manager: $MANAGER_NODE"
+            docker node update --label-add database.primary=true $MANAGER_NODE
+            PRIMARY_NODE=$MANAGER_NODE
+        else
+            echo "   Aucun nœud manager trouvé, attribution au premier nœud disponible"
+            FIRST_NODE=$(docker node ls --format "{{.ID}}" | head -1)
+            docker node update --label-add database.primary=true $FIRST_NODE
+            PRIMARY_NODE=$FIRST_NODE
+        fi
     fi
     
-    # Vérifier le nœud réplique  
-    REPLICA_NODES=$(docker node ls --filter "label=database.replica=true" --format "{{.ID}}")
-    if [ -z "$REPLICA_NODES" ]; then
-        echo "ERREUR: Aucun nœud étiqueté pour la base de données réplique"
-        echo "   Labels trouvés :"
-        docker node ls -q | xargs -I {} docker node inspect {} --format '{{ .ID }} {{ .Description.Hostname }} {{ range $k, $v := .Spec.Labels }}{{ $k }}={{ $v }} {{ end }}'
-        echo "   Exécutez: docker node update --label-add database.replica=true <NODE-ID>"
-        exit 1
-    else
-        echo "✓ Nœud réplique trouvé : $REPLICA_NODES"
+    if [ -z "$REPLICA_NODE" ]; then
+        echo "ERREUR: Aucun nœud étiqueté pour la base de données réplique détecté"
+        echo "   Tentative de résolution automatique..."
+        
+        # Auto-résolution : prendre un nœud différent du primaire
+        AVAILABLE_NODE=$(docker node ls --format "{{.ID}}" | grep -v "$PRIMARY_NODE" | head -1)
+        if [ -n "$AVAILABLE_NODE" ]; then
+            echo "   Attribution du label database.replica=true au nœud: $AVAILABLE_NODE"
+            docker node update --label-add database.replica=true $AVAILABLE_NODE
+            REPLICA_NODE=$AVAILABLE_NODE
+        else
+            echo "   Un seul nœud disponible, utilisation du même pour la réplique"
+            docker node update --label-add database.replica=true $PRIMARY_NODE
+            REPLICA_NODE=$PRIMARY_NODE
+        fi
     fi
+    
+    echo "✓ Nœud primaire configuré : $PRIMARY_NODE"
+    echo "✓ Nœud réplique configuré : $REPLICA_NODE"
     
     # Convertir le docker-compose pour Swarm avec variables d'environnement
     echo "Préparation du fichier de déploiement Swarm..."
