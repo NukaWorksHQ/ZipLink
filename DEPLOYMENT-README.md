@@ -118,6 +118,7 @@ Exécutez le script de préparation du serveur :
 ### Problèmes de permissions
 
 Les déploiements se font en tant que root. Si vous avez des problèmes :
+
 ```bash
 # Vérifier les permissions
 ls -la /opt/ziplink
