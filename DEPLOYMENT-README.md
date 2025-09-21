@@ -56,9 +56,9 @@ Configurez ces secrets dans votre repository GitHub (Settings > Secrets and vari
 #### Serveur Docker Swarm
 
 - `SWARM_MANAGER_HOST` (IP ou nom d'hôte)
-- `SWARM_SSH_PRIVATE_KEY` (clé privée SSH au format PEM pour l'utilisateur root)
+- `SWARM_SSH_PRIVATE_KEY` (clé privée SSH au format PEM pour l'utilisateur cloud-user)
 
-**Note**: Le déploiement se fait en tant que root pour éviter les problèmes de permissions avec Docker Swarm.
+**Note**: Le déploiement se fait avec l'utilisateur `cloud-user` et utilise `sudo` pour les opérations privilégiées.
 
 #### Application
 
