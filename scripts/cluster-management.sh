@@ -280,10 +280,16 @@ networks:
     external: true
 EOF
     
-    # Construire les images si nécessaire
-    echo "Construction des images..."
-    docker build -t ziplink/server:latest -f Server/Dockerfile .
-    docker build -t ziplink/web:latest -f Web/Dockerfile .
+    # Vérifier que les images du registre sont disponibles
+    echo "Vérification des images du registre..."
+    if [ -n "$REGISTRY_URL" ] && [ -n "$SERVER_IMAGE_TAG" ] && [ -n "$WEB_IMAGE_TAG" ]; then
+        echo "✓ Configuration registre détectée:"
+        echo "  Registry: $REGISTRY_URL"
+        echo "  Server: $REGISTRY_URL/ziplink/server:$SERVER_IMAGE_TAG"
+        echo "  Web: $REGISTRY_URL/ziplink/web:$WEB_IMAGE_TAG"
+    else
+        echo "ATTENTION: Variables de registre manquantes, utilisation des images locales"
+    fi
     
     # Déployer la stack
     echo "Déploiement de la stack..."
