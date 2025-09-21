@@ -1,11 +1,18 @@
 #!/bin/bash
 
 # Script de préparation du serveur Docker Swarm pour ZipLink
-# Exécutez ce script UNE SEULE FOIS sur le serveur avant le premier déploiement
+# Exécutez ce script EN TANT QUE ROOT sur le serveur avant le premier déploiement
+# Les déploiements automatiques GitHub Actions utilisent l'utilisateur root
 
 set -e
 
 echo "=== Préparation du serveur Docker Swarm pour ZipLink ==="
+echo "Script exécuté en tant que: $(whoami)"
+
+if [ "$EUID" -ne 0 ]; then
+  echo "ATTENTION: Ce script doit être exécuté en tant que root pour les déploiements automatiques"
+  echo "Utilisez: sudo ./setup-server.sh"
+fi
 
 # Vérifier si Docker est installé
 if ! command -v docker &> /dev/null; then
@@ -13,8 +20,7 @@ if ! command -v docker &> /dev/null; then
     curl -fsSL https://get.docker.com | bash
     sudo systemctl enable docker
     sudo systemctl start docker
-    sudo usermod -aG docker $USER
-    echo "Docker installé. Vous devez vous reconnecter pour utiliser Docker sans sudo."
+    echo "Docker installé."
 fi
 
 # Vérifier si AWS CLI est installé
@@ -29,10 +35,9 @@ fi
 
 # Créer la structure de répertoires
 echo "Création de la structure de répertoires..."
-sudo mkdir -p /opt/ziplink/scripts
-sudo mkdir -p /opt/ziplink/data/db-primary
-sudo mkdir -p /opt/ziplink/data/db-replica
-sudo chown -R $USER:$USER /opt/ziplink
+mkdir -p /opt/ziplink/scripts
+mkdir -p /opt/ziplink/data/db-primary
+mkdir -p /opt/ziplink/data/db-replica
 
 echo "Structure de répertoires créée dans /opt/ziplink"
 

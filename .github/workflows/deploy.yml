@@ -78,7 +78,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
-          username: ${{ secrets.SWARM_MANAGER_USER }}
+          username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
           source: "docker-compose.yml,scripts/"
           target: "/tmp/ziplink-deploy"
@@ -88,7 +88,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
-          username: ${{ secrets.SWARM_MANAGER_USER }}
+          username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
           script: |
             set -e
@@ -98,10 +98,9 @@ jobs:
             echo "Deploying ZipLink version $IMAGE_TAG"
 
             # Create application directory structure
-            sudo mkdir -p /opt/ziplink/scripts
-            sudo mkdir -p /opt/ziplink/data/db-primary
-            sudo mkdir -p /opt/ziplink/data/db-replica
-            sudo chown -R $USER:$USER /opt/ziplink
+            mkdir -p /opt/ziplink/scripts
+            mkdir -p /opt/ziplink/data/db-primary
+            mkdir -p /opt/ziplink/data/db-replica
 
             # Navigate to application directory
             cd /opt/ziplink

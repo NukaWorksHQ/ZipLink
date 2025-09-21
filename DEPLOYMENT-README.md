@@ -4,7 +4,7 @@
 
 ### 1. Préparer le serveur (une seule fois)
 
-Connectez-vous à votre serveur et exécutez :
+Connectez-vous à votre serveur **en tant que root** et exécutez :
 
 ```bash
 # Télécharger le script de préparation
@@ -13,7 +13,9 @@ chmod +x setup-server.sh
 ./setup-server.sh
 ```
 
-Ou copiez le script `scripts/setup-server.sh` sur votre serveur et exécutez-le.
+Ou copiez le script `scripts/setup-server.sh` sur votre serveur et exécutez-le en tant que root.
+
+**Important**: GitHub Actions se connecte en tant que root pour éviter les problèmes de permissions avec Docker Swarm.
 
 ### 2. Étiqueter les nœuds pour la base de données
 
@@ -54,8 +56,9 @@ Configurez ces secrets dans votre repository GitHub (Settings > Secrets and vari
 #### Serveur Docker Swarm
 
 - `SWARM_MANAGER_HOST` (IP ou nom d'hôte)
-- `SWARM_MANAGER_USER` (nom d'utilisateur SSH)
-- `SWARM_SSH_PRIVATE_KEY` (clé privée SSH au format PEM)
+- `SWARM_SSH_PRIVATE_KEY` (clé privée SSH au format PEM pour l'utilisateur root)
+
+**Note**: Le déploiement se fait en tant que root pour éviter les problèmes de permissions avec Docker Swarm.
 
 #### Application
 
@@ -114,8 +117,10 @@ Exécutez le script de préparation du serveur :
 
 ### Problèmes de permissions
 
+Les déploiements se font en tant que root. Si vous avez des problèmes :
 ```bash
-sudo chown -R $USER:$USER /opt/ziplink
+# Vérifier les permissions
+ls -la /opt/ziplink
 chmod +x /opt/ziplink/scripts/*.sh
 ```
 
