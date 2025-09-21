@@ -90,7 +90,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
-          username: cloud-user
+          username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
           port: 22
           script: |
@@ -101,7 +101,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
-          username: cloud-user
+          username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
           port: 22
           source: "docker-compose.yml"
@@ -111,10 +111,20 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
-          username: cloud-user
+          username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
           port: 22
           source: "scripts/"
+          target: "/tmp/ziplink-deploy/"
+
+      - name: Transfer nginx configuration
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SWARM_MANAGER_HOST }}
+          username: root
+          key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          port: 22
+          source: "nginx/"
           target: "/tmp/ziplink-deploy/"
 
       - name: Deploy to Docker Swarm
