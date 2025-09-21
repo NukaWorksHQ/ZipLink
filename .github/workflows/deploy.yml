@@ -127,6 +127,16 @@ jobs:
           source: "nginx/"
           target: "/tmp/ziplink-deploy/"
 
+      - name: Transfer monitoring configuration
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SWARM_MANAGER_HOST }}
+          username: cloud-user
+          key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          port: 22
+          source: "monitoring/"
+          target: "/tmp/ziplink-deploy/"
+
       - name: Deploy to Docker Swarm
         uses: appleboy/ssh-action@v1.0.3
         with:

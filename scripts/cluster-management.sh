@@ -291,6 +291,31 @@ EOF
         echo "ATTENTION: Variables de registre manquantes, utilisation des images locales"
     fi
     
+    # Vérifier et créer les fichiers de configuration nécessaires
+    echo "Vérification des fichiers de configuration..."
+    
+    # Créer le fichier prometheus.yml s'il n'existe pas
+    if [ ! -f "./monitoring/prometheus.yml" ]; then
+        echo "Création du fichier prometheus.yml manquant..."
+        mkdir -p ./monitoring
+        cat > ./monitoring/prometheus.yml << 'EOF'
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'ziplink-server'
+    static_configs:
+      - targets: ['ziplink-server:8080']
+    metrics_path: '/health'
+    scrape_interval: 30s
+EOF
+    fi
+    
     # Déployer la stack
     echo "Déploiement de la stack..."
     docker stack deploy -c docker-stack.yml $STACK_NAME
