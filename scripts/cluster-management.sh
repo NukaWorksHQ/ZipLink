@@ -72,16 +72,29 @@ deploy_stack() {
     
     # Vérifier que les nœuds sont étiquetés
     echo "Vérification des étiquettes des nœuds..."
-    if ! docker node ls --filter "label=database.primary=true" --format "{{.ID}}" | grep -q .; then
+    
+    # Vérifier le nœud primaire
+    PRIMARY_NODES=$(docker node ls --filter "label=database.primary=true" --format "{{.ID}}")
+    if [ -z "$PRIMARY_NODES" ]; then
         echo "ERREUR: Aucun nœud étiqueté pour la base de données primaire"
-        echo "   Exécutez ./scripts/setup-cluster-nodes.sh setup --auto"
+        echo "   Labels trouvés :"
+        docker node ls -q | xargs -I {} docker node inspect {} --format '{{ .ID }} {{ .Description.Hostname }} {{ range $k, $v := .Spec.Labels }}{{ $k }}={{ $v }} {{ end }}'
+        echo "   Exécutez: docker node update --label-add database.primary=true <NODE-ID>"
         exit 1
+    else
+        echo "✓ Nœud primaire trouvé : $PRIMARY_NODES"
     fi
     
-    if ! docker node ls --filter "label=database.replica=true" --format "{{.ID}}" | grep -q .; then
+    # Vérifier le nœud réplique  
+    REPLICA_NODES=$(docker node ls --filter "label=database.replica=true" --format "{{.ID}}")
+    if [ -z "$REPLICA_NODES" ]; then
         echo "ERREUR: Aucun nœud étiqueté pour la base de données réplique"
-        echo "   Exécutez ./scripts/setup-cluster-nodes.sh setup --auto"
+        echo "   Labels trouvés :"
+        docker node ls -q | xargs -I {} docker node inspect {} --format '{{ .ID }} {{ .Description.Hostname }} {{ range $k, $v := .Spec.Labels }}{{ $k }}={{ $v }} {{ end }}'
+        echo "   Exécutez: docker node update --label-add database.replica=true <NODE-ID>"
         exit 1
+    else
+        echo "✓ Nœud réplique trouvé : $REPLICA_NODES"
     fi
     
     # Convertir le docker-compose pour Swarm avec variables d'environnement
