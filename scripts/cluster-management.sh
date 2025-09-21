@@ -316,6 +316,17 @@ scrape_configs:
 EOF
     fi
     
+    # Login ECR si les variables sont disponibles
+    if [ -n "$REGISTRY_URL" ] && [ -n "$AWS_REGION" ]; then
+        echo "Connexion au registre ECR..."
+        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY_URL
+        if [ $? -eq 0 ]; then
+            echo "✓ Connexion ECR réussie"
+        else
+            echo "⚠️  Échec de la connexion ECR, les images locales seront utilisées"
+        fi
+    fi
+    
     # Déployer la stack
     echo "Déploiement de la stack..."
     docker stack deploy -c docker-stack.yml $STACK_NAME

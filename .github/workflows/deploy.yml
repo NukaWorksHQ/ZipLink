@@ -190,6 +190,7 @@ jobs:
             SERVER_IMAGE_TAG=$IMAGE_TAG
             WEB_IMAGE_TAG=$IMAGE_TAG
             REGISTRY_URL=${{ env.REGISTRY_URL }}
+            AWS_REGION=${{ secrets.AWS_REGION }}
 
             # Ports
             DB_PRIMARY_PORT=1433
