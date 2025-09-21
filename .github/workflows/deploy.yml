@@ -74,6 +74,16 @@ jobs:
             docker push $LATEST_IMAGE_NAME
           fi
 
+      - name: Copy deployment files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SWARM_MANAGER_HOST }}
+          username: ${{ secrets.SWARM_MANAGER_USER }}
+          key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          source: "docker-compose.yml,scripts/"
+          target: "/tmp/ziplink-deploy"
+          strip_components: 0
+
       - name: Deploy to Docker Swarm
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -87,8 +97,21 @@ jobs:
 
             echo "Deploying ZipLink version $IMAGE_TAG"
 
+            # Create application directory structure
+            sudo mkdir -p /opt/ziplink/scripts
+            sudo mkdir -p /opt/ziplink/data/db-primary
+            sudo mkdir -p /opt/ziplink/data/db-replica
+            sudo chown -R $USER:$USER /opt/ziplink
+
             # Navigate to application directory
             cd /opt/ziplink
+
+            # Copy deployment files from temporary location
+            if [ -d "/tmp/ziplink-deploy" ]; then
+              cp -r /tmp/ziplink-deploy/* /opt/ziplink/
+              chmod +x /opt/ziplink/scripts/*.sh
+              rm -rf /tmp/ziplink-deploy
+            fi
 
             # Generate .env.production from GitHub secrets
             cat > .env.production << EOF
@@ -133,6 +156,7 @@ jobs:
 
             # Deploy using the existing cluster management script
             echo "Deploying ZipLink stack..."
+            source .env.production
             ./scripts/cluster-management.sh deploy
 
             # Wait for services to be ready
