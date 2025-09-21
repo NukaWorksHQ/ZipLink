@@ -13,15 +13,16 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Server/Server.csproj", "Server/"]
-RUN dotnet restore "./Server/Server.csproj"
+COPY ["Shared/Shared.csproj", "Shared/"]
+RUN dotnet restore "Server/Server.csproj"
 COPY . .
 WORKDIR "/src/Server"
-RUN dotnet build "./Server.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Server.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Server.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=false
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final

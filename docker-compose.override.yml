@@ -1,0 +1,82 @@
+version: "3.8"
+
+# Configuration pour le développement local
+# Ce fichier override les paramètres du docker-compose.yml principal
+
+services:
+  ziplink-db-primary:
+    ports:
+      - "${DB_PRIMARY_PORT:-1433}:1433"
+    environment:
+      - SA_PASSWORD=${DB_SA_PASSWORD:-Dev123!}
+    volumes:
+      - ${DB_DEV_VOLUME:-ziplink_db_dev_data}:/var/opt/mssql
+
+  # Pas de réplica de base en développement
+  ziplink-db-replica:
+    profiles: ["production"] # Désactive ce service en dev
+
+  ziplink-server:
+    build:
+      context: .
+      dockerfile: Server/Dockerfile
+      target: build # Utilise l'étape de build pour le développement
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=ziplink-db-primary,1433;Database=ZIPLINK;User Id=SA;Password=${DB_SA_PASSWORD:-Dev123!};TrustServerCertificate=True;
+      - Jwt__Key=${JWT_KEY:-development-key-do-not-use-in-production}
+      - Jwt__Issuer=${JWT_ISSUER:-ZipLink}
+      - Jwt__Audience=${JWT_AUDIENCE:-https://localhost:7001}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    volumes:
+      - ./Server:/src/Server:cached
+      - ./Shared:/src/Shared:cached
+      - ${NUGET_CACHE_VOLUME:-dev_nuget_cache}:/root/.nuget/packages
+    deploy:
+      replicas: 1 # Une seule réplique en développement
+    command:
+      [
+        "dotnet",
+        "watch",
+        "run",
+        "--project",
+        "/src/Server",
+        "--urls",
+        "http://+:8080",
+      ]
+
+  ziplink-web:
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+      target: build # Utilise l'étape de build pour le développement
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "${WEB_PORT:-8090}:80"
+    volumes:
+      - ./Web:/src/Web:cached
+      - ./Shared:/src/Shared:cached
+      - ${NUGET_CACHE_VOLUME:-dev_nuget_cache}:/root/.nuget/packages
+    deploy:
+      replicas: 1 # Une seule réplique en développement
+    command: ["dotnet", "watch", "run", "--project", "/src/Web"]
+
+  # Load balancer simplifié pour le développement
+  ziplink-loadbalancer:
+    ports:
+      - "${NGINX_PORT:-3000}:80" # Port différent pour éviter les conflits
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+
+  # Service de monitoring désactivé en développement
+  ziplink-monitor:
+    profiles: ["production"]
+
+volumes:
+  ziplink_db_dev_data:
+    driver: local
+  dev_nuget_cache:
+    driver: local
