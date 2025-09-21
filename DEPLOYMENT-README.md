@@ -115,6 +115,47 @@ Exécutez le script de préparation du serveur :
 ./scripts/setup-server.sh
 ```
 
+### Erreur d'authentification SSH
+
+Si vous obtenez une erreur d'authentification SSH :
+
+```
+ssh: handshake failed: ssh: unable to authenticate, attempted methods [none publickey]
+```
+
+Vérifiez votre configuration SSH :
+
+1. **Format de la clé privée** : Assurez-vous que votre clé privée est au format PEM et commence par `-----BEGIN OPENSSH PRIVATE KEY-----` ou `-----BEGIN RSA PRIVATE KEY-----`
+
+2. **Test de connexion** : Testez la connexion SSH manuellement :
+
+   ```bash
+   ssh -i your-private-key.pem root@your-server-host
+   ```
+
+3. **Permissions de la clé** : Sur votre machine locale :
+
+   ```bash
+   chmod 600 your-private-key.pem
+   ```
+
+4. **Configuration du serveur** : Sur le serveur, vérifiez que l'authentification par clé est activée :
+
+   ```bash
+   # Dans /etc/ssh/sshd_config
+   PubkeyAuthentication yes
+   AuthorizedKeysFile .ssh/authorized_keys
+   PermitRootLogin yes
+   ```
+
+5. **Clé publique installée** : Assurez-vous que la clé publique correspondante est dans `/root/.ssh/authorized_keys` sur le serveur :
+   ```bash
+   mkdir -p /root/.ssh
+   echo "votre-clé-publique" >> /root/.ssh/authorized_keys
+   chmod 700 /root/.ssh
+   chmod 600 /root/.ssh/authorized_keys
+   ```
+
 ### Problèmes de permissions
 
 Les déploiements se font en tant que root. Si vous avez des problèmes :

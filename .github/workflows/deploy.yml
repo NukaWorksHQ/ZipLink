@@ -74,15 +74,48 @@ jobs:
             docker push $LATEST_IMAGE_NAME
           fi
 
+      - name: Test SSH Connection
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SWARM_MANAGER_HOST }}
+          username: root
+          key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "SSH connection successful"
+            whoami
+            docker --version
+
       - name: Copy deployment files to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SWARM_MANAGER_HOST }}
+          username: root
+          key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Create temporary directory for deployment files
+            mkdir -p /tmp/ziplink-deploy
+
+      - name: Transfer docker-compose.yml
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
           username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
-          source: "docker-compose.yml,scripts/"
-          target: "/tmp/ziplink-deploy"
-          strip_components: 0
+          port: 22
+          source: "docker-compose.yml"
+          target: "/tmp/ziplink-deploy/"
+
+      - name: Transfer scripts directory
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SWARM_MANAGER_HOST }}
+          username: root
+          key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          port: 22
+          source: "scripts/"
+          target: "/tmp/ziplink-deploy/"
 
       - name: Deploy to Docker Swarm
         uses: appleboy/ssh-action@v1.0.3
@@ -90,6 +123,8 @@ jobs:
           host: ${{ secrets.SWARM_MANAGER_HOST }}
           username: root
           key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
+          port: 22
+          command_timeout: 10m
           script: |
             set -e
 
