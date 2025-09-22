@@ -18,7 +18,10 @@ spec:
         app.kubernetes.io/name: ziplink-web
         app.kubernetes.io/component: frontend
     spec:
+      serviceAccountName: default
       automountServiceAccountToken: false
+      imagePullSecrets:
+      - name: ecr-registry-secret
       containers:
       - name: ziplink-web
         image: ziplink-web:latest

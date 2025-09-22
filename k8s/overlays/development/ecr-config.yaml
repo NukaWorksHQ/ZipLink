@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-ecr-env
+  namespace: ziplink
+  labels:
+    app.kubernetes.io/name: ziplink
+    app.kubernetes.io/component: ecr-config
+data:
+  AWS_REGION: "us-east-1"
+  AWS_ACCOUNT_ID: "123456789012"  # À remplacer par votre Account ID AWS
+  ECR_REGISTRY: "123456789012.dkr.ecr.us-east-1.amazonaws.com"

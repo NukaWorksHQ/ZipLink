@@ -8,6 +8,7 @@ namespace: ziplink
 
 resources:
 - ../../base
+- ecr-config.yaml
 
 patchesStrategicMerge:
 - patches/server-patch.yaml
@@ -28,8 +29,10 @@ replicas:
 
 images:
 - name: ziplink-server
+  newName: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ziplink-server
   newTag: dev
 - name: ziplink-web
+  newName: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ziplink-web
   newTag: dev
 
 namePrefix: dev-

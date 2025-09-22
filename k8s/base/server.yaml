@@ -18,7 +18,10 @@ spec:
         app.kubernetes.io/name: ziplink-server
         app.kubernetes.io/component: backend
     spec:
+      serviceAccountName: default
       automountServiceAccountToken: false
+      imagePullSecrets:
+      - name: ecr-registry-secret
       containers:
       - name: ziplink-server
         image: ziplink-server:latest
