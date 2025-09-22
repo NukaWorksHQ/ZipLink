@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ziplink-server
+  namespace: ziplink
+spec:
+  template:
+    spec:
+      containers:
+      - name: ziplink-server
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"

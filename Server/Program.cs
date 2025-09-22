@@ -43,7 +43,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Contexts registration
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")
 ));
 

@@ -49,9 +49,9 @@ namespace Server.Contexts
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 modelBuilder.Entity(entityType.ClrType).Property<DateTime>("CreatedAt")
-                    .HasDefaultValueSql("GETUTCDATE()");
+                    .HasDefaultValueSql("NOW()");
                 modelBuilder.Entity(entityType.ClrType).Property<DateTime>("UpdatedAt")
-                    .HasDefaultValueSql("GETUTCDATE()");
+                    .HasDefaultValueSql("NOW()");
                 modelBuilder.Entity(entityType.ClrType).Property<string>("Id").ValueGeneratedNever();
             }
         }

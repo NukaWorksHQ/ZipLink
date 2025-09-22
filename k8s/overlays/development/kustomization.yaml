@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: ziplink-development
+
+namespace: ziplink
+
+resources:
+- ../../base
+
+patchesStrategicMerge:
+- patches/server-patch.yaml
+- patches/postgres-patch.yaml
+
+configMapGenerator:
+- name: ziplink-server-config
+  behavior: merge
+  literals:
+  - ASPNETCORE_ENVIRONMENT=Development
+  - Jwt__Audience=https://ziplink-dev.local
+
+replicas:
+- name: ziplink-server
+  count: 1
+- name: ziplink-web
+  count: 1
+
+images:
+- name: ziplink-server
+  newTag: dev
+- name: ziplink-web
+  newTag: dev
+
+namePrefix: dev-
+
+commonLabels:
+  environment: development
+  tier: dev

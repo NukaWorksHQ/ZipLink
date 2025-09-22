@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ziplink-server-config
+  namespace: ziplink
+  labels:
+    app.kubernetes.io/name: ziplink-server
+    app.kubernetes.io/component: backend
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  ASPNETCORE_URLS: "http://+:8080"
+  Jwt__Issuer: "ZipLink"
+  Jwt__Audience: "https://ziplink.local"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ziplink-postgres-config
+  namespace: ziplink
+  labels:
+    app.kubernetes.io/name: ziplink-postgres
+    app.kubernetes.io/component: database
+data:
+  POSTGRES_DB: "ziplink"
+  POSTGRES_USER: "ziplink_user"
+  PGUSER: "ziplink_user"

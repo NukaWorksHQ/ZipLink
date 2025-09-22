@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: ziplink-base
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secrets.yaml
+  - postgres-pvc.yaml
+  - postgres.yaml
+  - ziplink-server.yaml
+  - ziplink-web.yaml
+  - ingress.yaml
+  - nginx-ingress-controller.yaml
+
+commonLabels:
+  app.kubernetes.io/name: ziplink
+  app.kubernetes.io/version: "1.0.0"
+  app.kubernetes.io/managed-by: kustomize
+
+images:
+  - name: ziplink-server
+    newName: ziplink-server
+    newTag: latest
+  - name: ziplink-web
+    newName: ziplink-web
+    newTag: latest
