@@ -23,8 +23,6 @@ namespace Server.Migrations
                 .HasAnnotation("ProductVersion", "9.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
             modelBuilder.Entity("Shared.Entities.Link", b =>
                 {
                     b.Property<string>("Id")
