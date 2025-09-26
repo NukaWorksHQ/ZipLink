@@ -2,18 +2,19 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: ziplink-repo
-  namespace: flux-system
+  namespace: default
 spec:
   interval: 1m
+  url: https://github.com/NukaWorksHQ/ZipLink.git
+
   ref:
     branch: master
-  url: https://github.com/NukaWorksHQ/ZipLink.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: ziplink-development
-  namespace: flux-system
+  namespace: default
 spec:
   interval: 10m
   path: "./k8s/overlays/development"
